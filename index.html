@@ -1,0 +1,619 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>iFiveMe · Carte d'affaires virtuelle</title>
+<meta name="description" content="Votre carte d'affaires virtuelle, créée pour vous à partir de votre carte papier. Elle se partage par texto, code QR ou lien, sans application pour la recevoir.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#ffffff">
+<link rel="preload" href="./fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="./fonts/hanken-grotesk-latin-wght-italic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="./styles.css">
+<script src="./boot.js"></script>
+</head>
+<body>
+<a class="skip" href="#contenu">Aller au contenu</a>
+
+<aside class="demo-ribbon" data-demo-only aria-label="Démonstration"><strong>Démonstration privée</strong> · rien n'est envoyé, rien n'est mesuré.</aside>
+
+<header class="site-header" id="haut">
+  <div class="wrap">
+    <a class="brand" href="#haut" aria-label="iFiveMe, retour en haut"><img src="./assets/ifiveme-logo-dark.webp" width="480" height="128" alt="iFiveMe"></a>
+    <nav class="nav" aria-label="Navigation principale">
+      <a href="#fonctionnement">Fonctionnement</a>
+      <a href="#situations">Situations</a>
+      <a href="#metiers">Votre métier</a>
+      <a href="#offre">Offre</a>
+      <a href="#equipe">Équipes</a>
+    </nav>
+    <a class="btn btn-primary btn-sm" data-door="essai" data-checkout="trial" href="https://checkout.ifiveme.com/activation-carte-daffaires-virtuelle-ft/">Essayer gratuitement</a>
+  </div>
+</header>
+
+<main id="contenu">
+  <!-- Récit 3D : le téléphone tourne, s'ouvre, montre la carte, puis le texto part. Piloté par le défilement. -->
+  <section class="story" id="histoire" aria-labelledby="hero-titre" data-story>
+    <div class="story-stage" data-stage>
+      <div class="story-copy" data-hero-copy>
+        <h1 id="hero-titre">Une rencontre qui <em>continue.</em></h1>
+        <p class="hero-lead">Votre carte d'affaires virtuelle, créée pour vous, se partage par texto, code QR ou lien.</p>
+        <div class="doors">
+          <a class="btn btn-primary" data-door="essai" data-checkout="trial" href="https://checkout.ifiveme.com/activation-carte-daffaires-virtuelle-ft/">Essayer gratuitement <span class="arrow" aria-hidden="true">→</span></a>
+          <a class="btn btn-secondary" data-door="exemple" href="#metiers">Voir un exemple pour mon métier</a>
+          <p class="team-door">Pour toute une équipe&#8239;? <a class="text-link" data-door="equipe" href="#equipe">Équiper mon équipe <span class="arrow" aria-hidden="true">→</span></a></p>
+        </div>
+      </div>
+
+      <figure class="scene" aria-label="Le téléphone d'Élise Caron, courtière immobilière : il tourne, s'ouvre, montre sa carte d'affaires virtuelle, puis un texto part vers un autre téléphone qui ouvre la carte dans le navigateur.">
+        <div class="ground" data-ground aria-hidden="true"></div>
+        <div class="ground ground-2" data-ground2 aria-hidden="true"></div>
+
+        <!-- Téléphone d'Élise (émetteur) -->
+        <div class="p3d" data-phone aria-hidden="true">
+          <div class="l l-back" data-layer="back">
+            <span class="cam"><i></i><i></i><i></i></span>
+            <img class="back-logo" src="./assets/ifiveme-logo-dark.webp" width="480" height="128" alt="">
+          </div>
+          <div class="l l-ring" data-ring></div><div class="l l-ring" data-ring></div><div class="l l-ring" data-ring></div>
+          <div class="l l-ring" data-ring></div><div class="l l-ring" data-ring></div><div class="l l-ring" data-ring></div>
+          <div class="l l-ring" data-ring></div><div class="l l-ring" data-ring></div>
+          <div class="l l-board" data-layer="board"><img src="./assets/ifiveme-logo-dark.webp" width="480" height="128" alt=""></div>
+          <div class="l l-screen" data-layer="screen">
+            <div class="screen">
+              <img class="screen-card" src="./assets/carte-exemple.webp" width="660" height="1428" alt="">
+              <img class="screen-empty" data-empty src="./assets/personas/elise-fond.webp" width="390" height="844" alt="" loading="lazy" decoding="async">
+              <span class="hl" data-hl></span>
+            </div>
+          </div>
+          <div class="l l-glass" data-layer="glass"><span class="island"></span></div>
+          <div class="paper" data-paper><img src="./assets/personas/elise-recto.webp" width="700" height="400" alt="" loading="lazy" decoding="async"></div>
+        </div>
+
+        <!-- Le texto qui part -->
+        <div class="bubble" data-bubble aria-hidden="true">
+          <p>Merci pour la rencontre de ce matin. Voici ma carte, tout y est.</p>
+          <span class="bubble-link"><img src="./assets/personas/elise-recto.webp" width="700" height="400" alt="" loading="lazy" decoding="async"><span><b>Élise Caron</b>Carte d'affaires virtuelle</span></span>
+        </div>
+
+        <!-- Téléphone de la personne qui reçoit -->
+        <div class="p3d p3d-2" data-phone2 aria-hidden="true">
+          <div class="l l-back"><span class="cam"><i></i><i></i><i></i></span></div>
+          <div class="l l-ring" data-ring2></div><div class="l l-ring" data-ring2></div><div class="l l-ring" data-ring2></div><div class="l l-ring" data-ring2></div>
+          <div class="l l-screen" data-layer2="screen">
+            <div class="screen screen-msg">
+              <div class="msg-head"><span class="avatar">ÉC</span><b>Élise Caron</b><small>Texto · maintenant</small></div>
+              <div class="msg-slot" data-slot></div>
+              <img class="screen-open" data-open src="./assets/carte-exemple.webp" width="660" height="1428" alt="" loading="lazy" decoding="async">
+              <span class="added" data-added><b>Ajoutée à vos contacts</b>Élise Caron</span>
+            </div>
+          </div>
+          <div class="l l-glass"><span class="island"></span></div>
+        </div>
+        <figcaption class="sr-only">Illustration animée au défilement. Le texte de chaque étape est ci-dessous.</figcaption>
+      </figure>
+
+      <ol class="acts" data-acts>
+        <li data-act><b>Votre carte vit dans votre téléphone.</b> L'application iFiveMe pour iOS et Android vous permet de la partager en tout temps.</li>
+        <li data-act><b>Vous n'avez rien à construire.</b> Envoyez une photo de votre carte papier&#8239;: notre équipe la transforme en carte d'affaires virtuelle pour vous.</li>
+        <li data-act><b>Tout est sur une seule carte.</b> Coordonnées, site Web, réseaux sociaux, adresse et lien de rendez-vous.</li>
+        <li data-act><b>Un texto, et c'est parti.</b> Par texto, par code QR ou par lien&#8239;: vous choisissez.</li>
+        <li data-act><b>Elle s'ouvre dans le navigateur.</b> Aucune application à installer pour la recevoir. La personne vous ajoute à ses contacts en un geste.</li>
+      </ol>
+
+      <div class="story-end" data-story-end>
+        <a class="btn btn-primary" data-door="essai" data-checkout="trial" href="https://checkout.ifiveme.com/activation-carte-daffaires-virtuelle-ft/">Essayer gratuitement <span class="arrow" aria-hidden="true">→</span></a>
+        <a class="btn btn-secondary" data-door="exemple" href="#metiers">Voir un exemple pour mon métier</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="clients" aria-labelledby="clients-titre">
+    <h2 class="clients-title" id="clients-titre">Des organisations d'ici leur confient leurs cartes d'affaires</h2>
+    <div class="marquee"><div class="marquee-track"><ul class="marquee-list" role="list"><li><img src="./assets/logos/cdpq.png" alt="CDPQ" width="117" height="34" loading="lazy" decoding="async"></li><li><img src="./assets/logos/ivanhoe-cambridge.png" alt="Ivanhoé Cambridge" width="115" height="35" loading="lazy" decoding="async"></li><li><img src="./assets/logos/ia.png" alt="iA Groupe financier" width="86" height="46" loading="lazy" decoding="async"></li><li><img src="./assets/logos/remax.png" alt="RE/MAX" width="147" height="27" loading="lazy" decoding="async"></li><li><img src="./assets/logos/mty.png" alt="Groupe MTY" width="52" height="52" loading="lazy" decoding="async"></li><li><img src="./assets/logos/pageau-morel.png" alt="Pageau Morel" width="96" height="42" loading="lazy" decoding="async"></li><li><img src="./assets/logos/morency.png" alt="Morency, société d&#x27;avocats" width="126" height="32" loading="lazy" decoding="async"></li><li><img src="./assets/logos/norda-stelo.png" alt="Norda Stelo" width="105" height="38" loading="lazy" decoding="async"></li><li><img src="./assets/logos/lemay.png" alt="Lemay" width="99" height="40" loading="lazy" decoding="async"></li><li><img src="./assets/logos/qmd.png" alt="QMD" width="37" height="52" loading="lazy" decoding="async"></li><li><img src="./assets/logos/ocean.png" alt="Groupe Océan" width="145" height="28" loading="lazy" decoding="async"></li><li><img src="./assets/logos/minerai-fer-quebec.png" alt="Minerai de fer Québec" width="81" height="49" loading="lazy" decoding="async"></li><li><img src="./assets/logos/mantra-pharma.png" alt="Mantra Pharma" width="107" height="37" loading="lazy" decoding="async"></li><li><img src="./assets/logos/univesta.png" alt="Univesta" width="126" height="32" loading="lazy" decoding="async"></li><li><img src="./assets/logos/rolef.png" alt="Rolef Canada" width="102" height="39" loading="lazy" decoding="async"></li><li><img src="./assets/logos/lg-cloutier.png" alt="Groupe LG Cloutier" width="94" height="42" loading="lazy" decoding="async"></li></ul><ul class="marquee-list" aria-hidden="true"><li><img src="./assets/logos/cdpq.png" alt="" width="117" height="34" loading="lazy" decoding="async"></li><li><img src="./assets/logos/ivanhoe-cambridge.png" alt="" width="115" height="35" loading="lazy" decoding="async"></li><li><img src="./assets/logos/ia.png" alt="" width="86" height="46" loading="lazy" decoding="async"></li><li><img src="./assets/logos/remax.png" alt="" width="147" height="27" loading="lazy" decoding="async"></li><li><img src="./assets/logos/mty.png" alt="" width="52" height="52" loading="lazy" decoding="async"></li><li><img src="./assets/logos/pageau-morel.png" alt="" width="96" height="42" loading="lazy" decoding="async"></li><li><img src="./assets/logos/morency.png" alt="" width="126" height="32" loading="lazy" decoding="async"></li><li><img src="./assets/logos/norda-stelo.png" alt="" width="105" height="38" loading="lazy" decoding="async"></li><li><img src="./assets/logos/lemay.png" alt="" width="99" height="40" loading="lazy" decoding="async"></li><li><img src="./assets/logos/qmd.png" alt="" width="37" height="52" loading="lazy" decoding="async"></li><li><img src="./assets/logos/ocean.png" alt="" width="145" height="28" loading="lazy" decoding="async"></li><li><img src="./assets/logos/minerai-fer-quebec.png" alt="" width="81" height="49" loading="lazy" decoding="async"></li><li><img src="./assets/logos/mantra-pharma.png" alt="" width="107" height="37" loading="lazy" decoding="async"></li><li><img src="./assets/logos/univesta.png" alt="" width="126" height="32" loading="lazy" decoding="async"></li><li><img src="./assets/logos/rolef.png" alt="" width="102" height="39" loading="lazy" decoding="async"></li><li><img src="./assets/logos/lg-cloutier.png" alt="" width="94" height="42" loading="lazy" decoding="async"></li></ul></div></div><div class="marquee reverse"><div class="marquee-track"><ul class="marquee-list" role="list"><li><img src="./assets/logos/audi-sherbrooke.png" alt="Audi Sherbrooke" width="89" height="45" loading="lazy" decoding="async"></li><li><img src="./assets/logos/honda-lallier.png" alt="Honda Ste-Foy Lallier" width="80" height="50" loading="lazy" decoding="async"></li><li><img src="./assets/logos/hyundai-victoriaville.png" alt="Hyundai Victoriaville" width="72" height="52" loading="lazy" decoding="async"></li><li><img src="./assets/logos/toyota-victoriaville.png" alt="Toyota Victoriaville" width="65" height="52" loading="lazy" decoding="async"></li><li><img src="./assets/logos/subaru-sherbrooke.png" alt="Subaru Sherbrooke" width="125" height="32" loading="lazy" decoding="async"></li><li><img src="./assets/logos/mitsubishi-rimouski.png" alt="Rimouski Mitsubishi" width="122" height="33" loading="lazy" decoding="async"></li><li><img src="./assets/logos/nissan-rimouski.png" alt="Nissan Rimouski" width="111" height="36" loading="lazy" decoding="async"></li><li><img src="./assets/logos/laval-economique.png" alt="Laval économique" width="150" height="23" loading="lazy" decoding="async"></li><li><img src="./assets/logos/dignard.png" alt="Dignard hygiénistes dentaires" width="115" height="35" loading="lazy" decoding="async"></li><li><img src="./assets/logos/van-houtte.png" alt="Van Houtte" width="150" height="20" loading="lazy" decoding="async"></li><li><img src="./assets/logos/muchoburrito.png" alt="Mucho Burrito" width="126" height="32" loading="lazy" decoding="async"></li><li><img src="./assets/logos/pizza-delight.png" alt="Pizza Delight" width="150" height="26" loading="lazy" decoding="async"></li><li><img src="./assets/logos/scores.png" alt="Scores" width="67" height="52" loading="lazy" decoding="async"></li><li><img src="./assets/logos/sushi-shop.png" alt="Sushi Shop" width="122" height="33" loading="lazy" decoding="async"></li><li><img src="./assets/logos/sushiman.png" alt="Sushiman" width="88" height="45" loading="lazy" decoding="async"></li><li><img src="./assets/logos/tutti-frutti.png" alt="Tutti Frutti" width="132" height="30" loading="lazy" decoding="async"></li></ul><ul class="marquee-list" aria-hidden="true"><li><img src="./assets/logos/audi-sherbrooke.png" alt="" width="89" height="45" loading="lazy" decoding="async"></li><li><img src="./assets/logos/honda-lallier.png" alt="" width="80" height="50" loading="lazy" decoding="async"></li><li><img src="./assets/logos/hyundai-victoriaville.png" alt="" width="72" height="52" loading="lazy" decoding="async"></li><li><img src="./assets/logos/toyota-victoriaville.png" alt="" width="65" height="52" loading="lazy" decoding="async"></li><li><img src="./assets/logos/subaru-sherbrooke.png" alt="" width="125" height="32" loading="lazy" decoding="async"></li><li><img src="./assets/logos/mitsubishi-rimouski.png" alt="" width="122" height="33" loading="lazy" decoding="async"></li><li><img src="./assets/logos/nissan-rimouski.png" alt="" width="111" height="36" loading="lazy" decoding="async"></li><li><img src="./assets/logos/laval-economique.png" alt="" width="150" height="23" loading="lazy" decoding="async"></li><li><img src="./assets/logos/dignard.png" alt="" width="115" height="35" loading="lazy" decoding="async"></li><li><img src="./assets/logos/van-houtte.png" alt="" width="150" height="20" loading="lazy" decoding="async"></li><li><img src="./assets/logos/muchoburrito.png" alt="" width="126" height="32" loading="lazy" decoding="async"></li><li><img src="./assets/logos/pizza-delight.png" alt="" width="150" height="26" loading="lazy" decoding="async"></li><li><img src="./assets/logos/scores.png" alt="" width="67" height="52" loading="lazy" decoding="async"></li><li><img src="./assets/logos/sushi-shop.png" alt="" width="122" height="33" loading="lazy" decoding="async"></li><li><img src="./assets/logos/sushiman.png" alt="" width="88" height="45" loading="lazy" decoding="async"></li><li><img src="./assets/logos/tutti-frutti.png" alt="" width="132" height="30" loading="lazy" decoding="async"></li></ul></div></div>
+  </section>
+
+  <section class="kinetic" aria-labelledby="kinetic-titre" data-kinetic>
+    <h2 class="sr-only" id="kinetic-titre">Trois façons de partager votre carte</h2>
+    <div class="kin-row" data-kin="1" aria-hidden="true"><span>Texto</span><span class="kin-dot"></span><span>Code QR</span><span class="kin-dot"></span><span>Lien</span><span class="kin-dot"></span><span>Texto</span><span class="kin-dot"></span><span>Code QR</span><span class="kin-dot"></span><span>Lien</span></div>
+    <div class="kin-row kin-row-2" data-kin="-1" aria-hidden="true"><span>Aucune application</span><span class="kin-dot"></span><span>Un geste</span><span class="kin-dot"></span><span>Aucune application</span><span class="kin-dot"></span><span>Un geste</span></div>
+    <div class="wrap kin-cta reveal">
+      <p>Trois façons de partager. Aucune application pour la recevoir.</p>
+      <a class="btn btn-primary" data-door="essai" data-checkout="trial" href="https://checkout.ifiveme.com/activation-carte-daffaires-virtuelle-ft/">Essayer gratuitement <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+    <figure class="wrap watch reveal"><img src="./assets/watch.webp" width="840" height="840" loading="lazy" decoding="async" alt="Une montre affiche la notification d'un texto reçu, avec l'aperçu de la carte d'affaires virtuelle."><figcaption>Un texto, c'est tout. Il arrive là où la personne lit ses messages, avec l'aperçu de votre carte.</figcaption></figure>
+  </section>
+
+  <section class="impact" aria-labelledby="impact-titre" data-impact>
+    <div class="wrap impact-head reveal">
+      <h2 id="impact-titre">Votre carte, <em>votre caractère.</em></h2>
+      <p>Couvreur, consultante, courtier ou designer&#8239;: chaque carte est créée à l'image de la personne qui la partage.</p>
+    </div>
+    <ul class="impact-grid" role="list"><li class="imp" data-imp><img src="./assets/impact/marc.webp" width="717" height="1000" loading="lazy" decoding="async" alt="La carte d'affaires virtuelle de Marc Mercier, couvreur, sur un téléphone de face."><p>Marc, couvreur</p></li><li class="imp" data-imp><img src="./assets/impact/ines.webp" width="717" height="1000" loading="lazy" decoding="async" alt="La carte d'affaires virtuelle d'Inès Rahmani, consultante marketing, sur un téléphone de face."><p>Inès, consultante marketing</p></li><li class="imp" data-imp><img src="./assets/impact/charles.webp" width="720" height="994" loading="lazy" decoding="async" alt="La carte d'affaires virtuelle de Charles Vallée, courtier hypothécaire, sur un téléphone de face."><p>Charles, courtier hypothécaire</p></li><li class="imp" data-imp><img src="./assets/impact/noemie.webp" width="717" height="1000" loading="lazy" decoding="async" alt="La carte d'affaires virtuelle de Noémie Fortin, designer d'intérieur, sur un téléphone de face."><p>Noémie, designer d'intérieur</p></li></ul>
+    <div class="wrap impact-cta reveal">
+      <a class="btn btn-primary" data-door="essai" data-checkout="trial" href="https://checkout.ifiveme.com/activation-carte-daffaires-virtuelle-ft/">Essayer gratuitement <span class="arrow" aria-hidden="true">→</span></a>
+      <a class="btn btn-secondary" data-door="exemple" href="#metiers">Voir un exemple pour mon métier</a>
+    </div>
+  </section>
+
+  <section class="section how" id="fonctionnement" aria-labelledby="fonctionnement-titre">
+    <div class="wrap how-grid">
+      <div class="section-head how-head reveal">
+        <h2 id="fonctionnement-titre">Vous n'avez rien à construire.</h2>
+        <p>Envoyez-nous une photo de votre carte papier actuelle. L'équipe iFiveMe la transforme en carte d'affaires virtuelle pour vous.</p>
+        <a class="btn btn-primary how-cta" data-door="essai" data-checkout="trial" href="https://checkout.ifiveme.com/activation-carte-daffaires-virtuelle-ft/">Essayer gratuitement <span class="arrow" aria-hidden="true">→</span></a>
+      </div>
+      <ol class="steps">
+        <li class="reveal"><span class="num" aria-hidden="true">01</span><div><h3>Une photo, recto et verso</h3><p>Après votre inscription, vous nous envoyez simplement une photo de votre carte papier.</p></div></li>
+        <li class="reveal"><span class="num" aria-hidden="true">02</span><div><h3>Nous créons votre carte</h3><p>Coordonnées, site Web, réseaux sociaux, adresse et lien de rendez-vous&#8239;: tout est réuni sur une seule carte. Vous pouvez la modifier vous-même, et notre équipe aussi.</p></div></li>
+        <li class="reveal"><span class="num" aria-hidden="true">03</span><div><h3>Vous la partagez</h3><p>Par texto, par code QR ou par lien. La personne l'ouvre dans son navigateur et peut vous ajouter à ses contacts en un geste.</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Situations concrètes (banque de Gary, top 50) : défilement horizontal piloté par le défilement vertical. -->
+  <section class="situations" id="situations" aria-labelledby="situations-titre" data-pan>
+    <div class="pan-stage" data-pan-stage>
+      <div class="wrap pan-head">
+        <h2 id="situations-titre">Là où la carte papier <em>lâche.</em></h2>
+        <p>Des moments bien réels où une carte d'affaires virtuelle fait la différence.</p>
+      </div>
+      <ul class="pan-track" data-pan-track role="list">
+        <li class="sit sit-a">
+          <p class="sit-place">Sortie du centre commercial</p>
+          <h3>Les mains pleines</h3>
+          <p class="sit-scene">Un ancien client, bébé sur le ventre et sacs dans chaque main, vous dit que sa sœur achète sa première maison.</p>
+          <p class="sit-tension">Une carte papier tendue à quelqu'un qui n'a plus une main de libre finit au fond d'un sac.</p>
+          <p class="sit-geste"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 5h16v11H9l-5 4V5Z"/></svg>Le geste&#8239;: un texto</p>
+        </li>
+        <li class="sit sit-b">
+          <p class="sit-place">Kiosque de salon d'affaires</p>
+          <h3>Plus de cartes à midi</h3>
+          <p class="sit-scene">Le présentoir est vide à midi et les visiteurs défilent devant le kiosque.</p>
+          <p class="sit-tension">Le client idéal s'arrête trente secondes. Le temps de chercher une carte, il est reparti.</p>
+          <p class="sit-geste"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zM18 18h2v2h-2zM14 18h2M18 14h2"/></svg>Le geste&#8239;: le code QR</p>
+        </li>
+        <li class="sit sit-c">
+          <p class="sit-place">Porte ouverte, dimanche</p>
+          <h3>La file sur le perron</h3>
+          <p class="sit-scene">Dix visiteurs attendent sur les marches et le petit présentoir de cartes est vide depuis 14&nbsp;h.</p>
+          <p class="sit-tension">Chaque visiteur scanne le code en passant la porte et repart avec vous dans ses contacts.</p>
+          <p class="sit-geste"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zM18 18h2v2h-2zM14 18h2M18 14h2"/></svg>Le geste&#8239;: le code QR</p>
+        </li>
+        <li class="sit sit-d">
+          <p class="sit-place">Retour d'essai routier</p>
+          <h3>Il faut en parler ce soir</h3>
+          <p class="sit-scene">La cliente adore la voiture, mais doit en parler à son conjoint ce soir.</p>
+          <p class="sit-tension">Avec le lien de votre carte, le conjoint sait exactement qui rappeler.</p>
+          <p class="sit-geste"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg>Le geste&#8239;: un lien</p>
+        </li>
+        <li class="sit sit-e">
+          <p class="sit-place">Fin de rendez-vous hypothécaire</p>
+          <h3>Rendez-vous dans cinq ans</h3>
+          <p class="sit-scene">«&#8239;On se reparle au renouvellement.&#8239;» Dans cinq ans, la carte papier sera perdue.</p>
+          <p class="sit-tension">Votre carte reste dans ses contacts, et elle reste juste, même si vos coordonnées changent.</p>
+          <p class="sit-geste"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 5h16v11H9l-5 4V5Z"/></svg>Le geste&#8239;: un texto</p>
+        </li>
+        <li class="sit sit-f">
+          <p class="sit-place">Chantier terminé</p>
+          <h3>Le voisin par-dessus la haie</h3>
+          <p class="sit-scene">La porte de garage est posée. Le voisin, râteau à la main, en veut une pareille.</p>
+          <p class="sit-tension">Le plus beau compliment d'un métier se perd s'il n'y a pas de nom à garder.</p>
+          <p class="sit-geste"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zM18 18h2v2h-2zM14 18h2M18 14h2"/></svg>Le geste&#8239;: le code QR</p>
+        </li>
+        <li class="sit sit-g">
+          <p class="sit-place">Au café, tôt le matin</p>
+          <h3>Nouvelle bannière, vieilles cartes</h3>
+          <p class="sit-scene">Nouvelle agence la semaine dernière, et 500 cartes imprimées portent encore l'ancien logo.</p>
+          <p class="sit-tension">La carte virtuelle est déjà à jour quand vous l'envoyez. Rien à réimprimer.</p>
+          <p class="sit-geste"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 5h16v11H9l-5 4V5Z"/></svg>Le geste&#8239;: un texto</p>
+        </li>
+        <li class="sit sit-h">
+          <p class="sit-place">Vin d'honneur d'un mariage</p>
+          <h3>Qui a fait les bouchées&#8239;?</h3>
+          <p class="sit-scene">Une invitée demande qui est le traiteur&#8239;: elle organise le party de bureau.</p>
+          <p class="sit-tension">Au mariage, on ne sollicite pas. Mais quand on vous le demande, il faut répondre vite.</p>
+          <p class="sit-geste"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg>Le geste&#8239;: un lien</p>
+        </li>
+        <li class="sit sit-cta">
+          <h3>Votre prochaine situation commence maintenant.</h3>
+          <a class="btn btn-primary" data-door="essai" data-checkout="trial" href="https://checkout.ifiveme.com/activation-carte-daffaires-virtuelle-ft/">Essayer gratuitement <span class="arrow" aria-hidden="true">→</span></a>
+          <a class="text-link" data-door="exemple" href="#metiers">Voir un exemple pour mon métier <span class="arrow" aria-hidden="true">→</span></a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="spin" aria-labelledby="spin-titre" data-seq>
+    <div class="spin-stage" data-seq-stage>
+      <div class="spin-media">
+        <img class="spin-poster" src="./assets/seq/rot-frame-0001.webp" width="640" height="800" alt="La carte d'affaires virtuelle de Thomas Larivière, courtier en immobilier commercial, sur un téléphone de face. Au défilement, le téléphone tourne, puis la carte se sépare en couches : fond d'écran, carte et boutons." loading="lazy" decoding="async">
+        <canvas class="spin-canvas" width="640" height="800" data-seq-canvas aria-hidden="true"></canvas>
+      </div>
+      <div class="spin-copy">
+        <h2 id="spin-titre">Faites-en le tour.</h2>
+        <p>Votre fond d'écran, votre carte et vos boutons, pensés ensemble. Prête à partir par texto, code QR ou lien.</p>
+        <a class="btn btn-primary" data-door="essai" data-checkout="trial" href="https://checkout.ifiveme.com/activation-carte-daffaires-virtuelle-ft/">Essayer gratuitement <span class="arrow" aria-hidden="true">→</span></a>
+      </div>
+    </div>
+    <script type="application/json" data-seq-frames>{"frames": ["./assets/seq/rot-frame-0001.webp", "./assets/seq/rot-frame-0002.webp", "./assets/seq/rot-frame-0003.webp", "./assets/seq/rot-frame-0004.webp", "./assets/seq/rot-frame-0005.webp", "./assets/seq/rot-frame-0006.webp", "./assets/seq/rot-frame-0007.webp", "./assets/seq/rot-frame-0008.webp", "./assets/seq/rot-frame-0009.webp", "./assets/seq/rot-frame-0010.webp", "./assets/seq/rot-frame-0011.webp", "./assets/seq/rot-frame-0012.webp", "./assets/seq/rot-frame-0013.webp", "./assets/seq/rot-frame-0014.webp", "./assets/seq/rot-frame-0015.webp", "./assets/seq/rot-frame-0016.webp", "./assets/seq/rot-frame-0017.webp", "./assets/seq/rot-frame-0018.webp", "./assets/seq/rot-frame-0019.webp", "./assets/seq/rot-frame-0020.webp", "./assets/seq/rot-frame-0021.webp", "./assets/seq/rot-frame-0022.webp", "./assets/seq/rot-frame-0023.webp", "./assets/seq/rot-frame-0024.webp", "./assets/seq/rot-frame-0025.webp", "./assets/seq/rot-frame-0026.webp", "./assets/seq/rot-frame-0027.webp", "./assets/seq/rot-frame-0028.webp", "./assets/seq/rot-frame-0029.webp", "./assets/seq/rot-frame-0030.webp", "./assets/seq/rot-frame-0031.webp", "./assets/seq/rot-frame-0032.webp", "./assets/seq/rot-frame-0033.webp", "./assets/seq/rot-frame-0034.webp", "./assets/seq/rot-frame-0035.webp", "./assets/seq/rot-frame-0036.webp", "./assets/seq/rot-frame-0037.webp", "./assets/seq/rot-frame-0038.webp", "./assets/seq/rot-frame-0039.webp", "./assets/seq/rot-frame-0040.webp", "./assets/seq/rot-frame-0041.webp", "./assets/seq/rot-frame-0042.webp", "./assets/seq/rot-frame-0043.webp", "./assets/seq/rot-frame-0044.webp", "./assets/seq/rot-frame-0045.webp", "./assets/seq/rot-frame-0046.webp", "./assets/seq/rot-frame-0047.webp", "./assets/seq/rot-frame-0048.webp", "./assets/seq/rot-frame-0049.webp", "./assets/seq/rot-frame-0050.webp", "./assets/seq/rot-frame-0051.webp", "./assets/seq/rot-frame-0052.webp", "./assets/seq/rot-frame-0053.webp", "./assets/seq/rot-frame-0054.webp", "./assets/seq/rot-frame-0055.webp", "./assets/seq/rot-frame-0056.webp", "./assets/seq/rot-frame-0057.webp", "./assets/seq/rot-frame-0058.webp", "./assets/seq/rot-frame-0059.webp", "./assets/seq/rot-frame-0060.webp", "./assets/seq/rot-frame-0061.webp", "./assets/seq/rot-frame-0062.webp", "./assets/seq/rot-frame-0063.webp", "./assets/seq/rot-frame-0064.webp", "./assets/seq/rot-frame-0065.webp", "./assets/seq/rot-frame-0066.webp", "./assets/seq/rot-frame-0067.webp", "./assets/seq/rot-frame-0068.webp", "./assets/seq/rot-frame-0069.webp", "./assets/seq/rot-frame-0070.webp", "./assets/seq/rot-frame-0071.webp", "./assets/seq/rot-frame-0072.webp", "./assets/seq/exp-frame-0001.webp", "./assets/seq/exp-frame-0002.webp", "./assets/seq/exp-frame-0003.webp", "./assets/seq/exp-frame-0004.webp", "./assets/seq/exp-frame-0005.webp", "./assets/seq/exp-frame-0006.webp", "./assets/seq/exp-frame-0007.webp", "./assets/seq/exp-frame-0008.webp", "./assets/seq/exp-frame-0009.webp", "./assets/seq/exp-frame-0010.webp", "./assets/seq/exp-frame-0011.webp", "./assets/seq/exp-frame-0012.webp", "./assets/seq/exp-frame-0013.webp", "./assets/seq/exp-frame-0014.webp", "./assets/seq/exp-frame-0015.webp", "./assets/seq/exp-frame-0016.webp", "./assets/seq/exp-frame-0017.webp", "./assets/seq/exp-frame-0018.webp", "./assets/seq/exp-frame-0019.webp", "./assets/seq/exp-frame-0020.webp", "./assets/seq/exp-frame-0021.webp", "./assets/seq/exp-frame-0022.webp", "./assets/seq/exp-frame-0023.webp", "./assets/seq/exp-frame-0024.webp", "./assets/seq/exp-frame-0025.webp", "./assets/seq/exp-frame-0026.webp", "./assets/seq/exp-frame-0027.webp", "./assets/seq/exp-frame-0028.webp", "./assets/seq/exp-frame-0029.webp", "./assets/seq/exp-frame-0030.webp", "./assets/seq/exp-frame-0031.webp", "./assets/seq/exp-frame-0032.webp", "./assets/seq/exp-frame-0033.webp", "./assets/seq/exp-frame-0034.webp", "./assets/seq/exp-frame-0035.webp", "./assets/seq/exp-frame-0036.webp", "./assets/seq/exp-frame-0037.webp", "./assets/seq/exp-frame-0038.webp", "./assets/seq/exp-frame-0039.webp", "./assets/seq/exp-frame-0040.webp", "./assets/seq/exp-frame-0041.webp", "./assets/seq/exp-frame-0042.webp", "./assets/seq/exp-frame-0043.webp", "./assets/seq/exp-frame-0044.webp", "./assets/seq/exp-frame-0045.webp", "./assets/seq/exp-frame-0046.webp", "./assets/seq/exp-frame-0047.webp", "./assets/seq/exp-frame-0048.webp"], "order": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 71, 70, 69, 68, 67, 66, 65, 64, 63, 62, 61, 60, 59, 58, 57, 56, 55, 54, 53, 52, 51, 50, 49, 48, 47, 46, 45, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 34, 33, 32, 31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119]}</script>
+  </section>
+
+  <section class="section metiers" id="metiers" aria-labelledby="metiers-titre">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <h2 id="metiers-titre">Chaque métier a sa carte.</h2>
+        <p>Vos couleurs, votre univers, vos boutons. Choisissez votre métier et voyez comment la carte s'utilise au quotidien.</p>
+      </div>
+
+      <!-- Éventail de cartes (emplacement des « téléphones Impact » de Gary) -->
+      <div class="fan" data-fan>
+        <figure class="fan-item" data-fan-item><div class="phone-flat"><img src="./assets/personas/elise-ecran.webp" width="390" height="844" loading="lazy" decoding="async" alt="La carte d'affaires virtuelle d'Élise Caron, courtière immobilière, avec ses cinq boutons."></div><figcaption>Élise, courtière immobilière</figcaption></figure>
+        <figure class="fan-item" data-fan-item><div class="phone-flat"><img src="./assets/screens/thomas.webp" width="520" height="1125" loading="lazy" decoding="async" alt="La carte d'affaires virtuelle de Thomas Larivière, courtier en immobilier commercial."></div><figcaption>Thomas, immobilier commercial</figcaption></figure>
+        <figure class="fan-item" data-fan-item><div class="phone-flat"><img src="./assets/screens/noemie.webp" width="520" height="1125" loading="lazy" decoding="async" alt="La carte d'affaires virtuelle de Noémie Fortin, designer d'intérieur."></div><figcaption>Noémie, designer d'intérieur</figcaption></figure>
+      </div>
+
+      <div class="tabs" data-tabs>
+        <div class="tablist" role="tablist" aria-label="Métiers">
+          <button role="tab" id="t-immo" aria-controls="p-immo" aria-selected="true" tabindex="0" data-metier="immobilier" data-metier-label="Immobilier">Immobilier</button>
+          <button role="tab" id="t-fin" aria-controls="p-fin" aria-selected="false" tabindex="-1" data-metier="finance" data-metier-label="Finance et hypothèque">Finance et hypothèque</button>
+          <button role="tab" id="t-met" aria-controls="p-met" aria-selected="false" tabindex="-1" data-metier="metiers" data-metier-label="Métiers et services">Métiers et services</button>
+          <button role="tab" id="t-ent" aria-controls="p-ent" aria-selected="false" tabindex="-1" data-metier="entrepreneurs" data-metier-label="Entrepreneurs">Entrepreneurs</button>
+          <button role="tab" id="t-auto" aria-controls="p-auto" aria-selected="false" tabindex="-1" data-metier="automobile" data-metier-label="Automobile">Automobile</button>
+        </div>
+
+        <div class="panel" role="tabpanel" id="p-immo" aria-labelledby="t-immo" tabindex="0">
+          <figure class="panel-media panel-phone"><div class="phone-flat"><img src="./assets/carte-exemple.webp" width="660" height="1428" loading="lazy" decoding="async" alt="La carte d'Élise Caron, courtière immobilière, ouverte dans le navigateur : sa carte, puis cinq boutons, dont « Ajoutez-moi à votre liste de contacts » et « Prendre rendez-vous »."></div></figure>
+          <div class="panel-copy">
+            <h3>Courtiers immobiliers</h3>
+            <p class="panel-lead">Un code QR à l'entrée de la visite libre&#8239;: chaque visiteur repart avec vos coordonnées dans son téléphone.</p>
+            <ul class="ticks">
+              <li>Il vous ajoute à ses contacts en un geste.</li>
+              <li>Changement d'agence ou de photo&#8239;? La carte se met à jour, sans réimpression.</li>
+              <li>Votre lien de rendez-vous est à portée de pouce.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="panel" role="tabpanel" id="p-fin" aria-labelledby="t-fin" tabindex="0" hidden>
+          <figure class="panel-media panel-phone"><div class="phone-flat"><img src="./assets/screens/charles.webp" width="520" height="1125" loading="lazy" decoding="async" alt="La carte d'affaires virtuelle de Charles Vallée, courtier hypothécaire, avec ses cinq boutons."></div></figure>
+          <div class="panel-copy">
+            <h3>Courtiers hypothécaires et conseillers financiers</h3>
+            <p class="panel-lead">Au renouvellement, trois ou cinq ans plus tard, votre client vous retrouve en deux secondes.</p>
+            <ul class="ticks">
+              <li>Une image sérieuse, à vos couleurs.</li>
+              <li>Prise de rendez-vous directement depuis la carte.</li>
+              <li>Vos coordonnées restent justes, même si elles changent.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="panel" role="tabpanel" id="p-met" aria-labelledby="t-met" tabindex="0" hidden>
+          <figure class="panel-media panel-phone"><div class="phone-flat"><img src="./assets/screens/marc.webp" width="520" height="1125" loading="lazy" decoding="async" alt="La carte d'affaires virtuelle de Marc Mercier, couvreur, avec ses cinq boutons."></div></figure>
+          <div class="panel-copy">
+            <h3>Métiers et services</h3>
+            <p class="panel-lead">Votre client a besoin de vous une fois par année. Il vous garde dans son téléphone, et il peut vous recommander en un texto.</p>
+            <ul class="ticks">
+              <li>Fini le «&#8239;je ne sais plus comment il s'appelait&#8239;».</li>
+              <li>Votre carte se transmet d'un client à l'autre.</li>
+              <li>Pas besoin d'être techno&#8239;: un lien suffit.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="panel" role="tabpanel" id="p-ent" aria-labelledby="t-ent" tabindex="0" hidden>
+          <figure class="panel-media panel-phone"><div class="phone-flat"><img src="./assets/screens/ines.webp" width="520" height="1125" loading="lazy" decoding="async" alt="La carte d'affaires virtuelle d'Inès Rahmani, consultante marketing et entrepreneure, avec ses cinq boutons."></div></figure>
+          <div class="panel-copy">
+            <h3>Entrepreneurs</h3>
+            <p class="panel-lead">Votre carte, vos couleurs, votre entreprise&#8239;: toujours dans la poche de vos clients, jamais en rupture de stock.</p>
+            <ul class="ticks">
+              <li>Site Web, réseaux sociaux et adresse sur une seule carte.</li>
+              <li>Code QR à afficher sur le camion, au comptoir ou en salon.</li>
+              <li>Vos employés peuvent avoir la leur.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="panel panel-auto" role="tabpanel" id="p-auto" aria-labelledby="t-auto" tabindex="0" hidden>
+          <div class="auto-logos" aria-label="Des concessionnaires qui utilisent iFiveMe">
+            <img src="./assets/logos/audi-sherbrooke.png" alt="Audi Sherbrooke" width="102" height="51" loading="lazy" decoding="async"><img src="./assets/logos/honda-lallier.png" alt="Honda Ste-Foy Lallier" width="84" height="52" loading="lazy" decoding="async"><img src="./assets/logos/hyundai-victoriaville.png" alt="Hyundai Victoriaville" width="72" height="52" loading="lazy" decoding="async"><img src="./assets/logos/toyota-victoriaville.png" alt="Toyota Victoriaville" width="65" height="52" loading="lazy" decoding="async"><img src="./assets/logos/subaru-sherbrooke.png" alt="Subaru Sherbrooke" width="142" height="37" loading="lazy" decoding="async"><img src="./assets/logos/mitsubishi-rimouski.png" alt="Rimouski Mitsubishi" width="139" height="37" loading="lazy" decoding="async"><img src="./assets/logos/nissan-rimouski.png" alt="Nissan Rimouski" width="126" height="41" loading="lazy" decoding="async">
+          </div>
+          <div class="panel-copy">
+            <h3>Concessionnaires automobiles</h3>
+            <p class="panel-lead">Le client repart de la salle de montre avec la carte de son conseiller dans son téléphone, pas au fond d'un sac.</p>
+            <ul class="ticks">
+              <li>Au prochain entretien ou au prochain véhicule, il sait qui appeler.</li>
+              <li>Une carte par conseiller, aux couleurs de la concession.</li>
+              <li>Un nouveau conseiller&#8239;? Sa carte est prête sans commande d'imprimerie.</li>
+            </ul>
+            <a class="text-link" data-door="equipe" href="#equipe">Équiper mon équipe <span class="arrow" aria-hidden="true">→</span></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="example-box reveal">
+        <div class="example-intro">
+          <h3>Recevoir un exemple pour mon métier</h3>
+          <p>Nous vous envoyons un exemple de carte adapté à votre métier, puis l'invitation à l'essai gratuit.</p>
+        </div>
+        <form class="form form-inline" data-lead="exemple_metier" aria-label="Recevoir un exemple pour mon métier">
+          <div class="field">
+            <label for="ex-metier">Votre métier</label>
+            <input id="ex-metier" name="metier" type="text" autocomplete="organization-title" required value="Immobilier" data-metier-field>
+            <p class="field-error" aria-live="polite"></p>
+          </div>
+          <div class="field">
+            <label for="ex-courriel">Courriel</label>
+            <input id="ex-courriel" name="courriel" type="email" autocomplete="email" inputmode="email" required>
+            <p class="field-error" aria-live="polite"></p>
+          </div>
+          <div class="field field-check">
+            <input id="ex-consent" name="consentement_courriel" type="checkbox" value="oui" required>
+            <label for="ex-consent">J'accepte de recevoir cet exemple et des courriels d'iFiveMe (info@ifiveme.com, Québec). Je peux me désabonner en tout temps.</label>
+            <p class="field-error" aria-live="polite"></p>
+          </div>
+          <div class="hp" aria-hidden="true"><label for="ex-website">Site Web</label><input id="ex-website" name="website" tabindex="-1" autocomplete="off"></div>
+          <button class="btn btn-primary" type="submit">Recevoir l'exemple</button>
+          <p class="form-status" data-status aria-live="polite"></p>
+        </form>
+        <div class="done" data-done hidden>
+          <h3 tabindex="-1">C'est noté.</h3>
+          <p>Votre exemple partirait maintenant par courriel.</p>
+          <div class="demo-note" data-demo-note data-demo-only><strong>Mode démonstration&#8239;: rien n'a été envoyé.</strong> Voici ce qui serait transmis au CRM&#8239;:<pre data-payload></pre></div>
+          <button class="text-link as-button" type="button" data-reset>Recommencer</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Les cartes papier éclatent au défilement (argument papier et carbone, qualitatif seulement). -->
+  <section class="burst" aria-labelledby="burst-titre" data-burst>
+    <div class="burst-stage" data-burst-stage>
+      <div class="pile" aria-hidden="true" data-pile>
+        <div class="pc pc-0"></div><div class="pc pc-1"></div><div class="pc pc-2"></div><div class="pc pc-3"></div><div class="pc pc-4"></div><div class="pc pc-5"></div><div class="pc pc-6"></div><div class="pc pc-0"></div><div class="pc pc-1"></div><div class="pc pc-2"></div><div class="pc pc-3"></div><div class="pc pc-4"></div><div class="pc pc-5"></div><div class="pc pc-6"></div><div class="pc pc-0"></div><div class="pc pc-1"></div>
+      </div>
+      <div class="burst-copy">
+        <h2 id="burst-titre">Sans impression. <em>Sans réimpression.</em></h2>
+        <p>Moins de cartes imprimées, moins de papier&#8239;: vous réduisez l'empreinte carbone liée à vos cartes d'affaires. Et votre carte n'est jamais en rupture de stock.</p>
+        <a class="btn btn-primary" data-door="essai" data-checkout="trial" href="https://checkout.ifiveme.com/activation-carte-daffaires-virtuelle-ft/">Essayer gratuitement <span class="arrow" aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Code QR : situation du kiosque. Emplacement du « code QR héros » de Gary. -->
+  <section class="section qr" aria-labelledby="qr-titre" data-qr>
+    <div class="wrap qr-grid">
+      <div class="qr-visual" aria-hidden="true">
+        <div class="qr-photo" data-qr-box><img src="./assets/qr-hero.webp" width="1400" height="933" loading="lazy" decoding="async" alt=""><span class="qr-target"><span class="scan-line" data-scan></span><span class="corner c1"></span><span class="corner c2"></span><span class="corner c3"></span><span class="corner c4"></span></span></div>
+        <div class="phone-flat qr-phone" data-qr-phone><img src="./assets/screens/thomas.webp" width="520" height="1125" alt="" loading="lazy" decoding="async"></div>
+      </div>
+      <div class="qr-copy reveal">
+        <h2 id="qr-titre">Au kiosque, un code suffit.</h2>
+        <p>Affichez votre code QR sur le comptoir, au salon ou sur le camion. On le scanne avec l'appareil photo du téléphone, et votre carte s'ouvre dans le navigateur.</p>
+        <ul class="ticks">
+          <li>Aucune application à installer pour la recevoir.</li>
+          <li>Ajout aux contacts en un geste.</li>
+          <li>Une équipe au complet au même salon&#8239;? Chacun a sa carte, aux couleurs de l'organisation.</li>
+        </ul>
+        <div class="qr-actions">
+          <a class="btn btn-primary" data-door="equipe" href="#equipe">Équiper mon équipe <span class="arrow" aria-hidden="true">→</span></a>
+          <a class="text-link" data-door="essai" data-checkout="trial" href="https://checkout.ifiveme.com/activation-carte-daffaires-virtuelle-ft/">Essayer gratuitement <span class="arrow" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section why" aria-labelledby="why-titre">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <h2 id="why-titre">Elle travaille après la poignée de main.</h2>
+      </div>
+      <div class="bento">
+        <article class="cell cell-photo reveal">
+          <div class="cell-phone"><div class="phone-flat"><img src="./assets/screens/thomas.webp" width="520" height="1125" loading="lazy" decoding="async" alt="La carte d'affaires virtuelle de Thomas Larivière, à jour, avec ses cinq boutons."></div></div>
+          <div class="cell-text">
+            <h3>Toujours à jour</h3>
+            <p>Nouveau numéro, nouveau titre, nouvelle photo&#8239;: la carte se met à jour sans rien réimprimer.</p>
+          </div>
+        </article>
+        <article class="cell reveal">
+          <svg class="cell-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 3h10a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M10 18h4"/></svg>
+          <h3>Rien à installer pour la recevoir</h3>
+          <p>La personne ouvre votre carte dans son navigateur. Elle peut vous ajouter à ses contacts, vous appeler, vous écrire ou prendre rendez-vous.</p>
+        </article>
+        <article class="cell cell-accent reveal">
+          <svg class="cell-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3v18M3 12h18"/></svg>
+          <h3>Modifiable par vous, et par nous</h3>
+          <p>Vous modifiez votre carte depuis votre compte. Notre équipe peut aussi la modifier pour vous.</p>
+        </article>
+        <article class="cell reveal">
+          <svg class="cell-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>
+          <h3>Des statistiques simples</h3>
+          <p>Consultations et actions sur votre carte, en données agrégées. Personne n'est identifié.</p>
+        </article>
+        <article class="cell cell-wide reveal">
+          <svg class="cell-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          <h3>D'ici, et à votre service</h3>
+          <p>iFiveMe est une entreprise de Québec. La plateforme est offerte en français et en anglais, et vos données sont hébergées au Canada. L'application iFiveMe pour iOS et Android vous permet de partager votre carte en tout temps.</p>
+          <a class="text-link" data-door="essai" data-checkout="trial" href="https://checkout.ifiveme.com/activation-carte-daffaires-virtuelle-ft/">Essayer gratuitement <span class="arrow" aria-hidden="true">→</span></a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section offer" id="offre" aria-labelledby="offre-titre">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <h2 id="offre-titre">Une offre simple.</h2>
+        <p>Pour vous seul ou pour toute votre équipe.</p>
+      </div>
+      <div class="plans">
+        <article class="plan plan-pro reveal" aria-labelledby="pro-titre">
+          <h3 id="pro-titre">Forfait Pro</h3>
+          <p class="price"><span class="amount">99&nbsp;$</span> <span class="per">CA par année, avant taxes</span></p>
+          <p class="trial">Essai gratuit de 7&nbsp;jours, puis 99&nbsp;$&nbsp;CA par année, avant taxes.</p>
+          <ul class="ticks">
+            <li>Votre carte créée par notre équipe, à partir de votre carte papier</li>
+            <li>Partage par texto, code QR ou lien</li>
+            <li>Modifiable par vous, et par notre équipe au besoin</li>
+            <li>Application iOS et Android</li>
+            <li>Statistiques agrégées de votre carte</li>
+          </ul>
+          <div class="plan-actions">
+            <a class="btn btn-primary" data-door="essai" data-checkout="trial" href="https://checkout.ifiveme.com/activation-carte-daffaires-virtuelle-ft/">Essayer gratuitement <span class="arrow" aria-hidden="true">→</span></a>
+            <a class="text-link" data-door="achat_pro" data-checkout="pro" href="https://checkout.ifiveme.com/professional/">Acheter le forfait Pro</a>
+          </div>
+        </article>
+        <article class="plan plan-team reveal" aria-labelledby="team-titre">
+          <h3 id="team-titre">Compte entreprise</h3>
+          <p class="price"><span class="amount amount-text">Sur soumission</span></p>
+          <p class="trial">Pour les équipes et les organisations.</p>
+          <ul class="ticks">
+            <li>Gestion centralisée des utilisateurs et des cartes</li>
+            <li>Gabarits aux couleurs de votre organisation</li>
+            <li>Connexion unique Microsoft Entra ID</li>
+            <li>Chaque membre modifie sa carte; l'administrateur aussi</li>
+          </ul>
+          <div class="plan-actions">
+            <a class="btn btn-secondary" data-door="equipe" href="#equipe">Équiper mon équipe <span class="arrow" aria-hidden="true">→</span></a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section team" id="equipe" aria-labelledby="equipe-titre">
+    <div class="wrap team-grid">
+      <div class="team-copy reveal">
+        <h2 id="equipe-titre">Équipez toute votre équipe.</h2>
+        <p class="team-lead">Une image cohérente pour toute l'équipe, mise à jour depuis un seul endroit.</p>
+        <ul class="ticks">
+          <li>Un gabarit à l'image de votre organisation</li>
+          <li>Les arrivées et les départs se gèrent au même endroit</li>
+          <li>Connexion unique Microsoft Entra ID pour vos TI</li>
+        </ul>
+        <ol class="next-steps" aria-label="Après votre demande">
+          <li><b>Un membre de notre équipe vous répond</b> pour comprendre vos besoins.</li>
+          <li><b>Nous préparons le gabarit</b> aux couleurs de votre organisation.</li>
+          <li><b>Nous créons les cartes</b> de toute l'équipe, que chacun peut ensuite partager.</li>
+        </ol>
+      </div>
+
+      <div class="form-card reveal">
+        <form class="form" data-lead="soumission_entreprise" aria-labelledby="form-titre">
+          <h3 id="form-titre">Recevez votre soumission personnalisée</h3>
+          <p class="form-hint">Les champs marqués d'un astérisque sont obligatoires.</p>
+          <div class="field">
+            <label for="f-nom">Nom complet <span aria-hidden="true">*</span></label>
+            <input id="f-nom" name="nom" type="text" autocomplete="name" required>
+            <p class="field-error" aria-live="polite"></p>
+          </div>
+          <div class="field">
+            <label for="f-courriel">Courriel <span aria-hidden="true">*</span></label>
+            <input id="f-courriel" name="courriel" type="email" autocomplete="email" inputmode="email" required>
+            <p class="field-error" aria-live="polite"></p>
+          </div>
+          <div class="field">
+            <label for="f-entreprise">Entreprise <span aria-hidden="true">*</span></label>
+            <input id="f-entreprise" name="entreprise" type="text" autocomplete="organization" required>
+            <p class="field-error" aria-live="polite"></p>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="f-cartes">Combien de cartes&#8239;?</label>
+              <select id="f-cartes" name="nombre_cartes">
+                <option value="">Choisir</option>
+                <option value="1">1</option>
+                <option value="2-9">2 à 9</option>
+                <option value="10-24">10 à 24</option>
+                <option value="25-49">25 à 49</option>
+                <option value="50+">50 et plus</option>
+              </select>
+              <p class="field-error" aria-live="polite"></p>
+            </div>
+            <div class="field">
+              <label for="f-tel">Téléphone</label>
+              <input id="f-tel" name="telephone" type="tel" autocomplete="tel" inputmode="tel" aria-describedby="f-tel-aide">
+              <p class="field-help" id="f-tel-aide">Facultatif, si vous préférez qu'on vous appelle.</p>
+              <p class="field-error" aria-live="polite"></p>
+            </div>
+          </div>
+          <div class="field field-check">
+            <input id="f-consent" name="consentement_courriel" type="checkbox" value="oui">
+            <label for="f-consent">J'accepte de recevoir des courriels d'iFiveMe (info@ifiveme.com, Québec) sur ses services. Je peux me désabonner en tout temps.</label>
+          </div>
+          <div class="hp" aria-hidden="true"><label for="f-website">Site Web</label><input id="f-website" name="website" tabindex="-1" autocomplete="off"></div>
+          <button class="btn btn-primary btn-block" type="submit">Recevoir ma soumission</button>
+          <p class="form-privacy">Vos renseignements servent à répondre à votre demande. <a href="https://www.ifiveme.com/politiques/">Politique de confidentialité</a></p>
+          <p class="form-status" data-status aria-live="polite"></p>
+        </form>
+        <div class="done" data-done hidden>
+          <h3 tabindex="-1">Merci, votre demande est bien reçue.</h3>
+          <p>Un membre de notre équipe vous répondra avec une soumission adaptée à votre entreprise. D'ici là, vous pouvez essayer iFiveMe gratuitement pendant 7&nbsp;jours.</p>
+          <div class="demo-note" data-demo-note data-demo-only><strong>Mode démonstration&#8239;: rien n'a été envoyé.</strong> Voici ce qui serait transmis au CRM&#8239;:<pre data-payload></pre></div>
+          <div class="done-actions">
+            <a class="btn btn-primary" data-door="essai" data-checkout="trial" href="https://checkout.ifiveme.com/activation-carte-daffaires-virtuelle-ft/">Essayer gratuitement</a>
+            <button class="text-link as-button" type="button" data-reset>Recommencer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section faq" aria-labelledby="faq-titre">
+    <div class="wrap faq-grid">
+      <h2 id="faq-titre" class="reveal">Vos questions.</h2>
+      <div class="faq-list">
+        <details class="reveal"><summary>La personne qui reçoit ma carte doit-elle installer une application&#8239;?</summary><p>Non. Elle ouvre votre carte dans son navigateur, sur n'importe quel téléphone. Elle choisit ensuite de vous ajouter à ses contacts.</p></details>
+        <details class="reveal"><summary>Qui crée ma carte&#8239;?</summary><p>Notre équipe. Après votre inscription, vous envoyez une photo du recto et du verso de votre carte papier, et nous la transformons en carte d'affaires virtuelle.</p></details>
+        <details class="reveal"><summary>Puis-je modifier ma carte moi-même&#8239;?</summary><p>Oui, depuis votre compte. Notre équipe peut aussi la modifier pour vous. En entreprise, l'administrateur de l'organisation le peut également.</p></details>
+        <details class="reveal"><summary>Que se passe-t-il après l'essai gratuit&#8239;?</summary><p>L'essai dure 7&nbsp;jours à 0&nbsp;$. Le forfait Pro est ensuite de 99&nbsp;$&nbsp;CA par année, avant taxes.</p></details>
+        <details class="reveal"><summary>Comment je partage ma carte&#8239;?</summary><p>Par texto, par code QR ou par lien direct, depuis votre téléphone. L'application iFiveMe pour iOS et Android vous permet de la partager en tout temps.</p></details>
+        <details class="reveal"><summary>Que montrent les statistiques&#8239;?</summary><p>Le nombre de consultations et d'actions sur votre carte, en données agrégées. Elles n'identifient jamais la personne qui consulte.</p></details>
+        <details class="reveal"><summary>Où sont hébergées mes données&#8239;?</summary><p>Au Canada. iFiveMe est une entreprise de Québec et la plateforme est offerte en français et en anglais.</p></details>
+      </div>
+      <div class="faq-cta reveal">
+        <p>Une autre question&#8239;? Écrivez-nous à <a href="mailto:info@ifiveme.com">info@ifiveme.com</a>.</p>
+        <a class="btn btn-secondary" data-door="exemple" href="#metiers">Voir un exemple pour mon métier</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="final" aria-labelledby="final-titre">
+    <div class="wrap final-inner reveal">
+      <h2 id="final-titre">Votre prochaine rencontre mérite une <em>suite.</em></h2>
+      <div class="final-doors">
+        <a class="btn btn-primary" data-door="essai" data-checkout="trial" href="https://checkout.ifiveme.com/activation-carte-daffaires-virtuelle-ft/">Essayer gratuitement <span class="arrow" aria-hidden="true">→</span></a>
+        <a class="btn btn-secondary" data-door="exemple" href="#metiers">Voir un exemple pour mon métier</a>
+        <a class="btn btn-secondary" data-door="equipe" href="#equipe">Équiper mon équipe</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <img src="./assets/ifiveme-logo-dark.webp" width="480" height="128" alt="iFiveMe" class="footer-logo" loading="lazy">
+    <p>Entreprise de Québec · Plateforme en français et en anglais</p>
+    <ul class="footer-links" role="list">
+      <li><a href="mailto:info@ifiveme.com">info@ifiveme.com</a></li>
+      <li><a href="https://www.ifiveme.com/politiques/">Politique de confidentialité</a></li>
+      <li><button type="button" class="link-button" data-consent-open>Gérer les témoins</button></li>
+    </ul>
+    <p class="copyright">© 2026 iFiveMe</p>
+  </div>
+</footer>
+
+<div class="dock" data-dock role="region" aria-label="Actions rapides" hidden>
+  <a class="btn btn-primary" data-door="essai" data-checkout="trial" href="https://checkout.ifiveme.com/activation-carte-daffaires-virtuelle-ft/">Essayer gratuitement</a>
+  <a class="btn btn-secondary" data-door="equipe" href="#equipe">Équiper mon équipe</a>
+</div>
+
+<div class="consent" data-consent role="region" aria-label="Témoins" hidden>
+  <p>Des témoins de mesure, seulement avec votre accord.</p>
+  <div class="consent-actions">
+    <button type="button" class="btn btn-secondary btn-sm" data-consent-choice="denied">Refuser</button>
+    <button type="button" class="btn btn-primary btn-sm" data-consent-choice="granted">Accepter</button>
+  </div>
+</div>
+
+<script src="./main.js" defer></script>
+<script src="./story.js" defer></script>
+</body>
+</html>
