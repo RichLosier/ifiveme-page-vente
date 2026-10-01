@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+# Sitemap : annoncé le jour de l'indexation (INDEXABLE=1).

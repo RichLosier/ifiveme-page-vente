@@ -34,6 +34,7 @@
   const story = $("[data-story]");
   const S = story && {
     stage: $("[data-stage]", story),
+    frame: $("[data-frame]", story),
     copy: $("[data-hero-copy]", story),
     p1: $("[data-phone]", story),
     p2: $("[data-phone2]", story),
@@ -49,6 +50,9 @@
     bubble: $("[data-bubble]", story),
     open: $("[data-open]", story),
     added: $("[data-added]", story),
+    tap: $("[data-tap]", story),
+    contact: $("[data-contact]", story),
+    ctRows: $$("[data-ct-row]", story),
     ground: $("[data-ground]", story),
     ground2: $("[data-ground2]", story),
     acts: $$("[data-act]", story),
@@ -64,19 +68,19 @@
   ];
 
   function layoutStory() {
-    const W = S.stage.clientWidth;
-    const H = S.stage.clientHeight;
+    const W = S.frame.clientWidth;
+    const H = S.frame.clientHeight;
     const desk = W >= 960;
-    const ph = desk ? Math.min(H * 0.74, 640) : Math.min(H * 0.6, 520);
+    const ph = desk ? Math.min(H * 0.74, 860) : Math.min(H * 0.6, 520);
     const pw = ph / 2.1636;
     const T = pw * 0.05;
     [S.p1, S.p2].forEach((p) => p.style.setProperty("--pw", `${pw}px`));
     const copyBottom = S.copy.offsetTop + S.copy.offsetHeight;
-    const heroS = desk ? 0.86 : 0.56;
+    const heroS = desk ? (H * 0.78) / ph : Math.max(0.56, Math.min(0.95, (H - copyBottom - 48) / ph)); // téléphone du héros : environ 78 % de la hauteur de scène (l'ombre au sol doit rester visible)
     S.L = {
       W, H, desk, pw, ph, T,
       hero: desk
-        ? { x: W * 0.75, y: H * 0.52, s: heroS, rx: 0, ry: 0, rz: 0 }
+        ? { x: W * 0.72, y: H * 0.5, s: heroS, rx: 0, ry: 0, rz: 0 }
         : { x: W * 0.5, y: Math.max(copyBottom + (ph * heroS) / 2 + 16, H * 0.62), s: heroS, rx: 0, ry: 0, rz: 0 },
       center: desk ? { x: W * 0.66, y: H * 0.5, s: 1, rx: 0, ry: 0, rz: 0 } : { x: W * 0.5, y: H * 0.42, s: 1, rx: 0, ry: 0, rz: 0 },
       sender: desk ? { x: W * 0.5, y: H * 0.52, s: 0.8, rx: 0, ry: 0, rz: 0 } : { x: W * 0.27, y: H * 0.4, s: 0.58, rx: 0, ry: 0, rz: 0 },
@@ -199,9 +203,21 @@
     // La carte s'ouvre dans le navigateur, puis l'ajout aux contacts.
     const w = ease(seg(p, 0.87, 0.94));
     S.open.style.clipPath = `inset(${((1 - w) * 100).toFixed(2)}% 0 0 0)`;
-    const a = easeOut(seg(p, 0.95, 0.985));
-    S.added.style.opacity = a.toFixed(3);
-    S.added.style.transform = `translate3d(0, ${(1 - a) * 40}%, 0)`;
+    // Ajout au carnet d'adresses : le bouton est pressé, une brève confirmation, puis la fiche de contact glisse en place.
+    S.tap.style.opacity = (seg(p, 0.942, 0.948) - seg(p, 0.952, 0.958)).toFixed(3);
+    const ta = seg(p, 0.949, 0.955) - seg(p, 0.96, 0.966);
+    S.added.style.opacity = ta.toFixed(3);
+    S.added.style.transform = `translate3d(0, ${(1 - ta) * 30}%, 0)`;
+    const ct = ease(seg(p, 0.957, 0.985));
+    S.contact.style.opacity = seg(p, 0.957, 0.961).toFixed(3);
+    S.contact.style.transform = `translate3d(${((1 - ct) * 100).toFixed(2)}%, 0, 0)`;
+    S.open.style.transform = `translate3d(${(-ct * 22).toFixed(2)}%, 0, 0)`;
+    // Les lignes de la fiche arrivent l'une après l'autre : tout l'univers web sous un même lien.
+    S.ctRows.forEach((row, i) => {
+      const o = easeOut(seg(p, 0.968 + i * 0.0031, 0.975 + i * 0.0031));
+      row.style.opacity = o.toFixed(3);
+      row.style.transform = `translate3d(0, ${((1 - o) * 60).toFixed(1)}%, 0)`;
+    });
 
     groundAt(S.ground, L, st, 0.9 * o1 * (1 - 0.6 * e));
     groundAt(S.ground2, L, st2, 0.9 * r);
@@ -340,7 +356,7 @@
       return { urls: d.frames, order: d.order };
     })(),
     frames: [],
-    drawn: -1,
+    drawn: "",
     started: false,
   };
   function loadSeq() {
@@ -364,21 +380,158 @@
     if (r.top < vh * 2.5) loadSeq();
     const total = seq.offsetHeight - Z.stage.offsetHeight;
     const q = clamp((headerH - r.top) / total);
-    let i = Z.order[Math.round(q * (Z.order.length - 1))];
+    // Position fractionnaire dans l'ordre : deux images voisines (3 degrés) sont fondues pour que la rotation reste continue.
+    const pos = q * (Z.order.length - 1);
+    const k = Math.min(Z.order.length - 2, Math.floor(pos));
+    const fr = Math.round((pos - k) * 8) / 8;
+    const ok = (n) => Z.frames[n] && Z.frames[n].complete && Z.frames[n].naturalWidth > 0;
+    let i = Z.order[k];
+    let j = Z.order[k + 1];
     // Image la plus proche déjà décodée : jamais de canevas vide pendant le chargement progressif.
-    for (let d = 0; d < Z.frames.length; d++) {
-      const a = Z.frames[i - d];
-      const b = Z.frames[i + d];
-      if (a && a.complete && a.naturalWidth) { i -= d; break; }
-      if (b && b.complete && b.naturalWidth) { i += d; break; }
-      if (d === Z.frames.length - 1) i = -1;
+    for (let d = 0; d < Z.frames.length && !ok(i); d++) {
+      if (ok(i - d)) i -= d;
+      else if (ok(i + d)) i += d;
+      else if (d === Z.frames.length - 1) i = -1;
     }
-    if (i < 0 || i === Z.drawn || !Z.frames[i]) return;
+    if (i < 0 || !ok(i)) return;
+    const key = `${i}:${j}:${fr}`;
+    if (key === Z.drawn) return;
     const ctx = Z.canvas.getContext("2d");
+    ctx.globalAlpha = 1;
     ctx.clearRect(0, 0, Z.canvas.width, Z.canvas.height);
     ctx.drawImage(Z.frames[i], 0, 0, Z.canvas.width, Z.canvas.height);
-    Z.drawn = i;
+    if (fr > 0 && j !== i && ok(j)) {
+      ctx.globalAlpha = fr;
+      ctx.drawImage(Z.frames[j], 0, 0, Z.canvas.width, Z.canvas.height);
+      ctx.globalAlpha = 1;
+    }
+    Z.drawn = key;
     Z.canvas.classList.add("is-live");
+  }
+
+  /* ---------- Téléphone vivant : la carte se met à jour après la rencontre ----------
+     Séquence chronométrée, jouée quand la scène est à l'écran, puis rejouée en boucle douce.
+     Sans mouvement : l'état final (valeurs à jour, coches) reste affiché, sans minuterie. */
+  const live = $("[data-live-stage]");
+  const LIVE_STEPS = [
+    [500, (L) => L.rows[0].classList.add("is-editing")],
+    [1250, (L) => L.rows[0].classList.replace("is-editing", "is-done")],
+    [1500, (L) => L.rows[1].classList.add("is-editing")],
+    [2250, (L) => L.rows[1].classList.replace("is-editing", "is-done")],
+    [2500, (L) => L.rows[2].classList.add("is-editing")],
+    [3250, (L) => L.rows[2].classList.replace("is-editing", "is-done")],
+    [3700, (L) => L.el.classList.add("is-updated", "is-toast-top")],
+    [5100, (L) => (L.el.dataset.btn = "1")],
+    [5450, (L) => (L.el.dataset.btn = "2")],
+    [5800, (L) => (L.el.dataset.btn = "3")],
+    [6150, (L) => (L.el.dataset.btn = "4")],
+    [6500, (L) => (L.el.dataset.btn = "5")],
+    [6900, (L) => L.el.classList.remove("is-toast-top")],
+    [7600, (L) => L.el.classList.add("is-booked")],
+    [11800, (L) => L.reset()],
+  ];
+  const L = live && { el: live, rows: $$(".lp-row", live), timers: [], on: false };
+  if (L) {
+    L.clear = () => {
+      L.timers.forEach(clearTimeout);
+      L.timers = [];
+    };
+    L.reset = () => {
+      L.clear();
+      L.rows.forEach((r) => r.classList.remove("is-editing", "is-done"));
+      L.el.classList.remove("is-updated", "is-toast-top", "is-booked");
+      L.el.dataset.btn = "0";
+      if (L.on) L.timers.push(setTimeout(L.play, 1400));
+    };
+    L.play = () => {
+      L.clear();
+      LIVE_STEPS.forEach(([t, fn]) => L.timers.push(setTimeout(() => fn(L), t)));
+    };
+    if (motion && "IntersectionObserver" in window) {
+      L.el.dataset.btn = "0";
+      L.el.dataset.step = "0";
+      new IntersectionObserver(
+        (entries) =>
+          entries.forEach((en) => {
+            if (en.isIntersecting && !L.on) {
+              L.on = true;
+              L.play();
+            } else if (!en.isIntersecting && L.on) {
+              L.on = false;
+              L.clear();
+              L.rows.forEach((r) => r.classList.remove("is-editing", "is-done"));
+              L.el.classList.remove("is-updated", "is-toast-top", "is-booked");
+              L.el.dataset.btn = "0";
+            }
+          }),
+        { threshold: 0.45 },
+      ).observe(L.el);
+    } else {
+      // Version statique : valeurs à jour affichées
+      L.rows.forEach((r) => r.classList.add("is-done"));
+      L.el.classList.add("is-updated");
+    }
+  }
+
+
+  /* ---------- Signature courriel : la fenêtre, le corps, la signature, le clic, puis la carte jaillit ----------
+     Séquence chronométrée jouée à l'arrivée à l'écran, rejouée en boucle douce. Sans mouvement : état final affiché. */
+  const sm = $("[data-sm-stage]");
+  if (sm && motion && "IntersectionObserver" in window) {
+    const SM_STEPS = [
+      [200, "is-win"],
+      [1100, "is-body"],
+      [2200, "is-sig"],
+      [3600, "is-cur"],
+      [5000, "is-click"],
+      [5500, "is-phone"],
+    ];
+    const SM_ALL = SM_STEPS.map((s) => s[1]);
+    let smTimers = [];
+    let smOn = false;
+    const smClear = () => {
+      smTimers.forEach(clearTimeout);
+      smTimers = [];
+    };
+    const smPlay = () => {
+      smClear();
+      SM_STEPS.forEach(([t, c]) => smTimers.push(setTimeout(() => sm.classList.add(c), t)));
+      smTimers.push(setTimeout(() => sm.classList.remove("is-click"), 6000));
+      smTimers.push(setTimeout(() => sm.classList.remove("is-phone", "is-cur"), 11500));
+      smTimers.push(setTimeout(() => sm.classList.remove("is-sig", "is-body", "is-win"), 12400));
+      smTimers.push(setTimeout(() => smOn && smPlay(), 13600));
+    };
+    new IntersectionObserver(
+      (entries) =>
+        entries.forEach((en) => {
+          if (en.isIntersecting && !smOn) {
+            smOn = true;
+            smPlay();
+          } else if (!en.isIntersecting && smOn) {
+            smOn = false;
+            smClear();
+            sm.classList.remove(...SM_ALL);
+          }
+        }),
+      { threshold: 0.35 },
+    ).observe(sm);
+  }
+
+  /* ---------- Scène Finance : parallaxe des pièces volantes (variable CSS --fin-p, de -1 à 1) ---------- */
+  const fsc = $("[data-fin-scene]");
+  function renderFinScene() {
+    const r = fsc.getBoundingClientRect();
+    fsc.style.setProperty("--fin-p", clamp(((r.top + r.height / 2) - vh / 2) / vh, -1, 1).toFixed(3));
+  }
+
+  /* ---------- Appel final : halo qui monte avec le défilement ---------- */
+  const fin = $(".final");
+  const halo = $("[data-final-halo]");
+  function renderFinal() {
+    const r = fin.getBoundingClientRect();
+    const q = ease(clamp((vh - r.top) / (vh * 0.9)));
+    halo.style.opacity = (0.15 + 0.85 * q).toFixed(3);
+    halo.style.transform = `scale(${lerp(0.55, 1.05, q)})`;
   }
 
   /* ---------- Barre d'action mobile (toutes versions) ---------- */
@@ -412,6 +565,8 @@
     if (burst) parts.push({ el: burst, layout: layoutBurst, render: renderBurst });
     if (qr) parts.push({ el: qr, render: renderQr });
     if (seq) parts.push({ el: seq, layout: layoutSeq, render: renderSeq });
+    if (fsc) parts.push({ el: fsc, render: renderFinScene });
+    if (fin && halo) parts.push({ el: fin, render: renderFinal });
   }
 
   let ticking = false;

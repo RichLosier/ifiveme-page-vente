@@ -6,6 +6,26 @@
 <title>iFiveMe · Carte d'affaires virtuelle</title>
 <meta name="description" content="Votre carte d'affaires virtuelle, créée pour vous à partir de votre carte papier. Elle se partage par texto, code QR ou lien, sans application pour la recevoir.">
 <meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<link rel="icon" href="./favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png">
+<link rel="apple-touch-icon" href="./apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_CA">
+<meta property="og:site_name" content="iFiveMe">
+<meta property="og:title" content="iFiveMe : une rencontre qui continue">
+<meta property="og:description" content="Votre carte d'affaires virtuelle, créée pour vous à partir de votre carte papier. Elle se partage par texto, code QR ou lien, sans application pour la recevoir.">
+<meta property="og:url" content="https://richlosier.github.io/ifiveme-page-vente/">
+<meta property="og:image" content="https://richlosier.github.io/ifiveme-page-vente/og-image.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Une carte d&#x27;affaires virtuelle iFiveMe ouverte sur un téléphone, avec le texto qui la partage.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="iFiveMe : une rencontre qui continue">
+<meta name="twitter:description" content="Votre carte d'affaires virtuelle, créée pour vous à partir de votre carte papier. Elle se partage par texto, code QR ou lien, sans application pour la recevoir.">
+<meta name="twitter:image" content="https://richlosier.github.io/ifiveme-page-vente/og-image.jpg">
+<meta name="twitter:image:alt" content="Une carte d&#x27;affaires virtuelle iFiveMe ouverte sur un téléphone, avec le texto qui la partage.">
 <meta name="theme-color" content="#ffffff">
 <link rel="preload" href="./fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="./fonts/hanken-grotesk-latin-wght-italic.woff2" as="font" type="font/woff2" crossorigin>
@@ -14,8 +34,6 @@
 </head>
 <body>
 <a class="skip" href="#contenu">Aller au contenu</a>
-
-<aside class="demo-ribbon" data-demo-only aria-label="Démonstration"><strong>Démonstration privée</strong> · rien n'est envoyé, rien n'est mesuré.</aside>
 
 <header class="site-header" id="haut">
   <div class="wrap">
@@ -35,6 +53,7 @@
   <!-- Récit 3D : le téléphone tourne, s'ouvre, montre la carte, puis le texto part. Piloté par le défilement. -->
   <section class="story" id="histoire" aria-labelledby="hero-titre" data-story>
     <div class="story-stage" data-stage>
+      <div class="story-frame" data-frame>
       <div class="story-copy" data-hero-copy>
         <h1 id="hero-titre">Une rencontre qui <em>continue.</em></h1>
         <p class="hero-lead">Votre carte d'affaires virtuelle, créée pour vous, se partage par texto, code QR ou lien.</p>
@@ -45,7 +64,7 @@
         </div>
       </div>
 
-      <figure class="scene" aria-label="Le téléphone d'Élise Caron, courtière immobilière : il tourne, s'ouvre, montre sa carte d'affaires virtuelle, puis un texto part vers un autre téléphone qui ouvre la carte dans le navigateur.">
+      <figure class="scene" aria-label="Le téléphone d'Élise Caron, courtière immobilière : il tourne, s'ouvre, montre sa carte d'affaires virtuelle, puis un texto part vers un autre téléphone qui ouvre la carte dans le navigateur, puis enregistre le contact dans son carnet d'adresses.">
         <div class="ground" data-ground aria-hidden="true"></div>
         <div class="ground ground-2" data-ground2 aria-hidden="true"></div>
 
@@ -85,7 +104,26 @@
               <div class="msg-head"><span class="avatar">ÉC</span><b>Élise Caron</b><small>Texto · maintenant</small></div>
               <div class="msg-slot" data-slot></div>
               <img class="screen-open" data-open src="./assets/carte-exemple.webp" width="660" height="1428" alt="" loading="lazy" decoding="async">
-              <span class="added" data-added><b>Ajoutée à vos contacts</b>Élise Caron</span>
+              <span class="tap" data-tap></span>
+              <span class="added" data-added>Contact enregistré</span>
+              <div class="contact" data-contact>
+                <span class="ct-back">‹&#8239;Contacts</span>
+                <div class="ct-hero"><span class="ct-avatar">ÉC</span><b>Élise Caron</b><small>Courtière immobilière</small></div>
+                <div class="ct-actions">
+                  <span class="ct-a-mob"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.5h3l1.4 4-2 1.3a11 11 0 0 0 5.2 5.2l1.3-2 4 1.4v3a2 2 0 0 1-2.2 2A15.5 15.5 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2z"/></svg></span><span class="ct-a-msg"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1h-8l-5 4v-4H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/></svg></span><span class="ct-a-mail"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h15A1.5 1.5 0 0 1 21 6.5v11a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5zM4.5 7l7.5 5.5L19.5 7"/></svg></span>
+                </div>
+                <div class="ct-list">
+                  <div data-ct-row class="ct-mob"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.5h3l1.4 4-2 1.3a11 11 0 0 0 5.2 5.2l1.3-2 4 1.4v3a2 2 0 0 1-2.2 2A15.5 15.5 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2z"/></svg><span><small>mobile</small><em class="ct-v">418 555 0142</em></span></div>
+                  <div data-ct-row class="ct-mail"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h15A1.5 1.5 0 0 1 21 6.5v11a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5zM4.5 7l7.5 5.5L19.5 7"/></svg><span><small>courriel</small><em class="ct-v">elise.caron@exemple.ca</em></span></div>
+                  <div data-ct-row class="ct-web"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg><span><small>site web</small><em class="ct-v">elise-caron.exemple.ca</em></span></div>
+                  <div data-ct-row class="ct-ig"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="5"/><circle cx="12" cy="12" r="3.6"/><circle cx="16.8" cy="7.2" r=".6"/></svg><span><small>Instagram</small><em class="ct-v">@elisecaron.courtiere</em></span></div>
+                  <div data-ct-row class="ct-li"><b aria-hidden="true">in</b><span><small>LinkedIn</small><em class="ct-v">/in/elisecaron-courtiere</em></span></div>
+                  <div data-ct-row class="ct-fb"><b aria-hidden="true">f</b><span><small>Facebook</small><em class="ct-v">/elisecaron.courtiere</em></span></div>
+                  <div data-ct-row class="ct-tt"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="tt-c" transform="translate(-1 1)" d="M14 4v10.5a3.2 3.2 0 1 1-3.2-3.2M14 4c.3 2.4 1.9 3.9 4.2 4.1"/><path class="tt-p" transform="translate(1 -1)" d="M14 4v10.5a3.2 3.2 0 1 1-3.2-3.2M14 4c.3 2.4 1.9 3.9 4.2 4.1"/><path class="tt-w" d="M14 4v10.5a3.2 3.2 0 1 1-3.2-3.2M14 4c.3 2.4 1.9 3.9 4.2 4.1"/></svg><span><small>TikTok</small><em class="ct-v">@elisecaron.courtiere</em></span></div>
+                  <div data-ct-row class="ct-cal"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5.5" width="16" height="14" rx="2.5"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/></svg><span><small>rendez-vous</small><em class="ct-v">Prendre rendez-vous</em></span></div>
+                  <div data-ct-row class="ct-pin"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6.5-5.6 6.5-11a6.5 6.5 0 0 0-13 0c0 5.4 6.5 11 6.5 11z"/><circle cx="12" cy="10" r="2.3"/></svg><span><small>bureau</small><em class="ct-v">100, rue Exemple, Québec</em></span></div>
+                </div>
+              </div>
             </div>
           </div>
           <div class="l l-glass"><span class="island"></span></div>
@@ -98,12 +136,13 @@
         <li data-act><b>Vous n'avez rien à construire.</b> Envoyez une photo de votre carte papier&#8239;: notre équipe la transforme en carte d'affaires virtuelle pour vous.</li>
         <li data-act><b>Tout est sur une seule carte.</b> Coordonnées, site Web, réseaux sociaux, adresse et lien de rendez-vous.</li>
         <li data-act><b>Un texto, et c'est parti.</b> Par texto, par code QR ou par lien&#8239;: vous choisissez.</li>
-        <li data-act><b>Elle s'ouvre dans le navigateur.</b> Aucune application à installer pour la recevoir. La personne vous ajoute à ses contacts en un geste.</li>
+        <li data-act><b>Elle s'ouvre dans le navigateur.</b> Aucune application à installer pour la recevoir. La personne vous ajoute à ses contacts en un geste. <strong>Un seul lien, tout votre univers.</strong></li>
       </ol>
 
       <div class="story-end" data-story-end>
         <a class="btn btn-primary" data-door="essai" data-checkout="trial" href="https://checkout.ifiveme.com/activation-carte-daffaires-virtuelle-ft/">Essayer gratuitement <span class="arrow" aria-hidden="true">→</span></a>
         <a class="btn btn-secondary" data-door="exemple" href="#metiers">Voir un exemple pour mon métier</a>
+      </div>
       </div>
     </div>
   </section>
@@ -127,9 +166,9 @@
   <section class="impact" aria-labelledby="impact-titre" data-impact>
     <div class="wrap impact-head reveal">
       <h2 id="impact-titre">Votre carte, <em>votre caractère.</em></h2>
-      <p>Couvreur, consultante, courtier ou designer&#8239;: chaque carte est créée à l'image de la personne qui la partage.</p>
+      <p>Couvreur, technicien, notaire ou designer&#8239;: chaque carte est créée à l'image de la personne qui la partage.</p>
     </div>
-    <ul class="impact-grid" role="list"><li class="imp" data-imp><img src="./assets/impact/marc.webp" width="717" height="1000" loading="lazy" decoding="async" alt="La carte d'affaires virtuelle de Marc Mercier, couvreur, sur un téléphone de face."><p>Marc, couvreur</p></li><li class="imp" data-imp><img src="./assets/impact/ines.webp" width="717" height="1000" loading="lazy" decoding="async" alt="La carte d'affaires virtuelle d'Inès Rahmani, consultante marketing, sur un téléphone de face."><p>Inès, consultante marketing</p></li><li class="imp" data-imp><img src="./assets/impact/charles.webp" width="720" height="994" loading="lazy" decoding="async" alt="La carte d'affaires virtuelle de Charles Vallée, courtier hypothécaire, sur un téléphone de face."><p>Charles, courtier hypothécaire</p></li><li class="imp" data-imp><img src="./assets/impact/noemie.webp" width="717" height="1000" loading="lazy" decoding="async" alt="La carte d'affaires virtuelle de Noémie Fortin, designer d'intérieur, sur un téléphone de face."><p>Noémie, designer d'intérieur</p></li></ul>
+    <ul class="impact-grid" role="list"><li class="imp" data-imp><img src="./assets/impact/dominic.webp" width="720" height="1004" decoding="async" alt="La carte d'affaires virtuelle de Dominic Hébert, couvreur, sur un téléphone de face."><p>Dominic, couvreur</p></li><li class="imp" data-imp><img src="./assets/impact/mathis.webp" width="720" height="1004" decoding="async" alt="La carte d'affaires virtuelle de Mathis Lalonde, technicien en chauffage et climatisation, sur un téléphone de face."><p>Mathis, chauffage et climatisation</p></li><li class="imp" data-imp><img src="./assets/impact/alice.webp" width="720" height="994" decoding="async" alt="La carte d'affaires virtuelle d'Alice Bouchard, notaire, sur un téléphone de face."><p>Alice, notaire</p></li><li class="imp" data-imp><img src="./assets/impact/tristan.webp" width="720" height="1005" decoding="async" alt="La carte d'affaires virtuelle de Tristan Ouellet, designer de cuisines, sur un téléphone de face."><p>Tristan, designer de cuisines</p></li></ul>
     <div class="wrap impact-cta reveal">
       <a class="btn btn-primary" data-door="essai" data-checkout="trial" href="https://checkout.ifiveme.com/activation-carte-daffaires-virtuelle-ft/">Essayer gratuitement <span class="arrow" aria-hidden="true">→</span></a>
       <a class="btn btn-secondary" data-door="exemple" href="#metiers">Voir un exemple pour mon métier</a>
@@ -175,8 +214,8 @@
         </li>
         <li class="sit sit-c">
           <p class="sit-place">Porte ouverte, dimanche</p>
-          <h3>La file sur le perron</h3>
-          <p class="sit-scene">Dix visiteurs attendent sur les marches et le petit présentoir de cartes est vide depuis 14&nbsp;h.</p>
+          <h3>La file devant la porte</h3>
+          <p class="sit-scene">Dix visiteurs attendent à l'entrée et le petit présentoir de cartes est vide depuis 14&nbsp;h.</p>
           <p class="sit-tension">Chaque visiteur scanne le code en passant la porte et repart avec vous dans ses contacts.</p>
           <p class="sit-geste"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zM18 18h2v2h-2zM14 18h2M18 14h2"/></svg>Le geste&#8239;: le code QR</p>
         </li>
@@ -211,7 +250,7 @@
         <li class="sit sit-h">
           <p class="sit-place">Vin d'honneur d'un mariage</p>
           <h3>Qui a fait les bouchées&#8239;?</h3>
-          <p class="sit-scene">Une invitée demande qui est le traiteur&#8239;: elle organise le party de bureau.</p>
+          <p class="sit-scene">Une invitée demande qui est le traiteur&#8239;: elle organise la fête de bureau.</p>
           <p class="sit-tension">Au mariage, on ne sollicite pas. Mais quand on vous le demande, il faut répondre vite.</p>
           <p class="sit-geste"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg>Le geste&#8239;: un lien</p>
         </li>
@@ -227,7 +266,7 @@
   <section class="spin" aria-labelledby="spin-titre" data-seq>
     <div class="spin-stage" data-seq-stage>
       <div class="spin-media">
-        <img class="spin-poster" src="./assets/seq/rot-frame-0001.webp" width="640" height="800" alt="La carte d'affaires virtuelle de Thomas Larivière, courtier en immobilier commercial, sur un téléphone de face. Au défilement, le téléphone tourne, puis la carte se sépare en couches : fond d'écran, carte et boutons." loading="lazy" decoding="async">
+        <img class="spin-poster" src="./assets/seq/rot-frame-0001.webp" width="640" height="800" alt="La carte d'affaires virtuelle de Thomas Larivière, courtier en immobilier commercial, sur un téléphone de face. Au défilement, le téléphone fait un tour complet sur lui-même, puis la carte se sépare en couches : fond d'écran, carte et boutons." loading="lazy" decoding="async">
         <canvas class="spin-canvas" width="640" height="800" data-seq-canvas aria-hidden="true"></canvas>
       </div>
       <div class="spin-copy">
@@ -236,93 +275,133 @@
         <a class="btn btn-primary" data-door="essai" data-checkout="trial" href="https://checkout.ifiveme.com/activation-carte-daffaires-virtuelle-ft/">Essayer gratuitement <span class="arrow" aria-hidden="true">→</span></a>
       </div>
     </div>
-    <script type="application/json" data-seq-frames>{"frames": ["./assets/seq/rot-frame-0001.webp", "./assets/seq/rot-frame-0002.webp", "./assets/seq/rot-frame-0003.webp", "./assets/seq/rot-frame-0004.webp", "./assets/seq/rot-frame-0005.webp", "./assets/seq/rot-frame-0006.webp", "./assets/seq/rot-frame-0007.webp", "./assets/seq/rot-frame-0008.webp", "./assets/seq/rot-frame-0009.webp", "./assets/seq/rot-frame-0010.webp", "./assets/seq/rot-frame-0011.webp", "./assets/seq/rot-frame-0012.webp", "./assets/seq/rot-frame-0013.webp", "./assets/seq/rot-frame-0014.webp", "./assets/seq/rot-frame-0015.webp", "./assets/seq/rot-frame-0016.webp", "./assets/seq/rot-frame-0017.webp", "./assets/seq/rot-frame-0018.webp", "./assets/seq/rot-frame-0019.webp", "./assets/seq/rot-frame-0020.webp", "./assets/seq/rot-frame-0021.webp", "./assets/seq/rot-frame-0022.webp", "./assets/seq/rot-frame-0023.webp", "./assets/seq/rot-frame-0024.webp", "./assets/seq/rot-frame-0025.webp", "./assets/seq/rot-frame-0026.webp", "./assets/seq/rot-frame-0027.webp", "./assets/seq/rot-frame-0028.webp", "./assets/seq/rot-frame-0029.webp", "./assets/seq/rot-frame-0030.webp", "./assets/seq/rot-frame-0031.webp", "./assets/seq/rot-frame-0032.webp", "./assets/seq/rot-frame-0033.webp", "./assets/seq/rot-frame-0034.webp", "./assets/seq/rot-frame-0035.webp", "./assets/seq/rot-frame-0036.webp", "./assets/seq/rot-frame-0037.webp", "./assets/seq/rot-frame-0038.webp", "./assets/seq/rot-frame-0039.webp", "./assets/seq/rot-frame-0040.webp", "./assets/seq/rot-frame-0041.webp", "./assets/seq/rot-frame-0042.webp", "./assets/seq/rot-frame-0043.webp", "./assets/seq/rot-frame-0044.webp", "./assets/seq/rot-frame-0045.webp", "./assets/seq/rot-frame-0046.webp", "./assets/seq/rot-frame-0047.webp", "./assets/seq/rot-frame-0048.webp", "./assets/seq/rot-frame-0049.webp", "./assets/seq/rot-frame-0050.webp", "./assets/seq/rot-frame-0051.webp", "./assets/seq/rot-frame-0052.webp", "./assets/seq/rot-frame-0053.webp", "./assets/seq/rot-frame-0054.webp", "./assets/seq/rot-frame-0055.webp", "./assets/seq/rot-frame-0056.webp", "./assets/seq/rot-frame-0057.webp", "./assets/seq/rot-frame-0058.webp", "./assets/seq/rot-frame-0059.webp", "./assets/seq/rot-frame-0060.webp", "./assets/seq/rot-frame-0061.webp", "./assets/seq/rot-frame-0062.webp", "./assets/seq/rot-frame-0063.webp", "./assets/seq/rot-frame-0064.webp", "./assets/seq/rot-frame-0065.webp", "./assets/seq/rot-frame-0066.webp", "./assets/seq/rot-frame-0067.webp", "./assets/seq/rot-frame-0068.webp", "./assets/seq/rot-frame-0069.webp", "./assets/seq/rot-frame-0070.webp", "./assets/seq/rot-frame-0071.webp", "./assets/seq/rot-frame-0072.webp", "./assets/seq/exp-frame-0001.webp", "./assets/seq/exp-frame-0002.webp", "./assets/seq/exp-frame-0003.webp", "./assets/seq/exp-frame-0004.webp", "./assets/seq/exp-frame-0005.webp", "./assets/seq/exp-frame-0006.webp", "./assets/seq/exp-frame-0007.webp", "./assets/seq/exp-frame-0008.webp", "./assets/seq/exp-frame-0009.webp", "./assets/seq/exp-frame-0010.webp", "./assets/seq/exp-frame-0011.webp", "./assets/seq/exp-frame-0012.webp", "./assets/seq/exp-frame-0013.webp", "./assets/seq/exp-frame-0014.webp", "./assets/seq/exp-frame-0015.webp", "./assets/seq/exp-frame-0016.webp", "./assets/seq/exp-frame-0017.webp", "./assets/seq/exp-frame-0018.webp", "./assets/seq/exp-frame-0019.webp", "./assets/seq/exp-frame-0020.webp", "./assets/seq/exp-frame-0021.webp", "./assets/seq/exp-frame-0022.webp", "./assets/seq/exp-frame-0023.webp", "./assets/seq/exp-frame-0024.webp", "./assets/seq/exp-frame-0025.webp", "./assets/seq/exp-frame-0026.webp", "./assets/seq/exp-frame-0027.webp", "./assets/seq/exp-frame-0028.webp", "./assets/seq/exp-frame-0029.webp", "./assets/seq/exp-frame-0030.webp", "./assets/seq/exp-frame-0031.webp", "./assets/seq/exp-frame-0032.webp", "./assets/seq/exp-frame-0033.webp", "./assets/seq/exp-frame-0034.webp", "./assets/seq/exp-frame-0035.webp", "./assets/seq/exp-frame-0036.webp", "./assets/seq/exp-frame-0037.webp", "./assets/seq/exp-frame-0038.webp", "./assets/seq/exp-frame-0039.webp", "./assets/seq/exp-frame-0040.webp", "./assets/seq/exp-frame-0041.webp", "./assets/seq/exp-frame-0042.webp", "./assets/seq/exp-frame-0043.webp", "./assets/seq/exp-frame-0044.webp", "./assets/seq/exp-frame-0045.webp", "./assets/seq/exp-frame-0046.webp", "./assets/seq/exp-frame-0047.webp", "./assets/seq/exp-frame-0048.webp"], "order": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 71, 70, 69, 68, 67, 66, 65, 64, 63, 62, 61, 60, 59, 58, 57, 56, 55, 54, 53, 52, 51, 50, 49, 48, 47, 46, 45, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 34, 33, 32, 31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119]}</script>
+    <script type="application/json" data-seq-frames>{"frames": ["./assets/seq/rot-frame-0001.webp", "./assets/seq/rot-frame-0002.webp", "./assets/seq/rot-frame-0003.webp", "./assets/seq/rot-frame-0004.webp", "./assets/seq/rot-frame-0005.webp", "./assets/seq/rot-frame-0006.webp", "./assets/seq/rot-frame-0007.webp", "./assets/seq/rot-frame-0008.webp", "./assets/seq/rot-frame-0009.webp", "./assets/seq/rot-frame-0010.webp", "./assets/seq/rot-frame-0011.webp", "./assets/seq/rot-frame-0012.webp", "./assets/seq/rot-frame-0013.webp", "./assets/seq/rot-frame-0014.webp", "./assets/seq/rot-frame-0015.webp", "./assets/seq/rot-frame-0016.webp", "./assets/seq/rot-frame-0017.webp", "./assets/seq/rot-frame-0018.webp", "./assets/seq/rot-frame-0019.webp", "./assets/seq/rot-frame-0020.webp", "./assets/seq/rot-frame-0021.webp", "./assets/seq/rot-frame-0022.webp", "./assets/seq/rot-frame-0023.webp", "./assets/seq/rot-frame-0024.webp", "./assets/seq/rot-frame-0025.webp", "./assets/seq/rot-frame-0026.webp", "./assets/seq/rot-frame-0027.webp", "./assets/seq/rot-frame-0028.webp", "./assets/seq/rot-frame-0029.webp", "./assets/seq/rot-frame-0030.webp", "./assets/seq/rot-frame-0031.webp", "./assets/seq/rot-frame-0032.webp", "./assets/seq/rot-frame-0033.webp", "./assets/seq/rot-frame-0034.webp", "./assets/seq/rot-frame-0035.webp", "./assets/seq/rot-frame-0036.webp", "./assets/seq/rot-frame-0037.webp", "./assets/seq/rot-frame-0038.webp", "./assets/seq/rot-frame-0039.webp", "./assets/seq/rot-frame-0040.webp", "./assets/seq/rot-frame-0041.webp", "./assets/seq/rot-frame-0042.webp", "./assets/seq/rot-frame-0043.webp", "./assets/seq/rot-frame-0044.webp", "./assets/seq/rot-frame-0045.webp", "./assets/seq/rot-frame-0046.webp", "./assets/seq/rot-frame-0047.webp", "./assets/seq/rot-frame-0048.webp", "./assets/seq/rot-frame-0049.webp", "./assets/seq/rot-frame-0050.webp", "./assets/seq/rot-frame-0051.webp", "./assets/seq/rot-frame-0052.webp", "./assets/seq/rot-frame-0053.webp", "./assets/seq/rot-frame-0054.webp", "./assets/seq/rot-frame-0055.webp", "./assets/seq/rot-frame-0056.webp", "./assets/seq/rot-frame-0057.webp", "./assets/seq/rot-frame-0058.webp", "./assets/seq/rot-frame-0059.webp", "./assets/seq/rot-frame-0060.webp", "./assets/seq/rot-frame-0061.webp", "./assets/seq/rot-frame-0062.webp", "./assets/seq/rot-frame-0063.webp", "./assets/seq/rot-frame-0064.webp", "./assets/seq/rot-frame-0065.webp", "./assets/seq/rot-frame-0066.webp", "./assets/seq/rot-frame-0067.webp", "./assets/seq/rot-frame-0068.webp", "./assets/seq/rot-frame-0069.webp", "./assets/seq/rot-frame-0070.webp", "./assets/seq/rot-frame-0071.webp", "./assets/seq/rot-frame-0072.webp", "./assets/seq/rot-frame-0073.webp", "./assets/seq/rot-frame-0074.webp", "./assets/seq/rot-frame-0075.webp", "./assets/seq/rot-frame-0076.webp", "./assets/seq/rot-frame-0077.webp", "./assets/seq/rot-frame-0078.webp", "./assets/seq/rot-frame-0079.webp", "./assets/seq/rot-frame-0080.webp", "./assets/seq/rot-frame-0081.webp", "./assets/seq/rot-frame-0082.webp", "./assets/seq/rot-frame-0083.webp", "./assets/seq/rot-frame-0084.webp", "./assets/seq/rot-frame-0085.webp", "./assets/seq/rot-frame-0086.webp", "./assets/seq/rot-frame-0087.webp", "./assets/seq/rot-frame-0088.webp", "./assets/seq/rot-frame-0089.webp", "./assets/seq/rot-frame-0090.webp", "./assets/seq/rot-frame-0091.webp", "./assets/seq/rot-frame-0092.webp", "./assets/seq/rot-frame-0093.webp", "./assets/seq/rot-frame-0094.webp", "./assets/seq/rot-frame-0095.webp", "./assets/seq/rot-frame-0096.webp", "./assets/seq/rot-frame-0097.webp", "./assets/seq/rot-frame-0098.webp", "./assets/seq/rot-frame-0099.webp", "./assets/seq/rot-frame-0100.webp", "./assets/seq/rot-frame-0101.webp", "./assets/seq/rot-frame-0102.webp", "./assets/seq/rot-frame-0103.webp", "./assets/seq/rot-frame-0104.webp", "./assets/seq/rot-frame-0105.webp", "./assets/seq/rot-frame-0106.webp", "./assets/seq/rot-frame-0107.webp", "./assets/seq/rot-frame-0108.webp", "./assets/seq/rot-frame-0109.webp", "./assets/seq/rot-frame-0110.webp", "./assets/seq/rot-frame-0111.webp", "./assets/seq/rot-frame-0112.webp", "./assets/seq/rot-frame-0113.webp", "./assets/seq/rot-frame-0114.webp", "./assets/seq/rot-frame-0115.webp", "./assets/seq/rot-frame-0116.webp", "./assets/seq/rot-frame-0117.webp", "./assets/seq/rot-frame-0118.webp", "./assets/seq/rot-frame-0119.webp", "./assets/seq/rot-frame-0120.webp", "./assets/seq/exp-frame-0001.webp", "./assets/seq/exp-frame-0002.webp", "./assets/seq/exp-frame-0003.webp", "./assets/seq/exp-frame-0004.webp", "./assets/seq/exp-frame-0005.webp", "./assets/seq/exp-frame-0006.webp", "./assets/seq/exp-frame-0007.webp", "./assets/seq/exp-frame-0008.webp", "./assets/seq/exp-frame-0009.webp", "./assets/seq/exp-frame-0010.webp", "./assets/seq/exp-frame-0011.webp", "./assets/seq/exp-frame-0012.webp", "./assets/seq/exp-frame-0013.webp", "./assets/seq/exp-frame-0014.webp", "./assets/seq/exp-frame-0015.webp", "./assets/seq/exp-frame-0016.webp", "./assets/seq/exp-frame-0017.webp", "./assets/seq/exp-frame-0018.webp", "./assets/seq/exp-frame-0019.webp", "./assets/seq/exp-frame-0020.webp", "./assets/seq/exp-frame-0021.webp", "./assets/seq/exp-frame-0022.webp", "./assets/seq/exp-frame-0023.webp", "./assets/seq/exp-frame-0024.webp", "./assets/seq/exp-frame-0025.webp", "./assets/seq/exp-frame-0026.webp", "./assets/seq/exp-frame-0027.webp", "./assets/seq/exp-frame-0028.webp", "./assets/seq/exp-frame-0029.webp", "./assets/seq/exp-frame-0030.webp", "./assets/seq/exp-frame-0031.webp", "./assets/seq/exp-frame-0032.webp", "./assets/seq/exp-frame-0033.webp", "./assets/seq/exp-frame-0034.webp", "./assets/seq/exp-frame-0035.webp", "./assets/seq/exp-frame-0036.webp", "./assets/seq/exp-frame-0037.webp", "./assets/seq/exp-frame-0038.webp", "./assets/seq/exp-frame-0039.webp", "./assets/seq/exp-frame-0040.webp", "./assets/seq/exp-frame-0041.webp", "./assets/seq/exp-frame-0042.webp", "./assets/seq/exp-frame-0043.webp", "./assets/seq/exp-frame-0044.webp", "./assets/seq/exp-frame-0045.webp", "./assets/seq/exp-frame-0046.webp", "./assets/seq/exp-frame-0047.webp", "./assets/seq/exp-frame-0048.webp"], "order": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 0, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167]}</script>
+  </section>
+  <section class="section flipsec" id="tourner" aria-labelledby="flip-titre">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <h2 id="flip-titre">Retournez la carte.</h2>
+        <p>Le recto pour la première impression, le verso pour le reste. Touchez, glissez ou appuyez sur Entrée.</p>
+      </div>
+      <div class="flip-row">
+        <div class="flipcard reveal" data-flip>
+          <button type="button" class="flip-btn" aria-pressed="false" data-alt-front="Recto de la carte de Solène Archambault, orfèvre-joaillière : Atelier Archambault, 514 555-0147, solene@archambault-orfevre.ca." data-alt-back="Verso de la carte de Solène Archambault : logo Archambault, « Chaque pierre garde une promesse. », réseaux, code QR pour prendre rendez-vous.">
+            <span class="flip-shadow" aria-hidden="true"></span>
+            <span class="flip-body">
+              <span class="flip-face flip-front"><img src="./assets/flip/solene-recto.webp" width="1120" height="640" alt="" loading="lazy" decoding="async" draggable="false"></span>
+              <span class="flip-face flip-back"><img src="./assets/flip/solene-verso.webp" width="1120" height="640" alt="" loading="lazy" decoding="async" draggable="false"></span>
+              <span class="flip-edge flip-edge-l"></span><span class="flip-edge flip-edge-r"></span><span class="flip-edge flip-edge-t"></span><span class="flip-edge flip-edge-b"></span>
+            </span>
+          </button>
+          <p class="flip-hint" aria-hidden="true"></p>
+        </div>
+        <div class="flipcard reveal" data-flip>
+          <button type="button" class="flip-btn" aria-pressed="false" data-alt-front="Recto de la carte de Rémi Castonguay, associé principal : Hautmont Conseil, 514 555-0188, remi@hautmont.ca." data-alt-back="Verso de la carte de Rémi Castonguay : logo Hautmont, « Là où la croissance prend de l'altitude. », réseaux, code QR pour planifier un appel.">
+            <span class="flip-shadow" aria-hidden="true"></span>
+            <span class="flip-body">
+              <span class="flip-face flip-front"><img src="./assets/flip/remi-recto.webp" width="1120" height="640" alt="" loading="lazy" decoding="async" draggable="false"></span>
+              <span class="flip-face flip-back"><img src="./assets/flip/remi-verso.webp" width="1120" height="640" alt="" loading="lazy" decoding="async" draggable="false"></span>
+              <span class="flip-edge flip-edge-l"></span><span class="flip-edge flip-edge-r"></span><span class="flip-edge flip-edge-t"></span><span class="flip-edge flip-edge-b"></span>
+            </span>
+          </button>
+          <p class="flip-hint" aria-hidden="true"></p>
+        </div>
+      </div>
+    </div>
   </section>
 
+  
   <section class="section metiers" id="metiers" aria-labelledby="metiers-titre">
     <div class="wrap">
       <div class="section-head reveal">
-        <h2 id="metiers-titre">Chaque métier a sa carte.</h2>
-        <p>Vos couleurs, votre univers, vos boutons. Choisissez votre métier et voyez comment la carte s'utilise au quotidien.</p>
+        <h2 id="metiers-titre">Votre métier, votre carte.</h2>
+        <p>Choisissez votre métier&#8239;: voyez la carte, et ce qu'elle fait pour vous.</p>
       </div>
 
       <!-- Éventail de cartes (emplacement des « téléphones Impact » de Gary) -->
       <div class="fan" data-fan>
-        <figure class="fan-item" data-fan-item><div class="phone-flat"><img src="./assets/personas/elise-ecran.webp" width="390" height="844" loading="lazy" decoding="async" alt="La carte d'affaires virtuelle d'Élise Caron, courtière immobilière, avec ses cinq boutons."></div><figcaption>Élise, courtière immobilière</figcaption></figure>
-        <figure class="fan-item" data-fan-item><div class="phone-flat"><img src="./assets/screens/thomas.webp" width="520" height="1125" loading="lazy" decoding="async" alt="La carte d'affaires virtuelle de Thomas Larivière, courtier en immobilier commercial."></div><figcaption>Thomas, immobilier commercial</figcaption></figure>
-        <figure class="fan-item" data-fan-item><div class="phone-flat"><img src="./assets/screens/noemie.webp" width="520" height="1125" loading="lazy" decoding="async" alt="La carte d'affaires virtuelle de Noémie Fortin, designer d'intérieur."></div><figcaption>Noémie, designer d'intérieur</figcaption></figure>
+        <figure class="fan-item" data-fan-item><img class="phone-framed" src="./assets/screens/maude-champagne.webp" width="520" height="1104" loading="lazy" decoding="async" alt="La carte d'affaires virtuelle de Maude Champagne, enseignante de yoga, avec ses cinq boutons."><figcaption>Maude, enseignante de yoga</figcaption></figure>
+        <figure class="fan-item" data-fan-item><img class="phone-framed" src="./assets/screens/philippe-rivard.webp" width="520" height="1104" loading="lazy" decoding="async" alt="La carte d'affaires virtuelle de Philippe Rivard, dentiste."><figcaption>Philippe, dentiste</figcaption></figure>
+        <figure class="fan-item" data-fan-item><img class="phone-framed" src="./assets/screens/elisabeth-paradis.webp" width="520" height="1104" loading="lazy" decoding="async" alt="La carte d'affaires virtuelle d'Élisabeth Paradis, sommelière-conseil."><figcaption>Élisabeth, sommelière-conseil</figcaption></figure>
       </div>
 
-      <div class="tabs" data-tabs>
+      <div class="tabs" data-tabs data-autoplay>
         <div class="tablist" role="tablist" aria-label="Métiers">
-          <button role="tab" id="t-immo" aria-controls="p-immo" aria-selected="true" tabindex="0" data-metier="immobilier" data-metier-label="Immobilier">Immobilier</button>
-          <button role="tab" id="t-fin" aria-controls="p-fin" aria-selected="false" tabindex="-1" data-metier="finance" data-metier-label="Finance et hypothèque">Finance et hypothèque</button>
-          <button role="tab" id="t-met" aria-controls="p-met" aria-selected="false" tabindex="-1" data-metier="metiers" data-metier-label="Métiers et services">Métiers et services</button>
-          <button role="tab" id="t-ent" aria-controls="p-ent" aria-selected="false" tabindex="-1" data-metier="entrepreneurs" data-metier-label="Entrepreneurs">Entrepreneurs</button>
-          <button role="tab" id="t-auto" aria-controls="p-auto" aria-selected="false" tabindex="-1" data-metier="automobile" data-metier-label="Automobile">Automobile</button>
+          <button role="tab" id="t-immo" aria-controls="p-immo" aria-selected="true" tabindex="0" data-metier="immobilier" data-metier-label="Immobilier"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3.5 11 12 4l8.5 7M6 9.5V20h12V9.5M10 20v-5h4v5"/></svg><span>Immobilier</span><i class="tab-bar" aria-hidden="true"></i></button>
+          <button role="tab" id="t-fin" aria-controls="p-fin" aria-selected="false" tabindex="-1" data-metier="finance" data-metier-label="Finance et hypothèque"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 9.5 12 4l8 5.5M5.5 10v8M10 10v8M14 10v8M18.5 10v8M3.5 20h17"/></svg><span>Finance et hypothèque</span><i class="tab-bar" aria-hidden="true"></i></button>
+          <button role="tab" id="t-met" aria-controls="p-met" aria-selected="false" tabindex="-1" data-metier="metiers" data-metier-label="Métiers et services"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14.5 6.5a4 4 0 0 0 4.6 5.2L11 19.8a2 2 0 0 1-3-3l8.1-8.1a4 4 0 0 0-1.6-1.2Z"/></svg><span>Métiers et services</span><i class="tab-bar" aria-hidden="true"></i></button>
+          <button role="tab" id="t-ent" aria-controls="p-ent" aria-selected="false" tabindex="-1" data-metier="entrepreneurs" data-metier-label="Entrepreneurs"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 10.5 5.5 5h13L20 10.5M4 10.5h16v9H4zM9.5 19.5v-5h5v5"/></svg><span>Entrepreneurs</span><i class="tab-bar" aria-hidden="true"></i></button>
+          <button role="tab" id="t-auto" aria-controls="p-auto" aria-selected="false" tabindex="-1" data-metier="automobile" data-metier-label="Automobile"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 15.5v-3l2-5h12l2 5v3M4 15.5h16M4 15.5v2.5M20 15.5v2.5M7.5 12.5h.01M16.5 12.5h.01"/></svg><span>Automobile</span><i class="tab-bar" aria-hidden="true"></i></button>
         </div>
-
         <div class="panel" role="tabpanel" id="p-immo" aria-labelledby="t-immo" tabindex="0">
-          <figure class="panel-media panel-phone"><div class="phone-flat"><img src="./assets/carte-exemple.webp" width="660" height="1428" loading="lazy" decoding="async" alt="La carte d'Élise Caron, courtière immobilière, ouverte dans le navigateur : sa carte, puis cinq boutons, dont « Ajoutez-moi à votre liste de contacts » et « Prendre rendez-vous »."></div></figure>
+          <figure class="panel-media panel-pancarte">
+            <img class="pancarte-scene" src="./assets/immo/pancarte-900.webp" srcset="./assets/immo/pancarte-900.webp 900w, ./assets/immo/pancarte-1200.webp 1200w" sizes="(min-width: 960px) 480px, 92vw" width="900" height="1100" decoding="async" alt="Pancarte VENDU de la courtière Geneviève Marcotte devant une maison contemporaine, avec son portrait souriant et un code QR à scanner.">
+            <img class="pancarte-impact" src="./assets/immo/impact-telephone.webp" width="1600" height="760" loading="lazy" decoding="async" alt="">
+            <img class="pancarte-phone" src="./assets/screens/genevieve-marcotte.webp" width="520" height="1104" loading="lazy" decoding="async" alt="Ce que le visiteur voit après le scan : la carte d'affaires virtuelle de Geneviève Marcotte.">
+          </figure>
           <div class="panel-copy">
-            <h3>Courtiers immobiliers</h3>
-            <p class="panel-lead">Un code QR à l'entrée de la visite libre&#8239;: chaque visiteur repart avec vos coordonnées dans son téléphone.</p>
+            <p class="panel-kicker">Immobilier</p>
+            <p class="panel-lead">Un code QR sur la pancarte&#8239;: le visiteur repart avec vos coordonnées.</p>
             <ul class="ticks">
               <li>Il vous ajoute à ses contacts en un geste.</li>
-              <li>Changement d'agence ou de photo&#8239;? La carte se met à jour, sans réimpression.</li>
               <li>Votre lien de rendez-vous est à portée de pouce.</li>
             </ul>
           </div>
         </div>
         <div class="panel" role="tabpanel" id="p-fin" aria-labelledby="t-fin" tabindex="0" hidden>
-          <figure class="panel-media panel-phone"><div class="phone-flat"><img src="./assets/screens/charles.webp" width="520" height="1125" loading="lazy" decoding="async" alt="La carte d'affaires virtuelle de Charles Vallée, courtier hypothécaire, avec ses cinq boutons."></div></figure>
+          <!--FIN-SCENE--><figure class="panel-media panel-phone panel-scene" data-fin-scene><div class="fs-stage" aria-hidden="false"><span class="fs-item" style="left:57.78%;top:15.98%;width:37.78%;--fx:-70.6%;--fy:98.6%;--r:4deg;--i:0;--par:0;--dur:3.4s;--amp:5px"><img src="./assets/finance/fleche.webp" width="442" height="323" alt="" loading="lazy" decoding="async"></span><span class="fs-item" style="left:8.33%;top:51.89%;width:16.67%;--fx:200.0%;--fy:-60.8%;--r:4deg;--i:1;--par:0;--dur:4.1s;--amp:5px"><img src="./assets/finance/globe.webp" width="195" height="310" alt="" loading="lazy" decoding="async"></span><img class="fs-phone" src="./assets/finance/telephone.webp" width="370" height="786" alt="La carte d'affaires virtuelle de Benjamin Côté, gestionnaire de patrimoine, dans un téléphone." decoding="async" style="left:34.17%;top:22.05%;width:31.65%"><span class="fs-item" style="left:7.22%;top:19.90%;width:23.33%;--fx:133.3%;--fy:150.9%;--r:8deg;--i:2;--par:0;--dur:4.8s;--amp:5px"><img src="./assets/finance/maison.webp" width="273" height="211" alt="" loading="lazy" decoding="async"></span><span class="fs-item" style="left:73.06%;top:45.78%;width:23.89%;--fx:-146.5%;--fy:-28.5%;--r:-9deg;--i:3;--par:0;--dur:5.5s;--amp:5px"><img src="./assets/finance/calculatrice.webp" width="280" height="251" alt="" loading="lazy" decoding="async"></span><span class="fs-item" style="left:5.00%;top:72.94%;width:31.11%;--fx:94.6%;--fy:-175.3%;--r:3deg;--i:4;--par:0;--dur:3.4s;--amp:5px"><img src="./assets/finance/graphique.webp" width="364" height="267" alt="" loading="lazy" decoding="async"></span><span class="fs-item" style="left:61.67%;top:73.18%;width:32.22%;--fx:-86.2%;--fy:-180.0%;--r:0deg;--i:5;--par:0;--dur:4.1s;--amp:5px"><img src="./assets/finance/pieces.webp" width="377" height="260" alt="" loading="lazy" decoding="async"></span><span class="fs-item fs-coin" style="left:28.89%;top:12.24%;width:8.89%;--fx:187.5%;--fy:529.9%;--r:-20deg;--i:6;--par:26;--dur:4.2s;--amp:9px"><img src="./assets/finance/piece-volante-1.webp" width="104" height="92" alt="" loading="lazy" decoding="async"></span><span class="fs-item fs-coin" style="left:63.89%;top:10.07%;width:7.78%;--fx:-228.6%;--fy:503.4%;--r:25deg;--i:7;--par:-30;--dur:4.9s;--amp:9px"><img src="./assets/finance/piece-volante-2.webp" width="91" height="102" alt="" loading="lazy" decoding="async"></span><span class="fs-item fs-coin" style="left:10.00%;top:44.02%;width:6.67%;--fx:550.0%;--fy:34.9%;--r:-10deg;--i:8;--par:26;--dur:2.8s;--amp:9px"><img src="./assets/finance/piece-volante-3.webp" width="78" height="93" alt="" loading="lazy" decoding="async"></span><span class="fs-item fs-coin" style="left:85.83%;top:68.37%;width:6.11%;--fx:-636.4%;--fy:-421.4%;--r:15deg;--i:9;--par:-30;--dur:3.5s;--amp:9px"><img src="./assets/finance/piece-volante-5.webp" width="72" height="73" alt="" loading="lazy" decoding="async"></span></div></figure><!--/FIN-SCENE-->
           <div class="panel-copy">
-            <h3>Courtiers hypothécaires et conseillers financiers</h3>
+            <p class="panel-kicker">Finance et hypothèque</p>
             <p class="panel-lead">Au renouvellement, trois ou cinq ans plus tard, votre client vous retrouve en deux secondes.</p>
             <ul class="ticks">
               <li>Une image sérieuse, à vos couleurs.</li>
-              <li>Prise de rendez-vous directement depuis la carte.</li>
-              <li>Vos coordonnées restent justes, même si elles changent.</li>
+              <li>Prise de rendez-vous depuis la carte.</li>
             </ul>
           </div>
         </div>
         <div class="panel" role="tabpanel" id="p-met" aria-labelledby="t-met" tabindex="0" hidden>
-          <figure class="panel-media panel-phone"><div class="phone-flat"><img src="./assets/screens/marc.webp" width="520" height="1125" loading="lazy" decoding="async" alt="La carte d'affaires virtuelle de Marc Mercier, couvreur, avec ses cinq boutons."></div></figure>
+          <figure class="panel-media panel-phone"><img class="phone-framed" src="./assets/screens/hubert-boucher.webp" width="520" height="1104" decoding="async" alt="La carte d'affaires virtuelle de Hubert Boucher, chef cuisinier, dans un téléphone."></figure>
           <div class="panel-copy">
-            <h3>Métiers et services</h3>
-            <p class="panel-lead">Votre client a besoin de vous une fois par année. Il vous garde dans son téléphone, et il peut vous recommander en un texto.</p>
+            <p class="panel-kicker">Métiers et services</p>
+            <p class="panel-lead">Votre client vous garde dans son téléphone, et vous recommande en un texto.</p>
             <ul class="ticks">
-              <li>Fini le «&#8239;je ne sais plus comment il s'appelait&#8239;».</li>
-              <li>Votre carte se transmet d'un client à l'autre.</li>
-              <li>Pas besoin d'être techno&#8239;: un lien suffit.</li>
+              <li>Fini le «&#8239;je ne sais plus son nom&#8239;».</li>
+              <li>Un lien suffit, aucune technique.</li>
             </ul>
           </div>
         </div>
         <div class="panel" role="tabpanel" id="p-ent" aria-labelledby="t-ent" tabindex="0" hidden>
-          <figure class="panel-media panel-phone"><div class="phone-flat"><img src="./assets/screens/ines.webp" width="520" height="1125" loading="lazy" decoding="async" alt="La carte d'affaires virtuelle d'Inès Rahmani, consultante marketing et entrepreneure, avec ses cinq boutons."></div></figure>
+          <figure class="panel-media panel-phone"><img class="phone-framed" src="./assets/screens/beatrice-simard.webp" width="520" height="1104" decoding="async" alt="La carte d'affaires virtuelle de Béatrice Simard, esthéticienne et entrepreneure, dans un téléphone."></figure>
           <div class="panel-copy">
-            <h3>Entrepreneurs</h3>
-            <p class="panel-lead">Votre carte, vos couleurs, votre entreprise&#8239;: toujours dans la poche de vos clients, jamais en rupture de stock.</p>
+            <p class="panel-kicker">Entrepreneurs</p>
+            <p class="panel-lead">Site Web, réseaux sociaux et adresse sur une seule carte, toujours dans la poche de vos clients.</p>
             <ul class="ticks">
-              <li>Site Web, réseaux sociaux et adresse sur une seule carte.</li>
-              <li>Code QR à afficher sur le camion, au comptoir ou en salon.</li>
-              <li>Vos employés peuvent avoir la leur.</li>
+              <li>Un code QR pour le comptoir ou le salon.</li>
+              <li>Vos employés ont la leur.</li>
             </ul>
           </div>
         </div>
-        <div class="panel panel-auto" role="tabpanel" id="p-auto" aria-labelledby="t-auto" tabindex="0" hidden>
-          <div class="auto-logos" aria-label="Des concessionnaires qui utilisent iFiveMe">
-            <img src="./assets/logos/audi-sherbrooke.png" alt="Audi Sherbrooke" width="102" height="51" loading="lazy" decoding="async"><img src="./assets/logos/honda-lallier.png" alt="Honda Ste-Foy Lallier" width="84" height="52" loading="lazy" decoding="async"><img src="./assets/logos/hyundai-victoriaville.png" alt="Hyundai Victoriaville" width="72" height="52" loading="lazy" decoding="async"><img src="./assets/logos/toyota-victoriaville.png" alt="Toyota Victoriaville" width="65" height="52" loading="lazy" decoding="async"><img src="./assets/logos/subaru-sherbrooke.png" alt="Subaru Sherbrooke" width="142" height="37" loading="lazy" decoding="async"><img src="./assets/logos/mitsubishi-rimouski.png" alt="Rimouski Mitsubishi" width="139" height="37" loading="lazy" decoding="async"><img src="./assets/logos/nissan-rimouski.png" alt="Nissan Rimouski" width="126" height="41" loading="lazy" decoding="async">
-          </div>
+        <div class="panel" role="tabpanel" id="p-auto" aria-labelledby="t-auto" tabindex="0" hidden>
+          <figure class="panel-media panel-phone"><img class="phone-framed" src="./assets/screens/auto-conseiller.webp" width="520" height="1104" decoding="async" alt="La carte d'affaires virtuelle d'un conseiller automobile, dans un téléphone."></figure>
           <div class="panel-copy">
-            <h3>Concessionnaires automobiles</h3>
-            <p class="panel-lead">Le client repart de la salle de montre avec la carte de son conseiller dans son téléphone, pas au fond d'un sac.</p>
+            <p class="panel-kicker">Automobile</p>
+            <p class="panel-lead">Le client repart de la salle de montre avec la carte de son conseiller.</p>
             <ul class="ticks">
-              <li>Au prochain entretien ou au prochain véhicule, il sait qui appeler.</li>
               <li>Une carte par conseiller, aux couleurs de la concession.</li>
-              <li>Un nouveau conseiller&#8239;? Sa carte est prête sans commande d'imprimerie.</li>
+              <li>Un nouveau conseiller&#8239;? Sa carte est prête, sans imprimerie.</li>
             </ul>
-            <a class="text-link" data-door="equipe" href="#equipe">Équiper mon équipe <span class="arrow" aria-hidden="true">→</span></a>
+            <div class="auto-logos" aria-label="Des concessionnaires qui utilisent iFiveMe">
+              <img src="./assets/logos/audi-sherbrooke.png" alt="Audi Sherbrooke" width="102" height="51" loading="lazy" decoding="async"><img src="./assets/logos/honda-lallier.png" alt="Honda Ste-Foy Lallier" width="84" height="52" loading="lazy" decoding="async"><img src="./assets/logos/hyundai-victoriaville.png" alt="Hyundai Victoriaville" width="72" height="52" loading="lazy" decoding="async"><img src="./assets/logos/toyota-victoriaville.png" alt="Toyota Victoriaville" width="65" height="52" loading="lazy" decoding="async"><img src="./assets/logos/subaru-sherbrooke.png" alt="Subaru Sherbrooke" width="142" height="37" loading="lazy" decoding="async"><img src="./assets/logos/mitsubishi-rimouski.png" alt="Rimouski Mitsubishi" width="139" height="37" loading="lazy" decoding="async"><img src="./assets/logos/nissan-rimouski.png" alt="Nissan Rimouski" width="126" height="41" loading="lazy" decoding="async">
+            </div>
+          </div>
+        </div>
+        <div class="tab-nav" data-tab-nav>
+          <p class="tab-count" aria-live="polite" data-tab-count><span data-tab-now>1</span> / <span data-tab-total>5</span><span class="sr-only" data-tab-name></span></p>
+          <span class="tab-dots" aria-hidden="true"><i class="is-on"></i><i></i><i></i><i></i><i></i></span>
+          <p class="tab-hint" aria-hidden="true"><span class="tab-hint-touch">Balayez pour voir les 5 métiers</span><span class="tab-hint-mouse">Découvrez les 5 métiers</span></p>
+          <div class="tab-arrows">
+            <button type="button" class="tab-arrow tab-prev" data-tab-prev aria-label="Métier précédent"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+            <button type="button" class="tab-arrow tab-next is-attn" data-tab-next aria-label="Métier suivant"><span class="tab-next-label" aria-hidden="true">Métier suivant</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
           </div>
         </div>
       </div>
@@ -345,17 +424,25 @@
           </div>
           <div class="field field-check">
             <input id="ex-consent" name="consentement_courriel" type="checkbox" value="oui" required>
-            <label for="ex-consent">J'accepte de recevoir cet exemple et des courriels d'iFiveMe (info@ifiveme.com, Québec). Je peux me désabonner en tout temps.</label>
+            <label for="ex-consent">J'accepte que iFiveMe (Québec, info@ifiveme.com) m'écrive à cette adresse pour m'envoyer cet exemple, l'invitation à l'essai gratuit et d'autres courriels sur ses services. Je peux me désabonner en tout temps.</label>
             <p class="field-error" aria-live="polite"></p>
           </div>
           <div class="hp" aria-hidden="true"><label for="ex-website">Site Web</label><input id="ex-website" name="website" tabindex="-1" autocomplete="off"></div>
           <button class="btn btn-primary" type="submit">Recevoir l'exemple</button>
+          <p class="form-privacy">Vos renseignements servent à vous répondre. <a href="https://www.ifiveme.com/politiques/" target="_blank" rel="noopener">Politique de confidentialité<span class="sr-only"> (nouvel onglet)</span></a></p>
           <p class="form-status" data-status aria-live="polite"></p>
         </form>
         <div class="done" data-done hidden>
-          <h3 tabindex="-1">C'est noté.</h3>
-          <p>Votre exemple partirait maintenant par courriel.</p>
-          <div class="demo-note" data-demo-note data-demo-only><strong>Mode démonstration&#8239;: rien n'a été envoyé.</strong> Voici ce qui serait transmis au CRM&#8239;:<pre data-payload></pre></div>
+          <div data-done-mode="sent" hidden>
+            <h3 tabindex="-1">C'est noté.</h3>
+            <p>Merci. Nous vous écrivons à l'adresse indiquée avec un exemple de carte adapté à votre métier.</p>
+          </div>
+          <div data-done-mode="mailto" hidden>
+            <h3 tabindex="-1">Un dernier geste&#8239;: envoyer le courriel.</h3>
+            <p>Votre application courriel s'est ouverte avec votre demande. Appuyez sur Envoyer pour la transmettre. Rien n'est parti tant que vous ne l'avez pas fait.</p>
+            <p><a class="btn btn-primary" data-mailto-link href="mailto:info@ifiveme.com">Ouvrir mon courriel</a></p>
+            <p class="done-fallback">Rien ne s'ouvre&#8239;? Écrivez-nous à <a href="mailto:info@ifiveme.com">info@ifiveme.com</a>.</p>
+          </div>
           <button class="text-link as-button" type="button" data-reset>Recommencer</button>
         </div>
       </div>
@@ -381,7 +468,7 @@
     <div class="wrap qr-grid">
       <div class="qr-visual" aria-hidden="true">
         <div class="qr-photo" data-qr-box><img src="./assets/qr-hero.webp" width="1400" height="933" loading="lazy" decoding="async" alt=""><span class="qr-target"><span class="scan-line" data-scan></span><span class="corner c1"></span><span class="corner c2"></span><span class="corner c3"></span><span class="corner c4"></span></span></div>
-        <div class="phone-flat qr-phone" data-qr-phone><img src="./assets/screens/thomas.webp" width="520" height="1125" alt="" loading="lazy" decoding="async"></div>
+        <img class="qr-phone" data-qr-phone src="./assets/qr-telephone.webp" width="420" height="872" alt="" loading="lazy" decoding="async">
       </div>
       <div class="qr-copy reveal">
         <h2 id="qr-titre">Au kiosque, un code suffit.</h2>
@@ -404,14 +491,54 @@
       <div class="section-head reveal">
         <h2 id="why-titre">Elle travaille après la poignée de main.</h2>
       </div>
-      <div class="bento">
-        <article class="cell cell-photo reveal">
-          <div class="cell-phone"><div class="phone-flat"><img src="./assets/screens/thomas.webp" width="520" height="1125" loading="lazy" decoding="async" alt="La carte d'affaires virtuelle de Thomas Larivière, à jour, avec ses cinq boutons."></div></div>
-          <div class="cell-text">
-            <h3>Toujours à jour</h3>
-            <p>Nouveau numéro, nouveau titre, nouvelle photo&#8239;: la carte se met à jour sans rien réimprimer.</p>
+      <div class="live reveal" data-live>
+        <div class="live-copy">
+          <h3>Toujours à jour</h3>
+          <p>Nouveau numéro, nouveau titre, nouvelle photo&#8239;: la carte se met à jour sans rien réimprimer. Chaque personne qui l'ouvre voit la dernière version.</p>
+        </div>
+        <div class="live-stage" data-live-stage data-step="6">
+          <div class="live-phone">
+            <img class="phone-framed" src="./assets/screens/rosalie-thibault.webp" width="520" height="1104" loading="lazy" decoding="async" alt="La carte d'affaires virtuelle de Rosalie Thibault, orthophoniste, à jour, avec ses cinq boutons.">
+              <div class="lc-screen">
+                <span class="lc-ring" aria-hidden="true"></span>
+                <span class="lc-sweep" aria-hidden="true"></span>
+                <span class="lc-btn lc-b1" aria-hidden="true"></span>
+                <span class="lc-btn lc-b2" aria-hidden="true"></span>
+                <span class="lc-btn lc-b3" aria-hidden="true"></span>
+                <span class="lc-btn lc-b4" aria-hidden="true"></span>
+                <span class="lc-btn lc-b5" aria-hidden="true"></span>
+                <div class="lc-toast lc-toast-top" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" focusable="false"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+                  <span><b>Carte mise à jour</b><i>à l'instant</i></span>
+                </div>
+                <div class="lc-toast lc-toast-bottom" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" focusable="false"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16M9 15l2 2 4-4"/></svg>
+                  <span><b>Rendez-vous confirmé</b><i>Mardi, 10&#8239;h 30</i></span>
+                </div>
+              </div>
           </div>
-        </article>
+          <div class="live-panel" aria-hidden="true">
+            <p class="lp-title">Modifier ma carte</p>
+            <div class="lp-row" data-lp="1">
+              <span class="lp-label">Téléphone</span>
+              <span class="lp-val"><s>514 555-0142</s><b>514 555-0187</b></span>
+              <i class="lp-check"><svg viewBox="0 0 24 24" focusable="false"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i>
+            </div>
+            <div class="lp-row" data-lp="2">
+              <span class="lp-label">Titre</span>
+              <span class="lp-val"><s>Orthophoniste</s><b>Orthophoniste, associée</b></span>
+              <i class="lp-check"><svg viewBox="0 0 24 24" focusable="false"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i>
+            </div>
+            <div class="lp-row" data-lp="3">
+              <span class="lp-label">Photo</span>
+              <span class="lp-val lp-photo"><s class="lp-av lp-av-old">RT</s><b class="lp-av lp-av-new">RT</b></span>
+              <i class="lp-check"><svg viewBox="0 0 24 24" focusable="false"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i>
+            </div>
+            <p class="lp-status"><span class="lp-dot"></span><span class="lp-s-wait">Modifications en cours</span><span class="lp-s-done">Publiée, partout à la fois</span></p>
+          </div>
+        </div>
+      </div>
+      <div class="bento">
         <article class="cell reveal">
           <svg class="cell-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 3h10a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M10 18h4"/></svg>
           <h3>Rien à installer pour la recevoir</h3>
@@ -424,6 +551,7 @@
         </article>
         <article class="cell reveal">
           <svg class="cell-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>
+          <div class="mini-bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
           <h3>Des statistiques simples</h3>
           <p>Consultations et actions sur votre carte, en données agrégées. Personne n'est identifié.</p>
         </article>
@@ -433,6 +561,33 @@
           <p>iFiveMe est une entreprise de Québec. La plateforme est offerte en français et en anglais, et vos données sont hébergées au Canada. L'application iFiveMe pour iOS et Android vous permet de partager votre carte en tout temps.</p>
           <a class="text-link" data-door="essai" data-checkout="trial" href="https://checkout.ifiveme.com/activation-carte-daffaires-virtuelle-ft/">Essayer gratuitement <span class="arrow" aria-hidden="true">→</span></a>
         </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Signature courriel : la carte dans la signature, un clic, la carte s'ouvre sur le téléphone de la personne qui reçoit. -->
+  <section class="section sigmail" id="signature" aria-labelledby="sm-titre" data-sm>
+    <div class="wrap">
+      <div class="section-head reveal">
+        <h2 id="sm-titre">Votre carte en signature courriel.</h2>
+        <p>Un clic sur votre signature, et votre carte s'ouvre sur le téléphone de la personne qui vous lit.</p>
+      </div>
+      <div class="sm-stage" data-sm-stage>
+        <figure class="sm-mail" role="img" aria-label="Un courriel d'Élodie Brassard, courtière hypothécaire. Sa signature contient la vignette de sa carte, l'adresse de sa carte et le bouton « Voir ma carte ».">
+          <img class="sm-l sm-l1" src="./assets/signature/fenetre.webp" width="1600" height="1000" alt="" loading="lazy" decoding="async">
+          <img class="sm-l sm-l2" src="./assets/signature/corps.webp" width="1600" height="1000" alt="" loading="lazy" decoding="async">
+          <span class="sm-halo" aria-hidden="true"></span>
+          <img class="sm-l sm-l3" src="./assets/signature/signature.webp" width="1600" height="1000" alt="" loading="lazy" decoding="async">
+          <img class="sm-l sm-l4" src="./assets/signature/vignette.webp" width="1600" height="1000" alt="" loading="lazy" decoding="async">
+          <span class="sm-ring" aria-hidden="true"></span>
+          <svg class="sm-cursor" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 3l14 8-6 2 4 7-3 1.5-4-7-5 4z"/></svg>
+        </figure>
+        <figure class="sm-phone">
+          <img src="./assets/signature/telephone.webp" width="606" height="1287" alt="La carte d'affaires virtuelle d'Élodie Brassard ouverte sur un téléphone : sa carte et ses cinq boutons." loading="lazy" decoding="async">
+          <span class="sm-chip sm-chip-a" aria-hidden="true">Ajouter aux contacts</span>
+          <span class="sm-chip sm-chip-b" aria-hidden="true">Prendre rendez-vous</span>
+          <span class="sm-chip sm-chip-c" aria-hidden="true">Code QR</span>
+        </figure>
       </div>
     </div>
   </section>
@@ -536,17 +691,24 @@
           </div>
           <div class="field field-check">
             <input id="f-consent" name="consentement_courriel" type="checkbox" value="oui">
-            <label for="f-consent">J'accepte de recevoir des courriels d'iFiveMe (info@ifiveme.com, Québec) sur ses services. Je peux me désabonner en tout temps.</label>
+            <label for="f-consent">En plus de ma soumission, j'accepte de recevoir des courriels d'iFiveMe (Québec, info@ifiveme.com) sur ses services. Facultatif. Je peux me désabonner en tout temps.</label>
           </div>
           <div class="hp" aria-hidden="true"><label for="f-website">Site Web</label><input id="f-website" name="website" tabindex="-1" autocomplete="off"></div>
           <button class="btn btn-primary btn-block" type="submit">Recevoir ma soumission</button>
-          <p class="form-privacy">Vos renseignements servent à répondre à votre demande. <a href="https://www.ifiveme.com/politiques/">Politique de confidentialité</a></p>
+          <p class="form-privacy">Vos renseignements servent à répondre à votre demande. <a href="https://www.ifiveme.com/politiques/" target="_blank" rel="noopener">Politique de confidentialité<span class="sr-only"> (nouvel onglet)</span></a></p>
           <p class="form-status" data-status aria-live="polite"></p>
         </form>
         <div class="done" data-done hidden>
-          <h3 tabindex="-1">Merci, votre demande est bien reçue.</h3>
-          <p>Un membre de notre équipe vous répondra avec une soumission adaptée à votre entreprise. D'ici là, vous pouvez essayer iFiveMe gratuitement pendant 7&nbsp;jours.</p>
-          <div class="demo-note" data-demo-note data-demo-only><strong>Mode démonstration&#8239;: rien n'a été envoyé.</strong> Voici ce qui serait transmis au CRM&#8239;:<pre data-payload></pre></div>
+          <div data-done-mode="sent" hidden>
+            <h3 tabindex="-1">Merci, votre demande est bien reçue.</h3>
+            <p>Un membre de notre équipe vous répondra avec une soumission adaptée à votre entreprise. D'ici là, vous pouvez essayer iFiveMe gratuitement pendant 7&nbsp;jours.</p>
+          </div>
+          <div data-done-mode="mailto" hidden>
+            <h3 tabindex="-1">Un dernier geste&#8239;: envoyer le courriel.</h3>
+            <p>Votre application courriel s'est ouverte avec votre demande. Appuyez sur Envoyer pour la transmettre. Rien n'est parti tant que vous ne l'avez pas fait. D'ici là, vous pouvez essayer iFiveMe gratuitement pendant 7&nbsp;jours.</p>
+            <p><a class="btn btn-secondary" data-mailto-link href="mailto:info@ifiveme.com">Ouvrir mon courriel</a></p>
+            <p class="done-fallback">Rien ne s'ouvre&#8239;? Écrivez-nous à <a href="mailto:info@ifiveme.com">info@ifiveme.com</a>.</p>
+          </div>
           <div class="done-actions">
             <a class="btn btn-primary" data-door="essai" data-checkout="trial" href="https://checkout.ifiveme.com/activation-carte-daffaires-virtuelle-ft/">Essayer gratuitement</a>
             <button class="text-link as-button" type="button" data-reset>Recommencer</button>
@@ -576,6 +738,7 @@
   </section>
 
   <section class="final" aria-labelledby="final-titre">
+    <span class="final-halo" aria-hidden="true" data-final-halo></span>
     <div class="wrap final-inner reveal">
       <h2 id="final-titre">Votre prochaine rencontre mérite une <em>suite.</em></h2>
       <div class="final-doors">
@@ -588,13 +751,13 @@
 </main>
 
 <footer class="site-footer">
-  <div class="wrap footer-inner">
+  <div class="wrap footer-inner reveal">
     <img src="./assets/ifiveme-logo-dark.webp" width="480" height="128" alt="iFiveMe" class="footer-logo" loading="lazy">
     <p>Entreprise de Québec · Plateforme en français et en anglais</p>
     <ul class="footer-links" role="list">
       <li><a href="mailto:info@ifiveme.com">info@ifiveme.com</a></li>
       <li><a href="https://www.ifiveme.com/politiques/">Politique de confidentialité</a></li>
-      <li><button type="button" class="link-button" data-consent-open>Gérer les témoins</button></li>
+      <li><button type="button" class="link-button" data-consent-open>Gérer mes témoins</button></li>
     </ul>
     <p class="copyright">© 2026 iFiveMe</p>
   </div>
@@ -605,15 +768,17 @@
   <a class="btn btn-secondary" data-door="equipe" href="#equipe">Équiper mon équipe</a>
 </div>
 
-<div class="consent" data-consent role="region" aria-label="Témoins" hidden>
-  <p>Des témoins de mesure, seulement avec votre accord.</p>
+<div class="consent" data-consent role="region" aria-label="Témoins" tabindex="-1" hidden>
+  <p>Nous mesurons l'audience de cette page sans vous identifier. Les témoins de publicité et de remarketing ne s'activent qu'avec votre accord. <a href="https://www.ifiveme.com/politiques/" target="_blank" rel="noopener">En savoir plus<span class="sr-only"> (nouvel onglet)</span></a></p>
   <div class="consent-actions">
-    <button type="button" class="btn btn-secondary btn-sm" data-consent-choice="denied">Refuser</button>
-    <button type="button" class="btn btn-primary btn-sm" data-consent-choice="granted">Accepter</button>
+    <button type="button" class="btn btn-secondary btn-sm" data-consent-choice="refuse">Refuser</button>
+    <button type="button" class="btn btn-secondary btn-sm" data-consent-choice="accept">Accepter</button>
   </div>
 </div>
 
+<script src="./analytics.js" defer></script>
 <script src="./main.js" defer></script>
+<script src="./flip.js" defer></script>
 <script src="./story.js" defer></script>
 </body>
 </html>

@@ -1,137 +1,40 @@
-/* Page de vente iFiveMe : comportement client. Aucun envoi réseau en mode démonstration. */
+/* Page de vente iFiveMe : comportement client (interface et formulaires).
+ * Mesure et consentement : voir analytics.js (window.ifmTrack, window.ifmConsent). */
 (() => {
   "use strict";
 
   const CONFIG = Object.freeze({
-    demoMode: true,
     // Destinations réelles des portes. Le panier Pro est en anglais : remplacer par /professionnel/ dès que Warren l'a cloné.
     checkout: {
       trial: "https://checkout.ifiveme.com/activation-carte-daffaires-virtuelle-ft/",
       pro: "https://checkout.ifiveme.com/professional/",
     },
-    // Branchement futur (voir README) : point d'entrée serveur qui écrit dans le CRM. Vide = rien n'est envoyé.
+    // Réception des demandes. Vide = repli par courriel (mailto) : rien ne passe par un serveur.
+    // Renseigner l'adresse de la fonction lead-intake (voir backend/ et README) pour activer l'envoi direct.
     leadEndpoint: "",
-    // Mesure : GA4 via GTM, chargée seulement après consentement ET hors démonstration.
-    gtmId: "",
-    consentKey: "ifm-consent-v1",
+    leadFallbackEmail: "info@ifiveme.com",
+    minFillMs: 3000, // un formulaire rempli plus vite qu'un humain n'écrit est refusé
+    consentTextVersion: "2026-09-30",
   });
 
   const root = document.documentElement;
   root.classList.add("js");
-  const events = [];
-  window.__ifmEvents = events; // inspection locale seulement
-
-  const storage = {
-    get(key) {
-      try {
-        return window.localStorage.getItem(key);
-      } catch {
-        return null;
-      }
-    },
-    set(key, value) {
-      try {
-        window.localStorage.setItem(key, value);
-      } catch {
-        /* stockage indisponible : on continue sans mémoriser */
-      }
-    },
+  const track = (name, props) => {
+    if (typeof window.ifmTrack === "function") window.ifmTrack(name, props);
   };
+  const attribution = () => (window.ifmAnalytics ? window.ifmAnalytics.attribution() : {});
 
-  /* ---------- Consentement (Loi 25) ---------- */
-  const consent = {
-    value: storage.get(CONFIG.consentKey),
-    granted() {
-      return this.value === "granted";
-    },
-    set(v) {
-      this.value = v;
-      storage.set(CONFIG.consentKey, v);
-      if (v === "granted") loadMeasurement();
-    },
-  };
-
-  function loadMeasurement() {
-    // Aucun script tiers n'est chargé tant que la démonstration est active ou qu'aucun conteneur n'est configuré.
-    if (CONFIG.demoMode || !CONFIG.gtmId || !consent.granted()) return;
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({ "gtm.start": Date.now(), event: "gtm.js" });
-    const s = document.createElement("script");
-    s.async = true;
-    s.src = `https://www.googletagmanager.com/gtm.js?id=${encodeURIComponent(CONFIG.gtmId)}`;
-    document.head.appendChild(s);
-  }
-
-  function track(name, params = {}) {
-    const entry = { name, params, at: new Date().toISOString(), sent: false };
-    if (!CONFIG.demoMode && consent.granted() && window.dataLayer) {
-      window.dataLayer.push({ event: name, ...params });
-      entry.sent = true;
-    }
-    events.push(entry);
-  }
-
-  /* ---------- UTM : transmis aux paniers et aux demandes, jamais stocké sans consentement ---------- */
-  const UTM_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
-  const utm = {};
-  const params = new URLSearchParams(window.location.search);
-  UTM_KEYS.forEach((k) => {
-    const v = params.get(k);
-    if (v) utm[k] = v.slice(0, 100);
-  });
-
-  function withUtm(href) {
-    if (!Object.keys(utm).length) return href;
-    try {
-      const url = new URL(href);
-      Object.entries(utm).forEach(([k, v]) => url.searchParams.set(k, v));
-      return url.toString();
-    } catch {
-      return href;
-    }
-  }
-
+  // Les paniers : l'URL vient de CONFIG; analytics.js y joint UTM, fbclid et gclid tels quels.
   document.querySelectorAll("[data-checkout]").forEach((a) => {
     const target = CONFIG.checkout[a.dataset.checkout];
-    if (target) a.href = withUtm(target);
+    if (target) a.setAttribute("href", target);
   });
-
-  /* ---------- Clics par porte ---------- */
-  document.addEventListener("click", (e) => {
-    const el = e.target.closest("[data-door]");
-    if (!el) return;
-    track("door_click", { door: el.dataset.door, placement: el.closest("section,header,footer")?.id || "page" });
-  });
-
-  /* ---------- Bandeau de consentement ---------- */
-  const banner = document.querySelector("[data-consent]");
-  function showBanner(show) {
-    if (!banner) return;
-    banner.hidden = !show;
-  }
-  if (banner) {
-    // Aucun pistage n'existe avant l'accord : le bandeau attend le premier défilement
-    // pour ne pas cacher la carte au premier écran.
-    if (!consent.value) {
-      const reveal = () => {
-        if (window.scrollY > 240) {
-          showBanner(true);
-          window.removeEventListener("scroll", reveal);
-        }
-      };
-      window.addEventListener("scroll", reveal, { passive: true });
-    }
-    banner.addEventListener("click", (e) => {
-      const btn = e.target.closest("[data-consent-choice]");
-      if (!btn) return;
-      consent.set(btn.dataset.consentChoice);
-      showBanner(false);
+  if (window.ifmAnalytics) {
+    document.querySelectorAll("[data-checkout]").forEach((a) => {
+      a.setAttribute("data-checkout-url", a.getAttribute("href"));
+      a.href = window.ifmAnalytics.withAttribution(a.getAttribute("href"));
     });
   }
-  document.querySelectorAll("[data-consent-open]").forEach((b) =>
-    b.addEventListener("click", () => showBanner(true)),
-  );
-  loadMeasurement();
 
   /* ---------- En-tête au défilement ---------- */
   const header = document.querySelector(".site-header");
@@ -162,7 +65,25 @@
   /* ---------- Onglets « Votre métier » ---------- */
   document.querySelectorAll("[data-tabs]").forEach((tabs) => {
     const buttons = [...tabs.querySelectorAll('[role="tab"]')];
-    const select = (btn, focus) => {
+    const AUTO_MS = 7000;
+    const canAuto = tabs.hasAttribute("data-autoplay") && !matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let timer = 0;
+    let inView = false;
+    let hold = false;
+    let stopped = false;
+    const arm = () => {
+      clearTimeout(timer);
+      tabs.classList.remove("is-running");
+      if (!canAuto || stopped || hold || !inView) return;
+      void tabs.offsetWidth;
+      tabs.style.setProperty("--auto-ms", `${AUTO_MS}ms`);
+      tabs.classList.add("is-running");
+      timer = setTimeout(() => {
+        const i = buttons.findIndex((b) => b.getAttribute("aria-selected") === "true");
+        select(buttons[(i + 1) % buttons.length], false, true);
+      }, AUTO_MS);
+    };
+    const select = (btn, focus, auto) => {
       buttons.forEach((b) => {
         const on = b === btn;
         b.setAttribute("aria-selected", String(on));
@@ -171,10 +92,75 @@
         if (panel) panel.hidden = !on;
       });
       if (focus) btn.focus();
-      track("example_view", { metier: btn.dataset.metier });
+      if (!auto) {
+        stopped = true; // un choix volontaire arrête l'enchaînement
+        track("metier_tab", { metier: btn.dataset.metier });
+      }
+      arm();
       const field = document.querySelector("[data-metier-field]");
-      if (field && btn.dataset.metierLabel) field.value = btn.dataset.metierLabel;
+      if (!auto && field && btn.dataset.metierLabel) field.value = btn.dataset.metierLabel;
+      syncNav();
     };
+    /* Navigation visible : flèches, compteur, points, balayage tactile, flèches du clavier. */
+    const nav = tabs.querySelector("[data-tab-nav]");
+    const idx = () => buttons.findIndex((b) => b.getAttribute("aria-selected") === "true");
+    const go = (d, focusTab) => {
+      select(buttons[(idx() + d + buttons.length) % buttons.length], focusTab);
+      nav && nav.querySelector("[data-tab-next]")?.classList.remove("is-attn");
+    };
+    function syncNav() {
+      if (!nav) return;
+      const i = idx();
+      nav.querySelector("[data-tab-now]").textContent = String(i + 1);
+      nav.querySelector("[data-tab-total]").textContent = String(buttons.length);
+      nav.querySelector("[data-tab-name]").textContent = ` Métier ${i + 1} sur ${buttons.length} : ${buttons[i].dataset.metierLabel}`;
+      nav.querySelectorAll(".tab-dots i").forEach((d, k) => d.classList.toggle("is-on", k === i));
+      const nx = buttons[(i + 1) % buttons.length].dataset.metierLabel;
+      const pv = buttons[(i - 1 + buttons.length) % buttons.length].dataset.metierLabel;
+      nav.querySelector("[data-tab-next]").setAttribute("aria-label", `Métier suivant : ${nx}`);
+      nav.querySelector("[data-tab-prev]").setAttribute("aria-label", `Métier précédent : ${pv}`);
+    }
+    if (nav) {
+      nav.querySelector("[data-tab-next]").addEventListener("click", () => go(1, false));
+      nav.querySelector("[data-tab-prev]").addEventListener("click", () => go(-1, false));
+      // Balayage gauche/droite sur les panneaux (tactile) et flèches gauche/droite quand le focus est dans un panneau.
+      let sx = 0;
+      let sy = 0;
+      tabs.addEventListener("pointerdown", (e) => {
+        if (e.pointerType === "touch" && e.target.closest(".panel")) {
+          sx = e.clientX;
+          sy = e.clientY;
+        } else sx = 0;
+      });
+      tabs.addEventListener("pointerup", (e) => {
+        if (e.pointerType !== "touch" || !sx) return;
+        const dx = e.clientX - sx;
+        if (Math.abs(dx) > 50 && Math.abs(e.clientY - sy) < 40) go(dx < 0 ? 1 : -1, false);
+        sx = 0;
+      });
+      tabs.addEventListener("keydown", (e) => {
+        if ((e.key === "ArrowLeft" || e.key === "ArrowRight") && e.target.matches('[role="tabpanel"], .tab-arrow')) {
+          e.preventDefault();
+          const onPanel = e.target.matches('[role="tabpanel"]');
+          go(e.key === "ArrowRight" ? 1 : -1, false);
+          if (onPanel) document.getElementById(buttons[idx()].getAttribute("aria-controls"))?.focus({ preventScroll: true });
+        }
+      });
+      syncNav();
+    }
+    if (canAuto) {
+      if ("IntersectionObserver" in window) {
+        new IntersectionObserver((es) => {
+          inView = es[0].isIntersecting;
+          arm();
+        }, { threshold: 0.45 }).observe(tabs);
+      }
+      tabs.addEventListener("mouseenter", () => { hold = true; arm(); });
+      tabs.addEventListener("mouseleave", () => { hold = false; arm(); });
+      tabs.addEventListener("focusin", () => { hold = true; arm(); });
+      tabs.addEventListener("focusout", () => { hold = false; arm(); });
+      tabs.addEventListener("pointerdown", () => { stopped = true; arm(); });
+    }
     buttons.forEach((btn, i) => {
       btn.addEventListener("click", () => select(btn, false));
       btn.addEventListener("keydown", (e) => {
@@ -193,8 +179,10 @@
     });
   });
 
-  /* ---------- Formulaires (démonstration) ---------- */
+  /* ---------- Formulaires de demande ---------- */
   const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  const FORM_LABEL = { exemple_metier: "Exemple pour mon métier", soumission_entreprise: "Soumission pour mon équipe" };
+  const pageLoadedAt = performance.now();
 
   function fieldError(input, message) {
     const wrap = input.closest(".field") || input.parentElement;
@@ -222,62 +210,128 @@
     return firstBad;
   }
 
+  function buildPayload(form) {
+    const data = Object.fromEntries(new FormData(form).entries());
+    delete data.website;
+    const checkbox = form.querySelector('input[name="consentement_courriel"]');
+    const label = checkbox ? form.querySelector(`label[for="${checkbox.id}"]`) : null;
+    const consentText = label ? label.textContent.replace(/\s+/g, " ").trim() : "";
+    return {
+      form: form.dataset.lead,
+      fields: {
+        metier: data.metier || "",
+        nom: data.nom || "",
+        courriel: (data.courriel || "").trim(),
+        entreprise: data.entreprise || "",
+        nombre_cartes: data.nombre_cartes || "",
+        telephone: data.telephone || "",
+      },
+      consent_marketing: !!(checkbox && checkbox.checked),
+      consent_text: consentText.slice(0, 600),
+      consent_text_version: CONFIG.consentTextVersion,
+      campaign: attribution(),
+      page: window.location.pathname,
+      elapsed_ms: Math.round(performance.now() - pageLoadedAt),
+      website: "", // pot de miel : toujours vide pour un humain
+    };
+  }
+
+  function mailtoFor(payload) {
+    const f = payload.fields;
+    const lines = [
+      `Demande : ${FORM_LABEL[payload.form] || payload.form}`,
+      f.nom && `Nom : ${f.nom}`,
+      f.entreprise && `Entreprise : ${f.entreprise}`,
+      f.metier && `Métier : ${f.metier}`,
+      f.nombre_cartes && `Nombre de cartes : ${f.nombre_cartes}`,
+      `Courriel : ${f.courriel}`,
+      f.telephone && `Téléphone : ${f.telephone}`,
+      "",
+      payload.consent_marketing ? "J'accepte de recevoir des courriels d'iFiveMe. Je peux me désabonner en tout temps." : "",
+    ].filter((l) => l !== false && l !== undefined);
+    const subject = `${FORM_LABEL[payload.form] || "Demande"} (page iFiveMe)`;
+    return `mailto:${CONFIG.leadFallbackEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join("\n"))}`;
+  }
+
+  function showDone(form, mode, link) {
+    const done = form.parentElement.querySelector("[data-done]");
+    if (!done) return;
+    form.hidden = true;
+    done.hidden = false;
+    done.querySelectorAll("[data-done-mode]").forEach((el) => {
+      el.hidden = el.dataset.doneMode !== mode;
+    });
+    const a = done.querySelector("[data-mailto-link]");
+    if (a && link) a.setAttribute("href", link);
+    const heading = done.querySelector("[data-done-mode]:not([hidden]) h3, [data-done-mode]:not([hidden]) [tabindex]");
+    if (heading) heading.focus();
+  }
+
   document.querySelectorAll("form[data-lead]").forEach((form) => {
     form.noValidate = true;
+    let started = false;
+    form.addEventListener("focusin", () => {
+      if (started) return;
+      started = true;
+      track("form_start", { form: form.dataset.lead });
+    });
     form.addEventListener("input", (e) => {
       if (e.target.getAttribute("aria-invalid") === "true") fieldError(e.target, "");
     });
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      if (form.website && form.website.value) return; // pot de miel : robot
-      const bad = validate(form);
       const status = form.querySelector("[data-status]");
+      const btn = form.querySelector('button[type="submit"]');
+      if (form.website && form.website.value) {
+        showDone(form, "sent"); // pot de miel : le robot croit avoir réussi, rien n'est transmis
+        return;
+      }
+      const bad = validate(form);
       if (bad) {
         bad.focus();
         if (status) status.textContent = "Quelques champs sont à compléter.";
+        track("form_error", { form: form.dataset.lead, invalid_fields: form.querySelectorAll('[aria-invalid="true"]').length });
         return;
       }
-      const data = Object.fromEntries(new FormData(form).entries());
-      delete data.website;
-      const payload = {
-        form: form.dataset.lead,
-        ...data,
-        utm,
-        page: window.location.pathname,
-        submitted_at: new Date().toISOString(),
-      };
-      if (CONFIG.demoMode || !CONFIG.leadEndpoint) {
-        track("generate_lead", { lead_source: form.dataset.lead, demo: true });
-        showDone(form, true, payload);
+      const payload = buildPayload(form);
+      if (payload.elapsed_ms < CONFIG.minFillMs) {
+        if (status) status.textContent = "Un instant, puis réessayez.";
         return;
       }
+      if (status) status.textContent = "";
+      if (!CONFIG.leadEndpoint) {
+        // Repli : l'application courriel de la personne s'ouvre avec la demande. Rien n'est envoyé tant qu'elle n'appuie pas sur Envoyer.
+        const link = mailtoFor(payload);
+        track("form_submit", { form: form.dataset.lead, method: "mailto", consent_marketing: payload.consent_marketing });
+        showDone(form, "mailto", link);
+        window.location.href = link;
+        return;
+      }
+      if (btn) btn.disabled = true;
       try {
         const res = await fetch(CONFIG.leadEndpoint, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
         });
+        if (res.status === 429) throw new Error("rate");
         if (!res.ok) throw new Error(String(res.status));
+        track("form_submit", { form: form.dataset.lead, method: "endpoint", consent_marketing: payload.consent_marketing });
         track("generate_lead", { lead_source: form.dataset.lead });
-        showDone(form, false, payload);
-      } catch {
-        if (status) status.textContent = "L'envoi n'a pas fonctionné. Réessayez dans un instant ou écrivez à info@ifiveme.com.";
+        showDone(form, "sent");
+      } catch (err) {
+        track("form_submit", { form: form.dataset.lead, method: "endpoint", failed: true });
+        if (err.message === "rate") {
+          if (status) status.textContent = "Trop de demandes depuis votre connexion. Réessayez dans une heure ou écrivez à " + CONFIG.leadFallbackEmail + ".";
+        } else {
+          // Le serveur ne répond pas : on bascule sur le courriel plutôt que de perdre la demande.
+          showDone(form, "mailto", mailtoFor(payload));
+        }
+      } finally {
+        if (btn) btn.disabled = false;
       }
     });
   });
-
-  function showDone(form, demo, payload) {
-    const done = form.parentElement.querySelector("[data-done]");
-    if (!done) return;
-    form.hidden = true;
-    done.hidden = false;
-    const note = done.querySelector("[data-demo-note]");
-    if (note) note.hidden = !demo;
-    const pre = done.querySelector("[data-payload]");
-    if (pre && demo) pre.textContent = JSON.stringify(payload, null, 2);
-    const heading = done.querySelector("h3, [tabindex]");
-    if (heading) heading.focus();
-  }
 
   document.querySelectorAll("[data-reset]").forEach((b) =>
     b.addEventListener("click", () => {
@@ -289,7 +343,4 @@
       form.querySelector("input")?.focus();
     }),
   );
-
-  /* ---------- Démonstration : masquer les éléments propres à la démo si désactivée ---------- */
-  if (!CONFIG.demoMode) document.querySelectorAll("[data-demo-only]").forEach((el) => el.remove());
 })();
