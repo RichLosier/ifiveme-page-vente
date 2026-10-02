@@ -312,6 +312,18 @@
     true,
   );
 
+  // Section « L'application » : vue (40 % visible).
+  const appSec = document.querySelector("#application");
+  if (appSec && "IntersectionObserver" in window) {
+    const aio = new IntersectionObserver((es) => {
+      if (es[0].isIntersecting) {
+        aio.disconnect();
+        track("app_section_view");
+      }
+    }, { threshold: 0.2 });
+    aio.observe(appSec);
+  }
+
   // Section signature : vue (40 % visible) puis lecture (4 s continues).
   const sig = document.querySelector("#signature");
   if (sig && "IntersectionObserver" in window) {

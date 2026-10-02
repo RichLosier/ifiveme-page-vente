@@ -62,7 +62,30 @@
     reveals.forEach((el) => el.classList.add("is-in"));
   }
 
-  /* ---------- Onglets « Votre métier » ---------- */
+  /* ---------- Statistiques d'exemple : comptent jusqu'à leur valeur à l'entrée dans l'écran ---------- */
+  const counters = [...document.querySelectorAll("[data-count]")];
+  if (counters.length && root.classList.contains("motion") && "IntersectionObserver" in window) {
+    counters.forEach((el) => (el.textContent = "0"));
+    const cio = new IntersectionObserver(
+      (entries) =>
+        entries.forEach((en) => {
+          if (!en.isIntersecting) return;
+          cio.unobserve(en.target);
+          const to = Number(en.target.dataset.count);
+          const t0 = performance.now();
+          const tick = (now) => {
+            const k = Math.min(1, (now - t0) / 1300);
+            en.target.textContent = String(Math.round(to * (1 - Math.pow(1 - k, 3))));
+            if (k < 1) requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
+        }),
+      { threshold: 0.6 },
+    );
+    counters.forEach((el) => cio.observe(el));
+  }
+
+  /* ---------- Onglets « Votre métier » ----------*/
   document.querySelectorAll("[data-tabs]").forEach((tabs) => {
     const buttons = [...tabs.querySelectorAll('[role="tab"]')];
     const AUTO_MS = 7000;

@@ -12,22 +12,21 @@
   }[(document.documentElement.lang || "fr").slice(0, 2)] || {};
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const coarse = matchMedia("(pointer: coarse)").matches;
-  // Réglages du rebond (ressort physique, sans bibliothèque).
-  const BOUNCE_OVERSHOOT_DEG = 13; // dépassement net de 180 degrés (10 à 14)
-  const STIFFNESS = 340; // raideur k : pulsation ~18,4 rad/s, oscillation de ~340 ms
-  const DAMPING = 8.2; // amortissement c : ratio ~0,22, deux à trois oscillations visibles, repos en ~1 s
-  const FLIGHT_S = 0.4; // envol avant le rebond
-  const POP_SCALE = 0.06; // « pop » en profondeur au milieu du tour
-  const POP_Z = 60; // px
-  const SQUASH = 0.03; // tressaillement à l'arrivée
-  const K = STIFFNESS;
-  const C = DAMPING;
-  const OMEGA = Math.sqrt(K);
-  const ZETA = C / (2 * OMEGA);
+  // Réglages : carte RIGIDE, comme le viewer de la vraie carte. Approche exponentielle sans dépassement,
+  // arrêt sec, puis un seul micro-rebond très raide (« paff »). Aucune échelle, aucun squash, aucun pop Z.
+  const TAU_S = 0.1; // constante de temps de la décélération exponentielle (~100 ms)
+  const FLOOR_DEG_S = 60; // vitesse plancher : la carte arrive en ~400 à 450 ms au total
+  const IMPACT_OVERSHOOT_DEG = 3; // dépassement à l'arrivée (2 à 4)
+  const STIFFNESS = 4900; // raideur du micro-ressort (pulsation 70 rad/s, période ~90 ms)
+  const DAMPING = 49; // amortissement (ratio ~0,35) : un seul retour d'environ 1 degré
+  const SNAP_S = 0.1; // calage net sur la cible après l'impact
+  const IMPACT_S = 0.12; // durée de l'impulsion d'ombre
+  const OMEGA = Math.sqrt(STIFFNESS);
+  const ZETA = DAMPING / (2 * OMEGA);
   const OMEGA_D = OMEGA * Math.sqrt(1 - ZETA * ZETA);
   const T_PEAK = Math.atan2(OMEGA_D, ZETA * OMEGA) / OMEGA_D;
-  // vitesse d'arrivée (deg/s) qui donne exactement BOUNCE_OVERSHOOT_DEG au premier sommet
-  const V_ARRIVE = BOUNCE_OVERSHOOT_DEG / ((Math.exp(-ZETA * OMEGA * T_PEAK) * Math.sin(OMEGA_D * T_PEAK)) / OMEGA_D);
+  // vitesse d'impact (deg/s) qui donne exactement IMPACT_OVERSHOOT_DEG au premier sommet
+  const V_IMPACT = IMPACT_OVERSHOOT_DEG / ((Math.exp(-ZETA * OMEGA * T_PEAK) * Math.sin(OMEGA_D * T_PEAK)) / OMEGA_D);
   const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
   let gyro = null; // { x, y } en degrés, partagé
   let gyroAsked = false;
@@ -38,7 +37,7 @@
     const btn = root.querySelector(".flip-btn");
     const body = root.querySelector(".flip-body");
     const hint = root.querySelector(".flip-hint");
-    const st = { root, btn, body, hint, angle: 0, target: 0, vel: 0, dragging: false, phase: "idle", ft: 0, a0: 0, dist: 180, springT: 0, moved: 0, lastX: 0, lastT: 0, dv: 0, tx: 0, ty: 0, gx: 0, gy: 0, visible: false, t0: Math.random() * 6 };
+    const st = { root, btn, body, hint, angle: 0, target: 0, vel: 0, dragging: false, phase: "idle", springT: 0, impact: 0, idleK: 0, moved: 0, lastX: 0, lastT: 0, dv: 0, tx: 0, ty: 0, gx: 0, gy: 0, visible: false, t0: Math.random() * 6 };
     if (hint) hint.textContent = coarse ? T.touch : T.mouse;
     return st;
   });
@@ -55,30 +54,21 @@
   function render(st, time) {
     const a = st.angle;
     const rad = (a * Math.PI) / 180;
-    const idle = reduced || st.dragging ? 0 : Math.sin(time / 1700 + st.t0);
+    const calm = !reduced && !st.dragging && st.phase === "idle";
+    st.idleK = calm ? Math.min(1, st.idleK + 0.02) : 0;
+    const idle = Math.sin(time / 1700 + st.t0) * st.idleK;
     const gxd = gyro ? gyro.x : st.tx;
     const gyd = gyro ? gyro.y : st.ty;
     st.gx += (gxd - st.gx) * 0.12;
     st.gy += (gyd - st.gy) * 0.12;
     const rx = reduced ? 0 : -st.gy * 7 + idle * 1.2;
     const ry = a + (reduced ? 0 : st.gx * 9 + idle * 1.6);
-    let pop = 0;
-    let sqx = 1;
-    let sqy = 1;
-    if (!reduced) {
-      if (st.phase === "fly") pop = Math.sin(Math.PI * Math.min(1, st.ft / FLIGHT_S));
-      else if (st.phase === "spring") {
-        const q = SQUASH * Math.exp(-st.springT * 8) * Math.cos(st.springT * 22);
-        sqx = 1 + q * 0.6;
-        sqy = 1 - q;
-      }
-    }
-    st.pop = pop;
-    st.body.style.transform = `translate3d(0, ${(idle * 4).toFixed(2)}px, ${(pop * POP_Z).toFixed(1)}px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) scale3d(${(sqx * (1 + pop * POP_SCALE)).toFixed(4)}, ${(sqy * (1 + pop * POP_SCALE)).toFixed(4)}, 1)`;
-    st.root.style.setProperty("--lift", pop.toFixed(3));
+    st.body.style.transform = `translate3d(0, ${(idle * 1.8).toFixed(2)}px, 0) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;
+    st.root.style.setProperty("--impact", (st.impact || 0).toFixed(3));
     const s = Math.sin(rad);
     st.root.style.setProperty("--sx", `${(50 + 70 * s + st.gx * 14).toFixed(1)}%`);
     st.root.style.setProperty("--so", (0.22 + 0.5 * Math.abs(s)).toFixed(2));
+    st.root.style.setProperty("--mid", Math.abs(s).toFixed(3)); // relief et ombrage maximaux à mi-tour, nuls aux faces
     st.root.style.setProperty("--sh", (0.45 + 0.55 * Math.abs(Math.cos(rad))).toFixed(3));
     st.root.style.setProperty("--shx", `${(st.gx * -14 + s * 18).toFixed(1)}px`);
   }
@@ -92,34 +82,36 @@
       live = true;
       if (!st.dragging && !reduced) {
         if (st.phase === "fly") {
-          // envol : Hermite de la position de départ à la cible, vitesse d'arrivée V_ARRIVE (le ressort prend le relais)
-          st.ft += dt;
-          const u = Math.min(1, st.ft / FLIGHT_S);
-          const u2 = u * u;
-          const u3 = u2 * u;
-          const h01 = -2 * u3 + 3 * u2;
-          const h11 = u3 - u2;
-          const m1 = V_ARRIVE * FLIGHT_S;
-          st.angle = st.a0 + (st.target - st.a0) * h01 + h11 * m1;
-          if (u >= 1) {
-            st.phase = "spring";
-            st.springT = 0;
+          // décélération exponentielle (vitesse proportionnelle à l'écart restant), plancher de vitesse, calage net
+          const rem = st.target - st.angle;
+          const dir = Math.sign(rem) || 1;
+          const stepExp = rem * (1 - Math.exp(-dt / TAU_S));
+          const stepMin = dir * FLOOR_DEG_S * dt;
+          const move = Math.abs(stepExp) > Math.abs(stepMin) ? stepExp : stepMin;
+          if (Math.abs(move) >= Math.abs(rem)) {
             st.angle = st.target;
-            st.vel = V_ARRIVE;
-          }
-        } else {
-          const acc = -K * (st.angle - st.target) - C * st.vel;
-          st.vel += acc * dt;
-          st.angle += st.vel * dt;
-          if (st.phase === "spring") {
-            st.springT += dt;
-            if (st.springT > 1.6) st.phase = "idle";
+            st.phase = "impact";
+            st.springT = 0;
+            st.dir = dir; // le choc : un seul micro-rebond raide
+            st.impact = 1;
+          } else st.angle += move;
+        } else if (st.phase === "impact") {
+          // solution analytique du micro-ressort (stable à 60 Hz malgré la raideur)
+          st.springT += dt;
+          const x = (st.dir * V_IMPACT / OMEGA_D) * Math.exp(-ZETA * OMEGA * st.springT) * Math.sin(OMEGA_D * st.springT);
+          st.angle = st.target + x;
+          st.impact = Math.max(0, 1 - st.springT / IMPACT_S);
+          if (st.springT >= SNAP_S) {
+            st.angle = st.target; // arrêt net
+            st.vel = 0;
+            st.phase = "idle";
+            st.impact = 0;
           }
         }
       }
       render(st, now);
     });
-    running = live && (!reduced || items.some((s) => s.visible && Math.abs(s.angle - s.target) > 0.1));
+    running = live && !reduced;
     if (running) requestAnimationFrame(step);
   }
   function wake() {
@@ -135,8 +127,7 @@
     if (reduced) st.angle = st.target;
     else {
       st.phase = "fly";
-      st.ft = 0;
-      st.a0 = st.angle;
+      st.impact = 0;
       st.vel = 0;
     }
     label(st);
@@ -213,14 +204,13 @@
         wake();
       }
     });
-    const end = (e) => {
+    const end = () => {
       if (!st.dragging) return;
       st.dragging = false;
       if (st.moved > 6) {
-        // retombée sur le recto ou le verso le plus proche, avec l'élan du geste
-        st.phase = "idle";
-        st.vel = st.dv;
+        // lâché : même vol rigide vers la face la plus proche
         st.target = Math.round((st.angle + st.dv * 0.18) / 180) * 180;
+        st.phase = "fly";
         label(st);
       }
       wake();

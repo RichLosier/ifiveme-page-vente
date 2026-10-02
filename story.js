@@ -333,16 +333,22 @@
   function renderQr() {
     const r = Q.box.getBoundingClientRect();
     const q = clamp((vh - r.top) / (vh + r.height));
-    const c = ease(seg(q, 0.15, 0.45));
+    // La scène se joue quand elle est centrée (q ~ 0,5 = milieu de l'écran) : coins, laser, puis téléphone entier avant q = 0,6.
+    const c = ease(seg(q, 0.04, 0.2));
     Q.corners.forEach((el, i) => {
       el.style.transform = `translate3d(${CORNER_DIR[i][0] * (1 - c) * 18}px, ${CORNER_DIR[i][1] * (1 - c) * 18}px, 0)`;
       el.style.opacity = (0.25 + 0.75 * c).toFixed(3);
     });
-    const s = seg(q, 0.35, 0.62);
+    const s = seg(q, 0.16, 0.34);
     Q.line.style.transform = `translate3d(0, ${s * Q.line.parentElement.offsetHeight}px, 0)`;
     Q.line.style.opacity = (Math.sin(Math.PI * s) > 0.02 ? 1 : 0).toString();
-    const ph = ease(seg(q, 0.55, 0.8));
-    Q.phone.style.transform = `translate3d(0, ${(1 - ph) * 75}%, 0)`;
+    // Arrivée du téléphone : décélération rapide, arrêt sec, un micro-rebond rigide (même modèle que la carte qui tourne).
+    const arrive = seg(q, 0.34, 0.48);
+    const ph = 1 - Math.pow(1 - arrive, 4);
+    const pb = seg(q, 0.48, 0.55);
+    const bounce = -1.4 * Math.sin(Math.PI * pb) * (1 - pb);
+    Q.phone.style.transform = `translate3d(0, ${((1 - ph) * 70 + bounce).toFixed(2)}%, 0) rotate(${(bounce * 0.8).toFixed(2)}deg)`;
+    Q.phone.style.opacity = Math.min(1, arrive * 4).toFixed(3);
   }
 
   /* ---------- Séquence 3D : images pré-rendues, chargées à l'approche, dessinées sur un canevas ---------- */
@@ -356,9 +362,23 @@
       return { urls: d.frames, order: d.order };
     })(),
     frames: [],
+    warm: new Set(),
+    lastPos: 0,
+    settle: 0,
     drawn: "",
     started: false,
   };
+  /* Décode à l'avance, hors du fil principal, les images voisines de la position courante :
+     le dessin sur le canevas ne paie plus le décodage (trames de 33 ms observées à CPU x4). */
+  function warmSeq(k) {
+    for (let n = Math.max(0, k - 6); n <= Math.min(Z.order.length - 1, k + 14); n++) {
+      const idx = Z.order[n];
+      const im = Z.frames[idx];
+      if (!im || Z.warm.has(idx) || !im.complete || !im.naturalWidth) continue;
+      Z.warm.add(idx);
+      im.decode().catch(() => Z.warm.delete(idx));
+    }
+  }
   function loadSeq() {
     if (Z.started) return;
     Z.started = true;
@@ -382,8 +402,17 @@
     const q = clamp((headerH - r.top) / total);
     // Position fractionnaire dans l'ordre : deux images voisines (3 degrés) sont fondues pour que la rotation reste continue.
     const pos = q * (Z.order.length - 1);
-    const k = Math.min(Z.order.length - 2, Math.floor(pos));
-    const fr = Math.round((pos - k) * 8) / 8;
+    // Pendant le défilement : une seule image (la plus proche), moitié moins de pixels dessinés par trame.
+    // Au repos (130 ms sans mouvement) : fondu entre deux images voisines pour une rotation continue.
+    const moving = Math.abs(pos - Z.lastPos) > 0.02;
+    Z.lastPos = pos;
+    if (moving) {
+      clearTimeout(Z.settle);
+      Z.settle = setTimeout(request, 130);
+    }
+    const k = moving ? Math.min(Z.order.length - 2, Math.max(0, Math.round(pos))) : Math.min(Z.order.length - 2, Math.floor(pos));
+    if (Z.started) warmSeq(k);
+    const fr = moving ? 0 : Math.round((pos - k) * 8) / 8;
     const ok = (n) => Z.frames[n] && Z.frames[n].complete && Z.frames[n].naturalWidth > 0;
     let i = Z.order[k];
     let j = Z.order[k + 1];
@@ -554,6 +583,124 @@
     setInert(dock, !on);
   }
 
+
+  /* ---------- Application : téléphone sticky, 4 actes (stats, QR, texto, portefeuille) ---------- */
+  const app = $("[data-appstage]");
+  const AP = app && {
+    l1: $("[data-ap-l1]", app), l2: $("[data-ap-l2]", app), l3: $("[data-ap-l3]", app), l4: $("[data-ap-l4]", app),
+    o1: $("[data-ap-o1]", app), o2: $("[data-ap-o2]", app), shadow: $("[data-ap-shadow]", app), clone: $("[data-ap-clone]", app),
+    pass: $("[data-ap-pass]", app), ready: $("[data-ap-ready]", app),
+    texts: $$("[data-ap-text]", app), dots: $$("[data-ap-dot]", app),
+    sms: ["typing", "m1", "m2", "status", "typing2", "link"].map((k) => $(`[data-sms-${k}]`, app)),
+  };
+  // Bornes des actes sur la progression de la section (0 à 1).
+  const AP_ACTS = [0, 0.2, 0.4, 0.62, 1];
+  // Pass d'Audrey : départ au centre de la carte (écran 390 x 844), arrivée en haut de la pile (top 382).
+  const PASS_START_DY = -79.9; // en % de la hauteur du pass
+  // Même modèle rigide que la carte qui tourne : arrêt sec, un seul micro-rebond amorti (3° au plus), ombre qui se resserre.
+  const PASS_IMPACT = { OVERSHOOT_DEG: 3, STIFFNESS: 4900, DAMPING: 49, DURATION: 0.32 };
+  const apImpact = { on: false, t0: 0, raf: 0, rot: 0, dy: 0, k: 0 };
+  let apFly = 0;
+  const apTrack = (name, extra) => { try { window.ifmTrack && window.ifmTrack(name, extra); } catch (e) { /* suivi facultatif */ } };
+
+  function apPaintWallet() {
+    const fly = apFly;
+    const lift = 1 - fly; // 1 en vol, 0 posé
+    const rest = apImpact.on ? apImpact.k : 1; // 0 à l'instant de l'impact, 1 au repos
+    AP.pass.style.transform = `translate3d(0, ${(PASS_START_DY * lift + apImpact.dy).toFixed(2)}%, 0) rotate(${apImpact.rot.toFixed(2)}deg) scale(${(1 + 0.08 * (1 - apMorph)).toFixed(4)})`;
+    // Ombre posée : large et floue en vol, nette et serrée dès que le pass touche la pile.
+    const landed = fly >= 1;
+    AP.shadow.style.opacity = (landed ? 0.55 - 0.15 * rest : 0.18 * seg(fly, 0.55, 1)).toFixed(3);
+    AP.shadow.style.transform = `scale3d(${(landed ? 1 + 0.12 * rest : 1.25).toFixed(3)}, ${(landed ? 1 : 1.6).toFixed(2)}, 1)`;
+    AP.o1.style.transform = `translate3d(0, ${(apImpact.on ? 0.5 * Math.max(0, -apImpact.dy) * 3 : 0).toFixed(2)}%, 0)`;
+  }
+
+  function apRunImpact() {
+    cancelAnimationFrame(apImpact.raf);
+    apImpact.on = true;
+    apImpact.t0 = performance.now();
+    const { OVERSHOOT_DEG, STIFFNESS, DAMPING, DURATION } = PASS_IMPACT;
+    const w = Math.sqrt(STIFFNESS), z = DAMPING / (2 * w), wd = w * Math.sqrt(1 - z * z), c = z * w;
+    // Amplitude choisie pour que le premier pic atteigne OVERSHOOT_DEG (pic de e^(-ct)·sin(wd·t)).
+    const tp = Math.atan(wd / c) / wd;
+    const A = OVERSHOOT_DEG / (Math.exp(-c * tp) * Math.sin(wd * tp));
+    const step = (now) => {
+      const t = (now - apImpact.t0) / 1000;
+      if (t >= DURATION) {
+        Object.assign(apImpact, { on: false, rot: 0, dy: 0, k: 1 });
+        apPaintWallet();
+        return;
+      }
+      const x = Math.exp(-c * t) * Math.sin(wd * t);
+      apImpact.rot = A * x;
+      apImpact.dy = -0.5 * Math.abs(x) * (A / OVERSHOOT_DEG);
+      apImpact.k = clamp(t / 0.12);
+      apPaintWallet();
+      apImpact.raf = requestAnimationFrame(step);
+    };
+    apImpact.raf = requestAnimationFrame(step);
+    apTrack("app_wallet_impact");
+  }
+  function apCancelImpact() {
+    cancelAnimationFrame(apImpact.raf);
+    Object.assign(apImpact, { on: false, rot: 0, dy: 0, k: 1 });
+  }
+
+  let apSeen = 0;
+  let apMorph = 0;
+  function renderApp() {
+    const r = app.getBoundingClientRect();
+    const total = r.height - (vh - headerH);
+    const p = clamp(-(r.top - headerH) / Math.max(1, total));
+    const [, a1, a2, a3] = AP_ACTS;
+    // Actes 0 à 2 : accueil et statistiques, écran de partage avec code QR, puis texto (fondus enchaînés, le téléphone reste en place).
+    const toQr = ease(seg(p, a1 - 0.03, a1 + 0.03));
+    const toSms = ease(seg(p, a2 - 0.03, a2 + 0.03));
+    const toWal = ease(seg(p, a3 - 0.02, a3 + 0.01));
+    AP.l2.style.opacity = (toQr * (1 - toSms)).toFixed(3);
+    AP.l3.style.opacity = (toSms * (1 - toWal)).toFixed(3);
+    // Texto : chaque étape suit le défilement (réversible), sans minuterie.
+    const t2 = seg(p, a2, a3);
+    const smsOn = [t2 >= 0.06 && t2 < 0.16, t2 >= 0.16, t2 >= 0.38, t2 >= 0.46, t2 >= 0.54 && t2 < 0.64, t2 >= 0.64];
+    AP.sms.forEach((e, i) => e && e.classList.toggle("is-show", smsOn[i]));
+    // Acte 3 : la carte se détache de l'accueil, devient un pass, glisse dans la pile du portefeuille.
+    const w = seg(p, a3, 1);
+    const lift = ease(seg(w, 0.08, 0.26));
+    apMorph = ease(seg(w, 0.28, 0.4));
+    const fly = Math.pow(seg(w, 0.44, 0.72), 2.2);
+    const ready = ease(seg(w, 0.78, 0.88));
+    AP.l1.style.opacity = (1 - ease(seg(w, 0.3, 0.4))).toFixed(3);
+    AP.l4.style.opacity = ease(seg(w, 0.3, 0.4)).toFixed(3);
+    AP.o1.style.opacity = AP.o2.style.opacity = ease(seg(w, 0.38, 0.5)).toFixed(3);
+    AP.clone.style.opacity = (seg(w, 0.06, 0.12) * (1 - apMorph)).toFixed(3);
+    AP.clone.style.transform = `translate3d(0, ${(-1.2 * lift).toFixed(2)}%, 0) scale(${(1 + 0.045 * lift).toFixed(4)})`;
+    AP.pass.style.opacity = apMorph.toFixed(3);
+    const was = apFly;
+    apFly = fly;
+    if (fly >= 1 && was < 1) apRunImpact();
+    else if (fly < 1 && (was >= 1 || apImpact.on)) apCancelImpact();
+    apPaintWallet();
+    AP.ready.style.opacity = ready.toFixed(3);
+    AP.ready.style.transform = `translate3d(-50%, ${((1 - ready) * 40).toFixed(1)}%, 0)`;
+    // Texte et repères d'acte.
+    const act = p < a1 ? 0 : p < a2 ? 1 : p < a3 ? 2 : 3;
+    AP.texts.forEach((li, i) => {
+      const on = i === act;
+      li.style.opacity = on ? "1" : "0";
+      li.style.transform = `translate3d(0, ${on ? 0 : 14}px, 0)`;
+      setInert(li, !on);
+    });
+    AP.dots.forEach((d, i) => d.classList.toggle("is-on", i === act));
+    if (act !== apSeen) {
+      apSeen = act;
+      apTrack("app_act", { act });
+    }
+  }
+  if (app && motion) {
+    app.classList.add("is-staged");
+    AP.l3.classList.add("is-anim");
+  }
+
   /* ---------- Boucle ---------- */
   const parts = [];
   if (motion) {
@@ -567,6 +714,7 @@
     if (seq) parts.push({ el: seq, layout: layoutSeq, render: renderSeq });
     if (fsc) parts.push({ el: fsc, render: renderFinScene });
     if (fin && halo) parts.push({ el: fin, render: renderFinal });
+    if (app) parts.push({ el: app, render: renderApp });
   }
 
   let ticking = false;
