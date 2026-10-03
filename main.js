@@ -12,11 +12,15 @@
     // Réception des demandes. Vide = repli par courriel (mailto) : rien ne passe par un serveur.
     // Renseigner l'adresse de la fonction lead-intake (voir backend/ et README) pour activer l'envoi direct.
     leadEndpoint: "",
+    // Format de la demande : "page" (fonction lead-intake de backend/supabase) ou "funnel" (POST /api/lead du funnel iFiveMe).
+    leadFormat: "page",
     leadFallbackEmail: "info@ifiveme.com",
+    requestTimeoutMs: 12000, // serveur muet : on bascule sur le courriel plutôt que de bloquer le bouton
     minFillMs: 3000, // un formulaire rempli plus vite qu'un humain n'écrit est refusé
     consentTextVersion: "2026-09-30",
   });
 
+  window.__ifmMain = true; // lu par boot.js : confirme que ce script s'est exécuté
   const root = document.documentElement;
   root.classList.add("js");
   const track = (name, props) => {
@@ -42,6 +46,30 @@
     const onScroll = () => header.classList.toggle("is-scrolled", window.scrollY > 8);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
+  }
+
+  /* ---------- Menu : section courante (aria-current) pendant le défilement ---------- */
+  const spy = [...document.querySelectorAll('.nav a[href^="#"]')]
+    .map((a) => ({ a, el: document.getElementById(a.getAttribute("href").slice(1)) }))
+    .filter((x) => x.el);
+  if (spy.length) {
+    let spyTick = false;
+    const updateSpy = () => {
+      spyTick = false;
+      const line = (header ? header.offsetHeight : 64) + window.innerHeight * 0.3;
+      const cur = spy.find((x) => {
+        const r = x.el.getBoundingClientRect();
+        return r.top <= line && r.bottom > line;
+      });
+      spy.forEach((x) => (x === cur ? x.a.setAttribute("aria-current", "location") : x.a.removeAttribute("aria-current")));
+    };
+    window.addEventListener("scroll", () => {
+      if (!spyTick) {
+        spyTick = true;
+        requestAnimationFrame(updateSpy);
+      }
+    }, { passive: true });
+    updateSpy();
   }
 
   /* ---------- Apparition des sections ---------- */
@@ -89,7 +117,14 @@
   document.querySelectorAll("[data-tabs]").forEach((tabs) => {
     const buttons = [...tabs.querySelectorAll('[role="tab"]')];
     const AUTO_MS = 7000;
-    const canAuto = tabs.hasAttribute("data-autoplay") && !matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let reducedMotion = false;
+    try {
+      reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    } catch {
+      /* navigateur sans matchMedia : pas d'enchaînement automatique par prudence */
+      reducedMotion = true;
+    }
+    const canAuto = tabs.hasAttribute("data-autoplay") && !reducedMotion;
     let timer = 0;
     let inView = false;
     let hold = false;
@@ -203,7 +238,7 @@
   });
 
   /* ---------- Formulaires de demande ---------- */
-  const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  const EMAIL = /^[^\s@]+@([^\s@.]+\.)+[^\s@.]{2,}$/;
   const FORM_LABEL = { exemple_metier: "Exemple pour mon métier", soumission_entreprise: "Soumission pour mon équipe" };
   const pageLoadedAt = performance.now();
 
@@ -211,7 +246,16 @@
     const wrap = input.closest(".field") || input.parentElement;
     const out = wrap.querySelector(".field-error");
     input.setAttribute("aria-invalid", message ? "true" : "false");
-    if (out) out.textContent = message || "";
+    if (out) {
+      out.textContent = message || "";
+      if (!out.id) out.id = `${input.id || input.name}-err`;
+      // le message d'erreur est lu avec le champ quand il reprend le focus
+      const ids = new Set((input.getAttribute("aria-describedby") || "").split(/\s+/).filter(Boolean));
+      if (message) ids.add(out.id);
+      else ids.delete(out.id);
+      if (ids.size) input.setAttribute("aria-describedby", [...ids].join(" "));
+      else input.removeAttribute("aria-describedby");
+    }
   }
 
   function validate(form) {
@@ -236,6 +280,10 @@
   function buildPayload(form) {
     const data = Object.fromEntries(new FormData(form).entries());
     delete data.website;
+    // Plafonds : le maxlength des champs, appliqué aussi aux valeurs posées par script (aucun courriel de 70 000 caractères).
+    form.querySelectorAll("input[maxlength]").forEach((i) => {
+      if (typeof data[i.name] === "string") data[i.name] = data[i.name].slice(0, i.maxLength);
+    });
     const checkbox = form.querySelector('input[name="consentement_courriel"]');
     const label = checkbox ? form.querySelector(`label[for="${checkbox.id}"]`) : null;
     const consentText = label ? label.textContent.replace(/\s+/g, " ").trim() : "";
@@ -259,6 +307,36 @@
     };
   }
 
+  // Format du funnel (POST /api/lead) : courriel, formulaire example|team, prénom, entreprise, quantité, attribution, consentement.
+  const FUNNEL_FORM = { exemple_metier: "example", soumission_entreprise: "team" };
+  const QUANTITY = { "1": 1, "2-9": 2, "10-24": 10, "25-49": 25, "50+": 50 };
+  function toFunnel(p) {
+    const f = p.fields;
+    const c = p.campaign || {};
+    return {
+      website_hp: "",
+      email: f.courriel,
+      lang: (document.documentElement.lang || "fr").slice(0, 2),
+      form: FUNNEL_FORM[p.form] || p.form,
+      page: p.page,
+      first_name: f.nom,
+      company: f.entreprise,
+      quantity: QUANTITY[f.nombre_cartes] || 1,
+      metier: f.metier,
+      phone: f.telephone,
+      attribution: Object.fromEntries(["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "fbclid"].filter((k) => c[k]).map((k) => [k, c[k]])),
+      consent_marketing: p.consent_marketing,
+      consent_text: p.consent_text,
+      policy_version: p.consent_text_version,
+    };
+  }
+
+  // Source de la demande (UTM, fbclid, gclid) : jointe au courriel de repli pour que la campagne ne se perde pas.
+  function campaignLine(c) {
+    const parts = Object.entries(c || {}).map(([k, v]) => `${k}=${v}`);
+    return parts.length ? `Source : ${parts.join(" ")}` : "";
+  }
+
   function mailtoFor(payload) {
     const f = payload.fields;
     const lines = [
@@ -271,6 +349,7 @@
       f.telephone && `Téléphone : ${f.telephone}`,
       "",
       payload.consent_marketing ? "J'accepte de recevoir des courriels d'iFiveMe. Je peux me désabonner en tout temps." : "",
+      campaignLine(payload.campaign),
     ].filter((l) => l !== false && l !== undefined);
     const subject = `${FORM_LABEL[payload.form] || "Demande"} (page iFiveMe)`;
     return `mailto:${CONFIG.leadFallbackEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join("\n"))}`;
@@ -293,16 +372,24 @@
   document.querySelectorAll("form[data-lead]").forEach((form) => {
     form.noValidate = true;
     let started = false;
+    let busy = false; // une seule demande à la fois, même si l'événement « submit » arrive deux fois
     form.addEventListener("focusin", () => {
       if (started) return;
       started = true;
       track("form_start", { form: form.dataset.lead });
+    });
+    form.addEventListener("ifm-reset", () => {
+      busy = false;
+      form.querySelectorAll("input, select, textarea").forEach((i) => i.getAttribute("aria-invalid") && fieldError(i, ""));
+      const st = form.querySelector("[data-status]");
+      if (st) st.textContent = "";
     });
     form.addEventListener("input", (e) => {
       if (e.target.getAttribute("aria-invalid") === "true") fieldError(e.target, "");
     });
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
+      if (busy) return;
       const status = form.querySelector("[data-status]");
       const btn = form.querySelector('button[type="submit"]');
       if (form.website && form.website.value) {
@@ -322,6 +409,7 @@
         return;
       }
       if (status) status.textContent = "";
+      busy = true;
       if (!CONFIG.leadEndpoint) {
         // Repli : l'application courriel de la personne s'ouvre avec la demande. Rien n'est envoyé tant qu'elle n'appuie pas sur Envoyer.
         const link = mailtoFor(payload);
@@ -330,12 +418,21 @@
         window.location.href = link;
         return;
       }
-      if (btn) btn.disabled = true;
+      const label = btn ? btn.textContent : "";
+      if (btn) {
+        btn.disabled = true;
+        btn.setAttribute("aria-busy", "true");
+        btn.textContent = "Envoi en cours…";
+      }
+      if (status) status.textContent = "Envoi en cours…";
+      const ctl = new AbortController();
+      const timer = setTimeout(() => ctl.abort(), CONFIG.requestTimeoutMs);
       try {
         const res = await fetch(CONFIG.leadEndpoint, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
+          body: JSON.stringify(CONFIG.leadFormat === "funnel" ? toFunnel(payload) : payload),
+          signal: ctl.signal,
         });
         if (res.status === 429) throw new Error("rate");
         if (!res.ok) throw new Error(String(res.status));
@@ -351,7 +448,14 @@
           showDone(form, "mailto", mailtoFor(payload));
         }
       } finally {
-        if (btn) btn.disabled = false;
+        clearTimeout(timer);
+        busy = false;
+        if (btn) {
+          btn.disabled = false;
+          btn.removeAttribute("aria-busy");
+          btn.textContent = label;
+        }
+        if (status && status.textContent === "Envoi en cours…") status.textContent = "";
       }
     });
   });
@@ -361,6 +465,7 @@
       const box = b.closest("[data-done]");
       const form = box.parentElement.querySelector("form[data-lead]");
       form.reset();
+      form.dispatchEvent(new Event("ifm-reset"));
       box.hidden = true;
       form.hidden = false;
       form.querySelector("input")?.focus();

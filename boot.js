@@ -9,4 +9,12 @@
   } catch (e) {
     /* matchMedia indisponible : version statique */
   }
+  // Filet de sécurité : si un script essentiel n'a pas pu s'exécuter (réseau coupé, bloqueur, erreur), on revient à la page statique
+  // complète (tous les métiers lisibles, formulaires remplacés par l'adresse courriel, aucun bouton mort).
+  window.addEventListener("load", function () {
+    window.setTimeout(function () {
+      if (!window.__ifmMain) r.classList.remove("js");
+      if (!r.classList.contains("is-ready")) r.classList.remove("motion");
+    }, 400);
+  });
 })();

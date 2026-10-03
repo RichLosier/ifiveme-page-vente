@@ -174,6 +174,7 @@
    * ====================================================================================== */
 
   /* ---------- Bandeau de consentement ---------- */
+  document.documentElement.classList.add("ifm-consent"); // le bouton « Gérer mes témoins » n'apparaît que si ce script tourne
   const banner = document.querySelector("[data-consent]");
   let revealed = false;
   function showBanner(show, focus) {

@@ -10,8 +10,15 @@
     fr: { touch: "Touchez pour tourner", mouse: "Cliquez ou glissez pour tourner", back: "Appuyer pour voir le verso.", front: "Appuyer pour voir le recto." },
     en: { touch: "Tap to flip", mouse: "Click or drag to flip", back: "Press to see the back.", front: "Press to see the front." },
   }[(document.documentElement.lang || "fr").slice(0, 2)] || {};
-  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const coarse = matchMedia("(pointer: coarse)").matches;
+  const mq = (q) => {
+    try {
+      return window.matchMedia(q).matches;
+    } catch {
+      return false; // navigateur sans matchMedia : comportement par défaut
+    }
+  };
+  const reduced = mq("(prefers-reduced-motion: reduce)");
+  const coarse = mq("(pointer: coarse)");
   // Réglages : carte RIGIDE, comme le viewer de la vraie carte. Approche exponentielle sans dépassement,
   // arrêt sec, puis un seul micro-rebond très raide (« paff »). Aucune échelle, aucun squash, aucun pop Z.
   const TAU_S = 0.1; // constante de temps de la décélération exponentielle (~100 ms)
@@ -38,6 +45,7 @@
     const body = root.querySelector(".flip-body");
     const hint = root.querySelector(".flip-hint");
     const st = { root, btn, body, hint, angle: 0, target: 0, vel: 0, dragging: false, phase: "idle", springT: 0, impact: 0, idleK: 0, moved: 0, lastX: 0, lastT: 0, dv: 0, tx: 0, ty: 0, gx: 0, gy: 0, visible: false, t0: Math.random() * 6 };
+    btn.disabled = false; // désactivé dans le HTML tant que ce script n'a pas tourné (sans JavaScript, la carte reste une image nommée)
     if (hint) hint.textContent = coarse ? T.touch : T.mouse;
     return st;
   });
@@ -221,13 +229,17 @@
       st.tx = 0;
       st.ty = 0;
     });
-    new IntersectionObserver(
-      (es) => {
-        st.visible = es[0].isIntersecting;
-        if (st.visible) wake();
-      },
-      { rootMargin: "80px" },
-    ).observe(root);
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(
+        (es) => {
+          st.visible = es[0].isIntersecting;
+          if (st.visible) wake();
+        },
+        { rootMargin: "80px" },
+      ).observe(root);
+    } else {
+      st.visible = true; // sans IntersectionObserver : la carte reste simplement toujours à jour
+    }
     render(st, 0);
   });
 })();

@@ -7,6 +7,7 @@
 <meta name="description" content="Votre carte d'affaires virtuelle, créée pour vous à partir de votre carte papier. Elle se partage par texto, code QR ou lien, sans application pour la recevoir.">
 <meta name="robots" content="noindex, nofollow">
 <meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; font-src 'self'; style-src 'self'; script-src 'self'; connect-src 'self'; form-action 'self'; base-uri 'self'; object-src 'none'">
 <link rel="icon" href="./favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png">
 <link rel="apple-touch-icon" href="./apple-touch-icon.png">
@@ -32,10 +33,10 @@
 <link rel="stylesheet" href="./styles.css">
 <script src="./boot.js"></script>
 </head>
-<body>
+<body id="haut">
 <a class="skip" href="#contenu">Aller au contenu</a>
 
-<header class="site-header" id="haut">
+<header class="site-header">
   <div class="wrap">
     <a class="brand" href="#haut" aria-label="iFiveMe, retour en haut"><img src="./assets/ifiveme-logo-dark.webp" width="480" height="128" alt="iFiveMe"></a>
     <nav class="nav" aria-label="Navigation principale">
@@ -80,7 +81,7 @@
           <div class="l l-board" data-layer="board"><img src="./assets/ifiveme-logo-dark.webp" width="480" height="128" alt=""></div>
           <div class="l l-screen" data-layer="screen">
             <div class="screen">
-              <img class="screen-card" src="./assets/carte-exemple.webp" width="660" height="1428" alt="">
+              <img class="screen-card" src="./assets/carte-exemple.webp" width="660" height="1428" alt="" fetchpriority="high" decoding="async">
               <img class="screen-empty" data-empty src="./assets/personas/elise-fond.webp" width="390" height="844" alt="" loading="lazy" decoding="async">
               <span class="hl" data-hl></span>
             </div>
@@ -285,7 +286,7 @@
       </div>
       <div class="flip-row">
         <div class="flipcard reveal" data-flip>
-          <button type="button" class="flip-btn" aria-pressed="false" data-alt-front="Recto de la carte de Solène Archambault, orfèvre-joaillière : Atelier Archambault, 514 555-0147, solene@archambault-orfevre.ca." data-alt-back="Verso de la carte de Solène Archambault : logo Archambault, « Chaque pierre garde une promesse. », réseaux, code QR pour prendre rendez-vous.">
+          <button type="button" class="flip-btn" aria-pressed="false" aria-label="Recto de la carte de Solène Archambault, orfèvre-joaillière : Atelier Archambault, 514 555-0147, solene@archambault-orfevre.ca." disabled data-alt-front="Recto de la carte de Solène Archambault, orfèvre-joaillière : Atelier Archambault, 514 555-0147, solene@archambault-orfevre.ca." data-alt-back="Verso de la carte de Solène Archambault : logo Archambault, « Chaque pierre garde une promesse. », réseaux, code QR pour prendre rendez-vous.">
             <span class="flip-shadow" aria-hidden="true"></span>
             <span class="flip-body">
               <span class="flip-face flip-front"><img src="./assets/flip/solene-recto.webp" srcset="./assets/flip/solene-recto.webp 1120w, ./assets/flip/solene-recto-2x.webp 2240w" sizes="(min-width: 860px) 520px, 92vw" width="1120" height="640" alt="" loading="lazy" decoding="async" draggable="false"></span>
@@ -296,7 +297,7 @@
           <p class="flip-hint" aria-hidden="true"></p>
         </div>
         <div class="flipcard reveal" data-flip>
-          <button type="button" class="flip-btn" aria-pressed="false" data-alt-front="Recto de la carte de Rémi Castonguay, associé principal : Hautmont Conseil, 514 555-0188, remi@hautmont.ca." data-alt-back="Verso de la carte de Rémi Castonguay : logo Hautmont, « Là où la croissance prend de l'altitude. », réseaux, code QR pour planifier un appel.">
+          <button type="button" class="flip-btn" aria-pressed="false" aria-label="Recto de la carte de Rémi Castonguay, associé principal : Hautmont Conseil, 514 555-0188, remi@hautmont.ca." disabled data-alt-front="Recto de la carte de Rémi Castonguay, associé principal : Hautmont Conseil, 514 555-0188, remi@hautmont.ca." data-alt-back="Verso de la carte de Rémi Castonguay : logo Hautmont, « Là où la croissance prend de l'altitude. », réseaux, code QR pour planifier un appel.">
             <span class="flip-shadow" aria-hidden="true"></span>
             <span class="flip-body">
               <span class="flip-face flip-front"><img src="./assets/flip/remi-recto.webp" srcset="./assets/flip/remi-recto.webp 1120w, ./assets/flip/remi-recto-2x.webp 2240w" sizes="(min-width: 860px) 520px, 92vw" width="1120" height="640" alt="" loading="lazy" decoding="async" draggable="false"></span>
@@ -321,10 +322,10 @@
           <div class="apprail" aria-hidden="true"><i data-ap-dot></i><i data-ap-dot></i><i data-ap-dot></i><i data-ap-dot></i></div>
           <div class="appcta"><a class="btn btn-primary" data-door="essai" data-checkout="trial" href="https://checkout.ifiveme.com/activation-carte-daffaires-virtuelle-ft/">Essayer gratuitement <span class="arrow" aria-hidden="true">→</span></a></div>
         </div>
-        <figure class="appdevice" role="group" aria-label="Animation de l'application iFiveMe : statistiques de la carte de la Dre Audrey Lessard, médecin de famille, puis partage par code QR et par texto, puis ajout de la carte au portefeuille du téléphone, où elle devient un pass prêt à scanner.">
+        <figure class="appdevice" aria-label="Animation de l'application iFiveMe : statistiques de la carte de la Dre Audrey Lessard, médecin de famille, puis partage par code QR et par texto, puis ajout de la carte au portefeuille du téléphone, où elle devient un pass prêt à scanner.">
           <div class="apphone" data-ap-phone aria-hidden="true">
             <div class="apscreen">
-              <img class="ap-l1" data-ap-l1 src="./assets/app/ecran-accueil.webp" width="585" height="1266" decoding="async" alt="">
+              <img class="ap-l1" data-ap-l1 src="./assets/app/ecran-accueil.webp" width="585" height="1266" loading="lazy" decoding="async" alt="">
               <img class="ap-l2" data-ap-l2 src="./assets/app/ecran-qr.webp" width="585" height="1266" loading="lazy" decoding="async" alt="">
               <div class="ap-l3 sms" data-ap-l3 data-sms><div class="sms-screen"><div class="sms-head"><span class="sms-back">‹</span><span class="sms-avatar">AL</span><b>Dre Audrey Lessard</b><small>Médecin de famille</small></div><div class="sms-thread"><div class="sms-row sms-in sms-typing" data-sms-typing><span></span><span></span><span></span></div><div class="sms-row sms-in" data-sms-m1><p>Bonjour ! Voici ma carte d'affaires virtuelle, simplement répondre « oui » à ce message pour voir le lien apparaître :</p></div><div class="sms-row sms-out" data-sms-m2><p>oui</p></div><p class="sms-status" data-sms-status>Distribué</p><div class="sms-row sms-in sms-linkrow"><div class="sms-typing sms-typing2" data-sms-typing2><span></span><span></span><span></span></div><div class="sms-link" data-sms-link><img src="./assets/app/carte-clinique.webp" width="520" height="413" loading="lazy" decoding="async" alt=""><div class="sms-link-text"><b>Dre Audrey Lessard · Médecin de famille</b><span>audrey.ifiveme.com/medecin</span></div></div></div></div><div class="sms-bar"><span>Message</span></div></div></div>
               <div class="ap-l4" data-ap-l4>
@@ -333,7 +334,7 @@
                 <img class="ap-other o2" data-ap-o2 src="./assets/app/pass-autre-2.webp" width="660" height="880" loading="lazy" decoding="async" alt="">
                 <i class="ap-shadow" data-ap-shadow></i>
               </div>
-              <div class="ap-clone" data-ap-clone><img src="./assets/app/ecran-accueil.webp" width="585" height="1266" decoding="async" alt=""></div>
+              <div class="ap-clone" data-ap-clone><img src="./assets/app/ecran-accueil.webp" width="585" height="1266" loading="lazy" decoding="async" alt=""></div>
               <img class="ap-pass" data-ap-pass src="./assets/app/pass-audrey.webp" width="660" height="880" loading="lazy" decoding="async" alt="">
               <p class="ap-ready" data-ap-ready>Prêt à scanner</p>
             </div>
@@ -382,7 +383,7 @@
           </div>
         </div>
         <div class="panel" role="tabpanel" id="p-fin" aria-labelledby="t-fin" tabindex="0" hidden>
-          <!--FIN-SCENE--><figure class="panel-media panel-phone panel-scene" data-fin-scene><div class="fs-stage" aria-hidden="false"><span class="fs-item" style="left:57.78%;top:15.98%;width:37.78%;--fx:-70.6%;--fy:98.6%;--r:4deg;--i:0;--par:0;--dur:3.4s;--amp:5px"><img src="./assets/finance/fleche.webp" width="442" height="323" alt="" loading="lazy" decoding="async"></span><span class="fs-item" style="left:8.33%;top:51.89%;width:16.67%;--fx:200.0%;--fy:-60.8%;--r:4deg;--i:1;--par:0;--dur:4.1s;--amp:5px"><img src="./assets/finance/globe.webp" width="195" height="310" alt="" loading="lazy" decoding="async"></span><img class="fs-phone" src="./assets/finance/telephone.webp" width="370" height="786" alt="La carte d'affaires virtuelle de Benjamin Côté, gestionnaire de patrimoine, dans un téléphone." decoding="async" style="left:34.17%;top:22.05%;width:31.65%"><span class="fs-item" style="left:7.22%;top:19.90%;width:23.33%;--fx:133.3%;--fy:150.9%;--r:8deg;--i:2;--par:0;--dur:4.8s;--amp:5px"><img src="./assets/finance/maison.webp" width="273" height="211" alt="" loading="lazy" decoding="async"></span><span class="fs-item" style="left:73.06%;top:45.78%;width:23.89%;--fx:-146.5%;--fy:-28.5%;--r:-9deg;--i:3;--par:0;--dur:5.5s;--amp:5px"><img src="./assets/finance/calculatrice.webp" width="280" height="251" alt="" loading="lazy" decoding="async"></span><span class="fs-item" style="left:5.00%;top:72.94%;width:31.11%;--fx:94.6%;--fy:-175.3%;--r:3deg;--i:4;--par:0;--dur:3.4s;--amp:5px"><img src="./assets/finance/graphique.webp" width="364" height="267" alt="" loading="lazy" decoding="async"></span><span class="fs-item" style="left:61.67%;top:73.18%;width:32.22%;--fx:-86.2%;--fy:-180.0%;--r:0deg;--i:5;--par:0;--dur:4.1s;--amp:5px"><img src="./assets/finance/pieces.webp" width="377" height="260" alt="" loading="lazy" decoding="async"></span><span class="fs-item fs-coin" style="left:28.89%;top:12.24%;width:8.89%;--fx:187.5%;--fy:529.9%;--r:-20deg;--i:6;--par:26;--dur:4.2s;--amp:9px"><img src="./assets/finance/piece-volante-1.webp" width="104" height="92" alt="" loading="lazy" decoding="async"></span><span class="fs-item fs-coin" style="left:63.89%;top:10.07%;width:7.78%;--fx:-228.6%;--fy:503.4%;--r:25deg;--i:7;--par:-30;--dur:4.9s;--amp:9px"><img src="./assets/finance/piece-volante-2.webp" width="91" height="102" alt="" loading="lazy" decoding="async"></span><span class="fs-item fs-coin" style="left:10.00%;top:44.02%;width:6.67%;--fx:550.0%;--fy:34.9%;--r:-10deg;--i:8;--par:26;--dur:2.8s;--amp:9px"><img src="./assets/finance/piece-volante-3.webp" width="78" height="93" alt="" loading="lazy" decoding="async"></span><span class="fs-item fs-coin" style="left:85.83%;top:68.37%;width:6.11%;--fx:-636.4%;--fy:-421.4%;--r:15deg;--i:9;--par:-30;--dur:3.5s;--amp:9px"><img src="./assets/finance/piece-volante-5.webp" width="72" height="73" alt="" loading="lazy" decoding="async"></span></div></figure><!--/FIN-SCENE-->
+          <!--FIN-SCENE--><figure class="panel-media panel-phone panel-scene" data-fin-scene><div class="fs-stage" aria-hidden="false"><span class="fs-item" data-s="0"><img src="./assets/finance/fleche.webp" width="442" height="323" alt="" loading="lazy" decoding="async"></span><span class="fs-item" data-s="1"><img src="./assets/finance/globe.webp" width="195" height="310" alt="" loading="lazy" decoding="async"></span><img class="fs-phone" src="./assets/finance/telephone.webp" width="370" height="786" loading="lazy" alt="La carte d'affaires virtuelle de Benjamin Côté, gestionnaire de patrimoine, dans un téléphone." decoding="async" data-s="2"><span class="fs-item" data-s="3"><img src="./assets/finance/maison.webp" width="273" height="211" alt="" loading="lazy" decoding="async"></span><span class="fs-item" data-s="4"><img src="./assets/finance/calculatrice.webp" width="280" height="251" alt="" loading="lazy" decoding="async"></span><span class="fs-item" data-s="5"><img src="./assets/finance/graphique.webp" width="364" height="267" alt="" loading="lazy" decoding="async"></span><span class="fs-item" data-s="6"><img src="./assets/finance/pieces.webp" width="377" height="260" alt="" loading="lazy" decoding="async"></span><span class="fs-item fs-coin" data-s="7"><img src="./assets/finance/piece-volante-1.webp" width="104" height="92" alt="" loading="lazy" decoding="async"></span><span class="fs-item fs-coin" data-s="8"><img src="./assets/finance/piece-volante-2.webp" width="91" height="102" alt="" loading="lazy" decoding="async"></span><span class="fs-item fs-coin" data-s="9"><img src="./assets/finance/piece-volante-3.webp" width="78" height="93" alt="" loading="lazy" decoding="async"></span><span class="fs-item fs-coin" data-s="10"><img src="./assets/finance/piece-volante-5.webp" width="72" height="73" alt="" loading="lazy" decoding="async"></span></div></figure><!--/FIN-SCENE-->
           <div class="panel-copy">
             <p class="panel-kicker">Finance et hypothèque</p>
             <p class="panel-lead">Au renouvellement, trois ou cinq ans plus tard, votre client vous retrouve en deux secondes.</p>
@@ -393,7 +394,7 @@
           </div>
         </div>
         <div class="panel" role="tabpanel" id="p-met" aria-labelledby="t-met" tabindex="0" hidden>
-          <figure class="panel-media panel-phone"><img class="phone-framed" src="./assets/screens/hubert-boucher.webp" width="520" height="1104" decoding="async" alt="La carte d'affaires virtuelle de Hubert Boucher, chef cuisinier, dans un téléphone."></figure>
+          <figure class="panel-media panel-phone"><img class="phone-framed" src="./assets/screens/hubert-boucher.webp" width="520" height="1104" loading="lazy" decoding="async" alt="La carte d'affaires virtuelle de Hubert Boucher, chef cuisinier, dans un téléphone."></figure>
           <div class="panel-copy">
             <p class="panel-kicker">Métiers et services</p>
             <p class="panel-lead">Votre client vous garde dans son téléphone, et vous recommande en un texto.</p>
@@ -404,7 +405,7 @@
           </div>
         </div>
         <div class="panel" role="tabpanel" id="p-ent" aria-labelledby="t-ent" tabindex="0" hidden>
-          <figure class="panel-media panel-phone"><img class="phone-framed" src="./assets/screens/beatrice-simard.webp" width="520" height="1104" decoding="async" alt="La carte d'affaires virtuelle de Béatrice Simard, esthéticienne et entrepreneure, dans un téléphone."></figure>
+          <figure class="panel-media panel-phone"><img class="phone-framed" src="./assets/screens/beatrice-simard.webp" width="520" height="1104" loading="lazy" decoding="async" alt="La carte d'affaires virtuelle de Béatrice Simard, esthéticienne et entrepreneure, dans un téléphone."></figure>
           <div class="panel-copy">
             <p class="panel-kicker">Entrepreneurs</p>
             <p class="panel-lead">Site Web, réseaux sociaux et adresse sur une seule carte, toujours dans la poche de vos clients.</p>
@@ -415,7 +416,7 @@
           </div>
         </div>
         <div class="panel" role="tabpanel" id="p-auto" aria-labelledby="t-auto" tabindex="0" hidden>
-          <figure class="panel-media panel-phone"><img class="phone-framed" src="./assets/screens/auto-conseiller.webp" width="520" height="1104" decoding="async" alt="La carte d'affaires virtuelle d'un conseiller automobile, dans un téléphone."></figure>
+          <figure class="panel-media panel-phone"><img class="phone-framed" src="./assets/screens/auto-conseiller.webp" width="520" height="1104" loading="lazy" decoding="async" alt="La carte d'affaires virtuelle d'un conseiller automobile, dans un téléphone."></figure>
           <div class="panel-copy">
             <p class="panel-kicker">Automobile</p>
             <p class="panel-lead">Le client repart de la salle de montre avec la carte de son conseiller.</p>
@@ -444,15 +445,16 @@
           <h3>Recevoir un exemple pour mon métier</h3>
           <p>Nous vous envoyons un exemple de carte adapté à votre métier, puis l'invitation à l'essai gratuit.</p>
         </div>
+        <p class="nojs-note">Le formulaire demande JavaScript. Pour recevoir un exemple, écrivez-nous à <a href="mailto:info@ifiveme.com">info@ifiveme.com</a> en nommant votre métier.</p>
         <form class="form form-inline" data-lead="exemple_metier" aria-label="Recevoir un exemple pour mon métier">
           <div class="field">
             <label for="ex-metier">Votre métier</label>
-            <input id="ex-metier" name="metier" type="text" autocomplete="organization-title" required value="Immobilier" data-metier-field>
+            <input id="ex-metier" name="metier" type="text" maxlength="100" autocomplete="organization-title" required value="Immobilier" data-metier-field>
             <p class="field-error" aria-live="polite"></p>
           </div>
           <div class="field">
             <label for="ex-courriel">Courriel</label>
-            <input id="ex-courriel" name="courriel" type="email" autocomplete="email" inputmode="email" required>
+            <input id="ex-courriel" name="courriel" type="email" maxlength="254" autocomplete="email" inputmode="email" required>
             <p class="field-error" aria-live="polite"></p>
           </div>
           <div class="field field-check">
@@ -684,22 +686,23 @@
       </div>
 
       <div class="form-card reveal">
+        <p class="nojs-note">Le formulaire demande JavaScript. Pour une soumission, écrivez-nous à <a href="mailto:info@ifiveme.com">info@ifiveme.com</a> avec votre nom, votre entreprise et le nombre de cartes.</p>
         <form class="form" data-lead="soumission_entreprise" aria-labelledby="form-titre">
           <h3 id="form-titre">Recevez votre soumission personnalisée</h3>
           <p class="form-hint">Les champs marqués d'un astérisque sont obligatoires.</p>
           <div class="field">
             <label for="f-nom">Nom complet <span aria-hidden="true">*</span></label>
-            <input id="f-nom" name="nom" type="text" autocomplete="name" required>
+            <input id="f-nom" name="nom" type="text" maxlength="120" autocomplete="name" required>
             <p class="field-error" aria-live="polite"></p>
           </div>
           <div class="field">
             <label for="f-courriel">Courriel <span aria-hidden="true">*</span></label>
-            <input id="f-courriel" name="courriel" type="email" autocomplete="email" inputmode="email" required>
+            <input id="f-courriel" name="courriel" type="email" maxlength="254" autocomplete="email" inputmode="email" required>
             <p class="field-error" aria-live="polite"></p>
           </div>
           <div class="field">
             <label for="f-entreprise">Entreprise <span aria-hidden="true">*</span></label>
-            <input id="f-entreprise" name="entreprise" type="text" autocomplete="organization" required>
+            <input id="f-entreprise" name="entreprise" type="text" maxlength="150" autocomplete="organization" required>
             <p class="field-error" aria-live="polite"></p>
           </div>
           <div class="field-row">
@@ -717,7 +720,7 @@
             </div>
             <div class="field">
               <label for="f-tel">Téléphone</label>
-              <input id="f-tel" name="telephone" type="tel" autocomplete="tel" inputmode="tel" aria-describedby="f-tel-aide">
+              <input id="f-tel" name="telephone" type="tel" maxlength="30" autocomplete="tel" inputmode="tel" aria-describedby="f-tel-aide">
               <p class="field-help" id="f-tel-aide">Facultatif, si vous préférez qu'on vous appelle.</p>
               <p class="field-error" aria-live="polite"></p>
             </div>
